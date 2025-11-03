@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList, Button } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { Card } from 'react-native-paper'
 import { formatDate } from '@/utils/formatDate';
+import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 
 // import { HelloWave } from '@/components/HelloWave';
 
@@ -10,6 +11,7 @@ import { globalStyles } from '@/styles/globalStyles';
 
 export default function HomeScreen() {
   const { user, loading, error } = useMe();
+  const { markChallengeAsDone } = useMarkChallengeAsDone();
 
   console.log(user)
 
@@ -20,6 +22,23 @@ export default function HomeScreen() {
 
   const completedChallenges = user.challenges?.filter((challenge) => challenge?.done === true).length || 0;
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.isPredefined === false).length || 0;
+  const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
+
+  const handleMarkChallengeAsDone = async (id: string, done: boolean) => {
+    try {
+      const data = await markChallengeAsDone(id, done);
+      if (data) {
+        console.log("success")
+        console.log(data)
+        return {
+          id: data.id,
+          done: data.done
+        }
+      }
+    } catch (error) {
+      throw new Error (`Error marking challenge as done: ${error}`)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -32,7 +51,12 @@ export default function HomeScreen() {
             <Text style={globalStyles.date}>{formatDate(date.toString())}</Text>
           </View>
           <View style={styles.cardContentContainer}>
-            <Text style={styles.title}>ddsds</Text>
+            {currentChallenge && (
+              <Text style={styles.title}>{currentChallenge.title}</Text>
+            )}
+            {!currentChallenge && (
+              <Text style={styles.title}>No active challenge</Text>
+            )}
             <Pressable style={styles.buttonMarkAsDone}>
               <Text style={styles.buttonMarkAsDoneText}>Mark as done</Text>
             </Pressable>
@@ -51,7 +75,6 @@ export default function HomeScreen() {
             </View> */}
           </View>
         </Card.Content>
-        
       </Card>
       <Card mode="contained">
         <Card.Content style={styles.cardContent}>
@@ -90,12 +113,13 @@ export default function HomeScreen() {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
                                 <Text style={styles.previousChallengeTitleText}>{item.item?.updatedAt}</Text>
-                                <Pressable>
+                                <Button title="Mark as done" onPress={() => handleMarkChallengeAsDone(item.item?.id ?? '', item.item?.done ?? false ? true : false)}/>
+                                <Pressable onPress={() => handleMarkChallengeAsDone}>
                                   <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
                                 </Pressable>
                               </View>
                               <Text>{item.item?.title}</Text>
-                              <Text>{item.item?.done}</Text>
+                              <Text>{item.item?.done.toString()}</Text>
                           </View>
               }}
               keyExtractor={item => item?.id ?? ''}

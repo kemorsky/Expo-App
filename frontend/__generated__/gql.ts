@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n    mutation MarkChallengeAsDone($markChallengeAsDoneId: ID!, $input: ChallengeDoneInput!) {\n        markChallengeAsDone(id: $markChallengeAsDoneId, input: $input) {\n            id\n            title\n            notes\n            done\n            isPredefined\n            currentChallenge\n            currentChallengeExpiresAt\n            createdAt\n            updatedAt\n        }\n    }\n": typeof types.MarkChallengeAsDoneDocument,
     "\n  mutation Login($input: UserLogin!) {\n    login(input: $input) {\n      id\n      email\n      name\n      token\n      refreshToken\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n    }\n  }\n": typeof types.CreateUserDocument,
     "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      id\n      name\n      email\n      token\n      refreshToken\n    }\n  }\n": typeof types.RefreshTokenDocument,
@@ -22,6 +23,7 @@ type Documents = {
     "\n  query GetUsers {\n    getUsers {\n      id\n      email\n      name\n      challenges {\n        id\n        title\n        done\n        currentChallenge\n        currentChallengeExpiresAt\n        createdAt\n        updatedAt\n    }\n  }\n}": typeof types.GetUsersDocument,
 };
 const documents: Documents = {
+    "\n    mutation MarkChallengeAsDone($markChallengeAsDoneId: ID!, $input: ChallengeDoneInput!) {\n        markChallengeAsDone(id: $markChallengeAsDoneId, input: $input) {\n            id\n            title\n            notes\n            done\n            isPredefined\n            currentChallenge\n            currentChallengeExpiresAt\n            createdAt\n            updatedAt\n        }\n    }\n": types.MarkChallengeAsDoneDocument,
     "\n  mutation Login($input: UserLogin!) {\n    login(input: $input) {\n      id\n      email\n      name\n      token\n      refreshToken\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n    }\n  }\n": types.CreateUserDocument,
     "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      id\n      name\n      email\n      token\n      refreshToken\n    }\n  }\n": types.RefreshTokenDocument,
@@ -44,6 +46,10 @@ const documents: Documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation MarkChallengeAsDone($markChallengeAsDoneId: ID!, $input: ChallengeDoneInput!) {\n        markChallengeAsDone(id: $markChallengeAsDoneId, input: $input) {\n            id\n            title\n            notes\n            done\n            isPredefined\n            currentChallenge\n            currentChallengeExpiresAt\n            createdAt\n            updatedAt\n        }\n    }\n"): (typeof documents)["\n    mutation MarkChallengeAsDone($markChallengeAsDoneId: ID!, $input: ChallengeDoneInput!) {\n        markChallengeAsDone(id: $markChallengeAsDoneId, input: $input) {\n            id\n            title\n            notes\n            done\n            isPredefined\n            currentChallenge\n            currentChallengeExpiresAt\n            createdAt\n            updatedAt\n        }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
