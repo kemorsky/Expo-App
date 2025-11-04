@@ -53,7 +53,7 @@ app.use("/graphql",
         let user = null;
         if (token) {
           try {
-            user = verifyToken(token); // decode user from JWT
+            user = verifyToken(token);
             console.log("Decoded user:", user);
           } catch (error) {
             console.error("Invalid token", error);
