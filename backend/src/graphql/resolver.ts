@@ -1,6 +1,6 @@
 import Challenge from "./../models/challengeSchema.js";
 import User from "./../models/userSchema.js";
-import { Resolvers } from "./__generated__/types";
+import type { Resolvers } from "./__generated__/types";
 
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 
@@ -8,19 +8,28 @@ const resolvers: Resolvers = {
     Query: {
         user: async (_, { id }) => await User.findById(id),
         me: async (_, __, context) => {
-            const user = await User.findById(context.user._id || context.user.id)
-                .populate("challenges") // or "challenges" if you want them included
-                .populate("settings"); // if you have settings in a separate model
+            if (!context.user) {
+                throw new Error("context is not present");
+            };
+            try {
+                const user = await User.findById(context.user._id || context.user.id)
+                .populate("challenges")
+                .populate("settings");
 
-            if (!user) throw new Error("Not authenticated");
-            console.log(user);
+                if (!user) throw new Error("Not authenticated");
+                console.log(user);
 
-            return {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email,
-                settings: user.settings
+                return {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    settings: user.settings
+                }
+            } catch (error) {
+                console.log(error)
+                throw new Error (`Error getting user: ${error}`)
             }
+            
         },
         challenge: async (_, { id } ) => await Challenge.findById(id),
         getChallenges: async (_, { isPredefined }, context ) => {
@@ -65,6 +74,7 @@ const resolvers: Resolvers = {
             const accessToken = generateToken({ _id: user._id.toString() });
             const refreshToken = generateRefreshToken({ _id: user._id.toString() });
 
+            console.log(accessToken);
             console.log(refreshToken);
 
             return {
@@ -130,7 +140,7 @@ const resolvers: Resolvers = {
             }
         },
         markChallengeAsCurrent: async (_, { id, input }, context) => {
-            const user = await User.findById(context.user.id | context.user._id);
+            const user = await User.findById(context.user.id || context.user._id);
             if (!user) throw new Error("Not authenticated");
             const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 

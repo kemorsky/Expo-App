@@ -113,7 +113,7 @@ export default function HomeScreen() {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
                                 <Text style={styles.previousChallengeTitleText}>{item.item?.updatedAt}</Text>
-                                <Button title="Mark as done" onPress={() => handleMarkChallengeAsDone(item.item?.id ?? '', item.item?.done ?? false ? true : false)}/>
+                                <Button title="Mark as done" onPress={() => handleMarkChallengeAsDone(item.item?.id ?? '', item.item?.done === true ? false : true)}/>
                                 <Pressable onPress={() => handleMarkChallengeAsDone}>
                                   <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
                                 </Pressable>

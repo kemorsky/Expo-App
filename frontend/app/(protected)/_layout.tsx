@@ -10,8 +10,6 @@ import { useAuth } from '@/utils/auth-context';
 export default function ProtectedLayout() {
   const colorScheme = useColorScheme();
   const { user } = useAuth();
-
-  console.log(user)
   
   if (!user?.token && !user?.refreshToken) {
     console.log('get a token you bum')
