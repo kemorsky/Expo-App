@@ -59,6 +59,7 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  assignRandomChallenge: Challenge;
   createChallenge: Challenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
@@ -316,6 +317,7 @@ export type MeResolvers<ContextType = any, ParentType = ResolversParentTypes['Me
 };
 
 export type MutationResolvers<ContextType = any, ParentType = ResolversParentTypes['Mutation']> = {
+  assignRandomChallenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType>;
   createChallenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType, RequireFields<MutationCreateChallengeArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChallengeArgs, 'id'>>;
