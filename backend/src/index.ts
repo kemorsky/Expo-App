@@ -59,19 +59,7 @@ app.use("/graphql",
             console.error("Invalid token", error);
           }
         }
-
         return { user };
-        // const decoded = token ? verifyToken(token) : null;
-        // return {
-        //   user: decoded,
-        // }
-        // const session = await auth.api.getSession({
-        //   headers: fromNodeHeaders(req.headers)
-        // });
-        // return {
-        //   user: session?.user ?? null,
-        //   token: session?.session.token ?? null,
-        // }
       }
     })
 );

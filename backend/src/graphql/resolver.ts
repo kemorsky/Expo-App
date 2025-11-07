@@ -49,13 +49,10 @@ const resolvers: Resolvers = {
             const user = new User(input)
             await user.save();
 
-            // const token = generateToken({ _id: user._id.toString() });
-
             return {
                 id: user._id.toString(),
                 name: user.name,
                 email: user.email,
-                // token
             }
         },
         login: async (_, { input }) => {
@@ -139,6 +136,46 @@ const resolvers: Resolvers = {
                 throw new Error (`Error creating new challenge: ${error}`)
             }
         },
+        assignRandomChallenge: async (_, __, context) => {
+            const user = await User.findById(context.user.id || context.user._id).populate("challenges");
+            if (!user) throw new Error("Not authenticated");
+
+            const challenges = await Challenge.find({ currentChallenge: false, done: false })
+            if (challenges.length === 0) throw new Error ("No challenges available");
+
+            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
+            
+            await Challenge.updateMany(
+                { author: user._id },
+                { $set: { currentChallenge: false } }
+            )
+
+            const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+            const updatedChallenge = await Challenge.findByIdAndUpdate(
+                randomChallenge._id,
+                { currentChallenge: true,
+                  currentChallengeExpiresAt: expirationDate
+                },
+                { new: true, runValidators: true }
+            )
+
+            if (!updatedChallenge) { throw new Error(`Challenge with id ${randomChallenge._id} not found`) }
+
+            return {
+                id: updatedChallenge._id.toString(),
+                author: {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email
+                },
+                title: updatedChallenge.title,
+                currentChallenge: updatedChallenge.currentChallenge,
+                currentChallengeExpiresAt: updatedChallenge.currentChallengeExpiresAt,
+                done: updatedChallenge.done,
+                isPredefined: updatedChallenge.isPredefined
+            }
+        },
         markChallengeAsCurrent: async (_, { id, input }, context) => {
             const user = await User.findById(context.user.id || context.user._id);
             if (!user) throw new Error("Not authenticated");
@@ -182,7 +219,9 @@ const resolvers: Resolvers = {
             try {
                 const doneChallenge = await Challenge.findByIdAndUpdate(
                     id,
-                    { done: input.done },
+                    { done: input.done,
+                      currentChallenge: input.currentChallenge
+                    },
                     { new: true, runValidators: true }
                 );
                 console.log(doneChallenge)

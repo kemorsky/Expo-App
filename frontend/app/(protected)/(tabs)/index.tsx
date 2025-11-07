@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList, Button 
 import { useMe } from '@/hooks/useMe';
 import { Card } from 'react-native-paper'
 import { formatDate } from '@/utils/formatDate';
-import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
+import { useAssignRandomChallenge, useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 
 // import { HelloWave } from '@/components/HelloWave';
 
@@ -12,6 +12,7 @@ import { globalStyles } from '@/styles/globalStyles';
 export default function HomeScreen() {
   const { user, loading, error } = useMe();
   const { markChallengeAsDone } = useMarkChallengeAsDone();
+  const { assignRandomChallenge } = useAssignRandomChallenge();
 
   console.log(user)
 
@@ -24,15 +25,33 @@ export default function HomeScreen() {
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
 
-  const handleMarkChallengeAsDone = async (id: string, done: boolean) => {
+  const handleAssignRandomChallenge = async () => {
     try {
-      const data = await markChallengeAsDone(id, done);
+      const data = await assignRandomChallenge();
+      if (data) {
+        console.log(data)
+        return {
+          id: data.id,
+          title: data.title,
+          currentChallenge: data.currentChallenge,
+          curentChallengeExpiresAt: data.currentChallengeExpiresAt,
+        }
+      }
+    } catch (error) {
+      throw new Error (`Error marking challenge as done: ${error}`)
+    }
+  }
+
+  const handleMarkChallengeAsDone = async (id: string, done: boolean, currentChallenge: boolean) => {
+    try {
+      const data = await markChallengeAsDone(id, done, currentChallenge);
       if (data) {
         console.log("success")
         console.log(data)
         return {
           id: data.id,
-          done: data.done
+          done: data.done,
+          currentChallenge: data.currentChallenge
         }
       }
     } catch (error) {
@@ -50,6 +69,7 @@ export default function HomeScreen() {
             <Text style={globalStyles.subtitle}>Today&apos;s challenge</Text>
             <Text style={globalStyles.date}>{formatDate(date.toString())}</Text>
           </View>
+          <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
               <Text style={styles.title}>{currentChallenge.title}</Text>
@@ -57,9 +77,12 @@ export default function HomeScreen() {
             {!currentChallenge && (
               <Text style={styles.title}>No active challenge</Text>
             )}
-            <Pressable style={styles.buttonMarkAsDone}>
-              <Text style={styles.buttonMarkAsDoneText}>Mark as done</Text>
-            </Pressable>
+            {currentChallenge && (
+              <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                <Text style={styles.buttonMarkAsDoneText}>Mark as done</Text>
+              </Pressable>
+            )}
+            
             {/* <View style={styles.cardButtonContainer}>
               {/* <View style={styles.stepContainer}>
                 <Text>Want to add notes?</Text>
@@ -108,18 +131,16 @@ export default function HomeScreen() {
           <View>
             <Text style={styles.title}>Your previous challenges</Text>
             <FlatList
-              data={user?.challenges}
+              data={user.challenges?.filter((challenge) => challenge?.done === true)}
               renderItem={(item) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
                                 <Text style={styles.previousChallengeTitleText}>{item.item?.updatedAt}</Text>
-                                <Button title="Mark as done" onPress={() => handleMarkChallengeAsDone(item.item?.id ?? '', item.item?.done === true ? false : true)}/>
-                                <Pressable onPress={() => handleMarkChallengeAsDone}>
+                                <Pressable>
                                   <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
                                 </Pressable>
                               </View>
                               <Text>{item.item?.title}</Text>
-                              <Text>{item.item?.done.toString()}</Text>
                           </View>
               }}
               keyExtractor={item => item?.id ?? ''}
