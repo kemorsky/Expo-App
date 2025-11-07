@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
-import { type MarkChallengeAsDoneMutationVariables, MarkChallengeAsCurrentMutation, type MarkChallengeAsCurrentMutationVariables, MarkChallengeAsDoneMutation } from '@/__generated__/graphql'
+import { type MarkChallengeAsDoneMutationVariables, type AssignRandomChallengeMutationVariables, AssignRandomChallengeMutation, MarkChallengeAsCurrentMutation, type MarkChallengeAsCurrentMutationVariables, MarkChallengeAsDoneMutation } from '@/__generated__/graphql'
 
 const MARK_CHALLENGE_AS_CURRENT = gql`
     mutation MarkChallengeAsCurrent($markChallengeAsCurrentId: ID!, $input: ChallengeCurrentInput!) {
@@ -9,6 +9,19 @@ const MARK_CHALLENGE_AS_CURRENT = gql`
             title
             currentChallenge
             currentChallengeExpiresAt
+        }
+    }
+`
+
+const ASSIGN_RANDOM_CHALLENGE = gql`
+    mutation AssignRandomChallenge {
+        assignRandomChallenge {
+            id
+            title
+            currentChallenge
+            currentChallengeExpiresAt
+            done
+            isPredefined
         }
     }
 `
@@ -28,6 +41,17 @@ const MARK_CHALLENGE_AS_DONE = gql`
         }
     }
 `
+
+export function useAssignRandomChallenge() {
+    const [assignRandomChallengeMutation, { data, loading, error }] = useMutation<AssignRandomChallengeMutation, AssignRandomChallengeMutationVariables>(ASSIGN_RANDOM_CHALLENGE)
+        const assignRandomChallenge = async () => {
+            const response = await assignRandomChallengeMutation()
+
+            return response.data?.assignRandomChallenge
+        }
+
+        return { assignRandomChallenge, data, loading, error}
+    }
 export function useMarkChallengeAsCurrent() {
     const [markChallengeAsCurrentMutation, { data, loading, error }] = useMutation<MarkChallengeAsCurrentMutation, MarkChallengeAsCurrentMutationVariables>(MARK_CHALLENGE_AS_CURRENT)
         const markChallengeAsCurrent = async (id: string, currentChallenge: boolean, currentChallengeExpiresAt: string) => {
@@ -46,11 +70,11 @@ export function useMarkChallengeAsCurrent() {
 
 export function useMarkChallengeAsDone() {
     const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE)
-        const markChallengeAsDone = async (id: string, done: boolean) => {
+        const markChallengeAsDone = async (id: string, done: boolean, currentChallenge: boolean) => {
             const response = await markChallengeAsDoneMutation({
                 variables: {
                     markChallengeAsDoneId: id,
-                    input: { done }
+                    input: { done, currentChallenge }
                 }
             })
 

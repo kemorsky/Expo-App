@@ -43,6 +43,7 @@ export type ChallengeCurrentInput = {
 };
 
 export type ChallengeDoneInput = {
+  currentChallenge: Scalars['Boolean']['input'];
   done: Scalars['Boolean']['input'];
 };
 
@@ -57,6 +58,7 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  assignRandomChallenge: Challenge;
   createChallenge: Challenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
@@ -175,6 +177,19 @@ export type UserLogin = {
   password: Scalars['String']['input'];
 };
 
+export type MarkChallengeAsCurrentMutationVariables = Exact<{
+  markChallengeAsCurrentId: Scalars['ID']['input'];
+  input: ChallengeCurrentInput;
+}>;
+
+
+export type MarkChallengeAsCurrentMutation = { __typename?: 'Mutation', markChallengeAsCurrent: { __typename?: 'Challenge', id: string, title: string, currentChallenge: boolean, currentChallengeExpiresAt?: string | null } };
+
+export type AssignRandomChallengeMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'Challenge', id: string, title: string, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, done: boolean, isPredefined: boolean } };
+
 export type MarkChallengeAsDoneMutationVariables = Exact<{
   markChallengeAsDoneId: Scalars['ID']['input'];
   input: ChallengeDoneInput;
@@ -203,14 +218,6 @@ export type RefreshTokenMutationVariables = Exact<{
 
 
 export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken: { __typename?: 'AuthPayload', id?: string | null, name?: string | null, email?: string | null, token?: string | null, refreshToken?: string | null } };
-
-export type MarkChallengeAsCurrentMutationVariables = Exact<{
-  markChallengeAsCurrentId: Scalars['ID']['input'];
-  input: ChallengeCurrentInput;
-}>;
-
-
-export type MarkChallengeAsCurrentMutation = { __typename?: 'Mutation', markChallengeAsCurrent: { __typename?: 'Challenge', id: string, title: string, currentChallenge: boolean, currentChallengeExpiresAt?: string | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 

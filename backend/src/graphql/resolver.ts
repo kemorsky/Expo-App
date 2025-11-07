@@ -160,9 +160,7 @@ const resolvers: Resolvers = {
                 { new: true, runValidators: true }
             )
 
-            if (!updatedChallenge) {
-                    throw new Error(`Challenge with id ${randomChallenge._id} not found`);
-                }
+            if (!updatedChallenge) { throw new Error(`Challenge with id ${randomChallenge._id} not found`) }
 
             return {
                 id: updatedChallenge._id.toString(),
@@ -221,7 +219,9 @@ const resolvers: Resolvers = {
             try {
                 const doneChallenge = await Challenge.findByIdAndUpdate(
                     id,
-                    { done: input.done },
+                    { done: input.done,
+                      currentChallenge: input.currentChallenge
+                    },
                     { new: true, runValidators: true }
                 );
                 console.log(doneChallenge)

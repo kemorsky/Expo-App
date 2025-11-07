@@ -1,8 +1,6 @@
-import { Platform, StyleSheet, Text, ActivityIndicator, FlatList, View } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, FlatList, View } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
 
@@ -12,35 +10,44 @@ export default function TabTwoScreen() {
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
 
+  const defaultChallenges = user.challenges?.find((challenge) => challenge?.isPredefined === true);
+
   return (
     <SafeAreaProvider>
         <Text>Challenges</Text>
         <View style={styles.wrapper}>
           <View style={styles.ChallengesContainer}>
-            <Text>User Challenges</Text>
-            <FlatList data={user?.challenges}
+            <Text>Your Challenges</Text>
+            {defaultChallenges && (
+              <Text>You have not created any challenges of your own yet.</Text>
+            )}  
+            {!defaultChallenges && (
+              <FlatList data={user?.challenges}
                       style={styles.ChallengeList}
                       renderItem={(item) => {
                         return <View style={styles.Challenge}>
                                     <Text>{item?.item?.title}</Text>
-                                    <Text>{item?.item?.done}</Text>
+                                    <Text>{item?.item?.done.toString()}</Text>
                                 </View>
                         }}
                         keyExtractor={item => item?.id ?? ''}
               />
+            )}
           </View>
           <View style={styles.ChallengesContainer}>
-            <Text>Challenges</Text>
-            <FlatList data={user?.challenges}
-                    style={styles.ChallengeList}
-                    renderItem={(item) => {
-                      return <View style={styles.Challenge}>
-                                  <Text>{item?.item?.title}</Text>
-                                  <Text>{item?.item?.done?.toString()}</Text>
-                              </View>
-                      }}
-                      keyExtractor={item => item?.id ?? ''}
-            />
+            <Text>Default Challenges</Text>
+            {defaultChallenges && (
+              <FlatList data={user?.challenges}
+                      style={styles.ChallengeList}
+                      renderItem={(item) => {
+                        return <View style={styles.Challenge}>
+                                    <Text>{item?.item?.title}</Text>
+                                    <Text>{item?.item?.done?.toString()}</Text>
+                                </View>
+                        }}
+                        keyExtractor={item => item?.id ?? ''}
+              />
+            )}
           </View>
         </View>
         

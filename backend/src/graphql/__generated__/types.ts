@@ -45,6 +45,7 @@ export type ChallengeCurrentInput = {
 };
 
 export type ChallengeDoneInput = {
+  currentChallenge: Scalars['Boolean']['input'];
   done: Scalars['Boolean']['input'];
 };
 
