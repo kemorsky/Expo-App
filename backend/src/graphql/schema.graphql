@@ -3,7 +3,7 @@ type User {
   name: String!
   email: String!
   password: String
-  challenges: [Challenge]
+  challenges: [UserChallenge]
   settings: Settings
   refreshToken: String
 }
@@ -30,11 +30,18 @@ type Challenge {
   id: ID!
   title: String!
   author: User!
+  isPredefined: Boolean!
+  createdAt: String
+  updatedAt: String
+}
+
+type UserChallenge {
+  id: ID!
+  challenge: Challenge!
   notes: String
   done: Boolean!
   currentChallenge: Boolean!
   currentChallengeExpiresAt: String
-  isPredefined: Boolean!
   createdAt: String
   updatedAt: String
 }
@@ -73,8 +80,9 @@ input UserLogin {
 type Query {
   user(id: ID!): User
   me: User
-  challenge(id: ID!): Challenge
-  getChallenges(isPredefined: Boolean = true): [Challenge!]!
+  challenge(id: ID!): UserChallenge
+  userChallenge(id: ID!): UserChallenge
+  getChallenges(isPredefined: Boolean = true): [UserChallenge!]!
   getUsers: [User!]
 }
 
@@ -82,11 +90,10 @@ type Mutation {
   createUser(input: UserInput!): User!
   login(input: UserLogin!): AuthPayload!
   refreshToken(refreshToken: String!): AuthPayload!
-  createChallenge(input: ChallengeInput!): Challenge!
-  assignRandomChallenge: Challenge!
-  markChallengeAsCurrent(id: ID!, input: ChallengeCurrentInput!): Challenge!
-  markChallengeAsDone(id: ID!, input: ChallengeDoneInput!): Challenge!
-  updateChallenge(id: ID!, input: ChallengeInput!): Challenge!
+  createChallenge(input: ChallengeInput!): UserChallenge!
+  assignRandomChallenge: UserChallenge!
+  markChallengeAsDone(id: ID!, input: ChallengeDoneInput!): UserChallenge!
+  updateChallenge(id: ID!, input: ChallengeInput!): UserChallenge!
   deleteChallenge(id: ID!): Boolean!
   updateUserSettings(input: SettingsInput!): Settings!
 }

@@ -11,13 +11,16 @@ const GET_USER = gql`
       email
       challenges {
         id
-        title
+        challenge {
+          id
+          title
+          isPredefined
+        }
         done
         currentChallenge
         currentChallengeExpiresAt
         createdAt
         updatedAt
-        isPredefined
         notes
       }
       settings {
@@ -37,7 +40,11 @@ export const GET_USERS = gql`
       name
       challenges {
         id
-        title
+        challenge {
+          id
+          title
+          isPredefined
+        }
         done
         currentChallenge
         currentChallengeExpiresAt

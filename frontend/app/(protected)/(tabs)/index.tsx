@@ -22,7 +22,7 @@ export default function HomeScreen() {
   const date = new Date();
 
   const completedChallenges = user.challenges?.filter((challenge) => challenge?.done === true).length || 0;
-  const createdChallenges = user.challenges?.filter((challenge) => challenge?.isPredefined === false).length || 0;
+  const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
 
   const handleAssignRandomChallenge = async () => {
@@ -32,7 +32,9 @@ export default function HomeScreen() {
         console.log(data)
         return {
           id: data.id,
-          title: data.title,
+          challenge: {
+            title: data.challenge.title,
+          },
           currentChallenge: data.currentChallenge,
           curentChallengeExpiresAt: data.currentChallengeExpiresAt,
         }
@@ -72,7 +74,7 @@ export default function HomeScreen() {
           <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
-              <Text style={styles.title}>{currentChallenge.title}</Text>
+              <Text style={styles.title}>{currentChallenge.challenge.title}</Text>
             )}
             {!currentChallenge && (
               <Text style={styles.title}>No active challenge</Text>
@@ -140,7 +142,7 @@ export default function HomeScreen() {
                                   <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
                                 </Pressable>
                               </View>
-                              <Text>{item.item?.title}</Text>
+                              <Text>{item.item?.challenge.title}</Text>
                           </View>
               }}
               keyExtractor={item => item?.id ?? ''}

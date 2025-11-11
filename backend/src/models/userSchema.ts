@@ -50,7 +50,7 @@ export const userSchema = new mongoose.Schema<UserDocument>(
 )
 
 userSchema.virtual("challenges", {
-    ref: "Challenge",
+    ref: "UserChallenge",
     localField: "_id",
     foreignField: "author",
 });
