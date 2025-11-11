@@ -4,7 +4,7 @@ const typeDefs = `#graphql
         name: String!
         email: String!
         password: String
-        challenges: [Challenge]
+        challenges: [UserChallenge]
         settings: Settings
         refreshToken: String
     }
@@ -31,11 +31,18 @@ const typeDefs = `#graphql
         id: ID!
         title: String!
         author: User!
+        isPredefined: Boolean!
+        createdAt: String
+        updatedAt: String
+    }
+
+    type UserChallenge {
+        id: ID!
+        challenge: Challenge!
         notes: String
         done: Boolean!
         currentChallenge: Boolean!
         currentChallengeExpiresAt: String
-        isPredefined: Boolean!
         createdAt: String
         updatedAt: String
     }
@@ -74,8 +81,9 @@ const typeDefs = `#graphql
     type Query {
         user(id: ID!): User
         me: User
-        challenge(id: ID!): Challenge
-        getChallenges(isPredefined: Boolean = true): [Challenge!]!
+        challenge(id: ID!): UserChallenge
+        userChallenge(id: ID!): UserChallenge
+        getChallenges(isPredefined: Boolean = true): [UserChallenge!]!
         getUsers: [User!]
     }
 
@@ -83,9 +91,8 @@ const typeDefs = `#graphql
         createUser(input: UserInput!): User!
         login(input: UserLogin!): AuthPayload!
         refreshToken(refreshToken: String!): AuthPayload!
-        createChallenge(input: ChallengeInput!): Challenge!
+        createChallenge(input: ChallengeInput!): UserChallenge!
         assignRandomChallenge: Challenge!
-        markChallengeAsCurrent(id: ID!, input: ChallengeCurrentInput!): Challenge!
         markChallengeAsDone(id: ID!, input: ChallengeDoneInput!): Challenge!
         updateChallenge(id: ID!, input: ChallengeInput!): Challenge!
         deleteChallenge(id: ID!): Boolean!

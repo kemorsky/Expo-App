@@ -3,14 +3,14 @@ import mongoose, { Document, ObjectId } from "mongoose";
 export type ChallengeDocument = Document & {
     _id: ObjectId;
     title: string;
-    author: ObjectId;
+    author: ObjectId | null;
     notes: string;
     done: boolean;
     currentChallenge: boolean;
     currentChallengeExpiresAt: string;
     isPredefined: boolean;
     createdAt: string;
-    updatedAt: string
+    updatedAt: string;
 }
 
 const challengeSchema = new mongoose.Schema<ChallengeDocument>(
@@ -22,21 +22,8 @@ const challengeSchema = new mongoose.Schema<ChallengeDocument>(
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        notes: {
-            type: String
-        },
-        done: {
-            type: Boolean,
-            default: false
-        },
-        currentChallenge: {
-            type: Boolean,
-            default: false
-        },
-        currentChallengeExpiresAt: {
-            type: String
+            ref: "User",
+            default: null
         },
         isPredefined: {
             type: Boolean,

@@ -29,12 +29,8 @@ export type Challenge = {
   __typename?: 'Challenge';
   author: User;
   createdAt?: Maybe<Scalars['String']['output']>;
-  currentChallenge: Scalars['Boolean']['output'];
-  currentChallengeExpiresAt?: Maybe<Scalars['String']['output']>;
-  done: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   isPredefined: Scalars['Boolean']['output'];
-  notes?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
@@ -60,15 +56,14 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  assignRandomChallenge: Challenge;
-  createChallenge: Challenge;
+  assignRandomChallenge: UserChallenge;
+  createChallenge: UserChallenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
   login: AuthPayload;
-  markChallengeAsCurrent: Challenge;
-  markChallengeAsDone: Challenge;
+  markChallengeAsDone: UserChallenge;
   refreshToken: AuthPayload;
-  updateChallenge: Challenge;
+  updateChallenge: UserChallenge;
   updateUserSettings: Settings;
 };
 
@@ -90,12 +85,6 @@ export type MutationDeleteChallengeArgs = {
 
 export type MutationLoginArgs = {
   input: UserLogin;
-};
-
-
-export type MutationMarkChallengeAsCurrentArgs = {
-  id: Scalars['ID']['input'];
-  input: ChallengeCurrentInput;
 };
 
 
@@ -122,11 +111,12 @@ export type MutationUpdateUserSettingsArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  challenge?: Maybe<Challenge>;
-  getChallenges: Array<Challenge>;
+  challenge?: Maybe<UserChallenge>;
+  getChallenges: Array<UserChallenge>;
   getUsers?: Maybe<Array<User>>;
   me?: Maybe<User>;
   user?: Maybe<User>;
+  userChallenge?: Maybe<UserChallenge>;
 };
 
 
@@ -141,6 +131,11 @@ export type QueryGetChallengesArgs = {
 
 
 export type QueryUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryUserChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -159,13 +154,25 @@ export type SettingsInput = {
 
 export type User = {
   __typename?: 'User';
-  challenges?: Maybe<Array<Maybe<Challenge>>>;
+  challenges?: Maybe<Array<Maybe<UserChallenge>>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   password?: Maybe<Scalars['String']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   settings?: Maybe<Settings>;
+};
+
+export type UserChallenge = {
+  __typename?: 'UserChallenge';
+  challenge: Challenge;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  currentChallenge: Scalars['Boolean']['output'];
+  currentChallengeExpiresAt?: Maybe<Scalars['String']['output']>;
+  done: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserInput = {
@@ -267,6 +274,7 @@ export type ResolversTypes = {
   SettingsInput: SettingsInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  UserChallenge: ResolverTypeWrapper<UserChallenge>;
   UserInput: UserInput;
   UserLogin: UserLogin;
 };
@@ -288,6 +296,7 @@ export type ResolversParentTypes = {
   SettingsInput: SettingsInput;
   String: Scalars['String']['output'];
   User: User;
+  UserChallenge: UserChallenge;
   UserInput: UserInput;
   UserLogin: UserLogin;
 };
@@ -303,12 +312,8 @@ export type AuthPayloadResolvers<ContextType = any, ParentType = ResolversParent
 export type ChallengeResolvers<ContextType = any, ParentType = ResolversParentTypes['Challenge']> = {
   author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  currentChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  currentChallengeExpiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  done?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isPredefined?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
@@ -318,24 +323,24 @@ export type MeResolvers<ContextType = any, ParentType = ResolversParentTypes['Me
 };
 
 export type MutationResolvers<ContextType = any, ParentType = ResolversParentTypes['Mutation']> = {
-  assignRandomChallenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType>;
-  createChallenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType, RequireFields<MutationCreateChallengeArgs, 'input'>>;
+  assignRandomChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType>;
+  createChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationCreateChallengeArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChallengeArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
-  markChallengeAsCurrent?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsCurrentArgs, 'id' | 'input'>>;
-  markChallengeAsDone?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
+  markChallengeAsDone?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
   refreshToken?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
-  updateChallenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType, RequireFields<MutationUpdateChallengeArgs, 'id' | 'input'>>;
+  updateChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationUpdateChallengeArgs, 'id' | 'input'>>;
   updateUserSettings?: Resolver<ResolversTypes['Settings'], ParentType, ContextType, RequireFields<MutationUpdateUserSettingsArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType = ResolversParentTypes['Query']> = {
-  challenge?: Resolver<Maybe<ResolversTypes['Challenge']>, ParentType, ContextType, RequireFields<QueryChallengeArgs, 'id'>>;
-  getChallenges?: Resolver<Array<ResolversTypes['Challenge']>, ParentType, ContextType, RequireFields<QueryGetChallengesArgs, 'isPredefined'>>;
+  challenge?: Resolver<Maybe<ResolversTypes['UserChallenge']>, ParentType, ContextType, RequireFields<QueryChallengeArgs, 'id'>>;
+  getChallenges?: Resolver<Array<ResolversTypes['UserChallenge']>, ParentType, ContextType, RequireFields<QueryGetChallengesArgs, 'isPredefined'>>;
   getUsers?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userChallenge?: Resolver<Maybe<ResolversTypes['UserChallenge']>, ParentType, ContextType, RequireFields<QueryUserChallengeArgs, 'id'>>;
 };
 
 export type SettingsResolvers<ContextType = any, ParentType = ResolversParentTypes['Settings']> = {
@@ -345,13 +350,24 @@ export type SettingsResolvers<ContextType = any, ParentType = ResolversParentTyp
 };
 
 export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['User']> = {
-  challenges?: Resolver<Maybe<Array<Maybe<ResolversTypes['Challenge']>>>, ParentType, ContextType>;
+  challenges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserChallenge']>>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['Settings']>, ParentType, ContextType>;
+};
+
+export type UserChallengeResolvers<ContextType = any, ParentType = ResolversParentTypes['UserChallenge']> = {
+  challenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currentChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  currentChallengeExpiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  done?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -362,5 +378,6 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Settings?: SettingsResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserChallenge?: UserChallengeResolvers<ContextType>;
 };
 
