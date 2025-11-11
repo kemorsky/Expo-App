@@ -10,7 +10,7 @@ export default function TabTwoScreen() {
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
 
-  const defaultChallenges = user.challenges?.find((challenge) => challenge?.isPredefined === true);
+  const defaultChallenges = user.challenges?.find((challenge) => challenge?.challenge.isPredefined === true);
 
   return (
     <SafeAreaProvider>
@@ -26,7 +26,7 @@ export default function TabTwoScreen() {
                       style={styles.ChallengeList}
                       renderItem={(item) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.item?.title}</Text>
+                                    <Text>{item?.item?.challenge.title}</Text>
                                     <Text>{item?.item?.done.toString()}</Text>
                                 </View>
                         }}
@@ -41,7 +41,7 @@ export default function TabTwoScreen() {
                       style={styles.ChallengeList}
                       renderItem={(item) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.item?.title}</Text>
+                                    <Text>{item?.item?.challenge.title}</Text>
                                     <Text>{item?.item?.done?.toString()}</Text>
                                 </View>
                         }}
