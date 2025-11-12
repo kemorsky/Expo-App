@@ -39,6 +39,8 @@ export default function HomeScreen() {
           curentChallengeExpiresAt: data.currentChallengeExpiresAt,
         }
       }
+
+      console.log(data)
     } catch (error) {
       throw new Error (`Error marking challenge as done: ${error}`)
     }

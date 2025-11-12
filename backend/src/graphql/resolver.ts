@@ -328,21 +328,6 @@ const resolvers: Resolvers = {
             });
         },
     },
-    // User: {
-    //     challenges: async (parent) => {
-    //         const challenges = await Challenge.find({ author: parent.id });
-    //         return challenges.map(ch => ({
-    //             id: ch._id.toString(),
-    //             title: ch.title,
-    //             author: {
-    //                 id: parent.id,
-    //                 name: parent.name,
-    //                 email: parent.email
-    //             },
-    //             isPredefined: ch.isPredefined
-    //         }));
-    //     },
-    // },
     Challenge: {
         author: async (parent) => {
             const user = await User.findById(parent.author);
@@ -355,18 +340,6 @@ const resolvers: Resolvers = {
             }
         }
     },
-    // UserChallenge: {
-    //     challenge: async (parent) => {
-    //         const challenge = await Challenge.findById(parent.challenge);
-    //         if (!challenge) throw new Error ("Challenge not found - userChallenges");
-    //         return {
-    //             id: challenge._id.toString(),
-    //             title: challenge.title,
-    //             author: parent.challenge.author,
-    //             isPredefined: challenge.isPredefined,
-    //         }
-    //     }
-    // }
 }
 
 export default resolvers
