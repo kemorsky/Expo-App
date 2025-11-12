@@ -14,8 +14,6 @@ export default function HomeScreen() {
   const { markChallengeAsDone } = useMarkChallengeAsDone();
   const { assignRandomChallenge } = useAssignRandomChallenge();
 
-  console.log(user)
-
   if (!user || loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
 
@@ -136,15 +134,15 @@ export default function HomeScreen() {
             <Text style={styles.title}>Your previous challenges</Text>
             <FlatList
               data={user.challenges?.filter((challenge) => challenge?.done === true)}
-              renderItem={(item) => {
+              renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
-                                <Text style={styles.previousChallengeTitleText}>{item.item?.updatedAt}</Text>
+                                <Text style={styles.previousChallengeTitleText}>{item?.updatedAt}</Text>
                                 <Pressable>
                                   <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
                                 </Pressable>
                               </View>
-                              <Text>{item.item?.challenge.title}</Text>
+                              <Text>{item?.challenge.title}</Text>
                           </View>
               }}
               keyExtractor={item => item?.id ?? ''}

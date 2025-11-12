@@ -197,6 +197,13 @@ export type MarkChallengeAsDoneMutationVariables = Exact<{
 
 export type MarkChallengeAsDoneMutation = { __typename?: 'Mutation', markChallengeAsDone: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, createdAt?: string | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string } } };
 
+export type CreateChallengeMutationVariables = Exact<{
+  input: ChallengeInput;
+}>;
+
+
+export type CreateChallengeMutation = { __typename?: 'Mutation', createChallenge: { __typename?: 'UserChallenge', id: string, done: boolean, createdAt?: string | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
+
 export type LoginMutationVariables = Exact<{
   input: UserLogin;
 }>;

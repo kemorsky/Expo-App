@@ -1,16 +1,37 @@
-import { StyleSheet, Text, ActivityIndicator, FlatList, View } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, FlatList, View, Button, TextInput } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
+import { useCreateChallenge } from '@/lib/api/challenges/challengesMutations';
+import { ChallengeInput } from '@/__generated__/types';
+import { useState } from 'react';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
+  const { createChallenge } = useCreateChallenge();
+  const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
 
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
 
-  const defaultChallenges = user.challenges?.find((challenge) => challenge?.challenge.isPredefined === true);
+  const defaultChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === true);
+  const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false);  
+
+  const handleCreateChallenge = async (title: string) => {
+    try {
+      const data = await createChallenge(title);
+      if (data) {
+        console.log(data)
+        setNewChallenge({
+          title: data.challenge.title
+        })
+        console.log("New challenge created!" + newChallenge);
+      }
+    } catch (error) {
+      throw new Error (`Error creating challenge: ${error}`)
+    }
+  }
 
   return (
     <SafeAreaProvider>
@@ -18,16 +39,25 @@ export default function TabTwoScreen() {
         <View style={styles.wrapper}>
           <View style={styles.ChallengesContainer}>
             <Text>Your Challenges</Text>
-            {defaultChallenges && (
+            
+            {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
             )}  
-            {!defaultChallenges && (
-              <FlatList data={user?.challenges}
+            <TextInput 
+                      placeholder="Title"
+                      style={globalStyles.input}
+                      value={newChallenge.title}
+                      onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
+                      autoCapitalize="none"
+            />
+            <Button title="Create Challenge" onPress={() => handleCreateChallenge(newChallenge.title)} />
+            {createdChallenges && (
+              <FlatList data={createdChallenges}
                       style={styles.ChallengeList}
-                      renderItem={(item) => {
+                      renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.item?.challenge.title}</Text>
-                                    <Text>{item?.item?.done.toString()}</Text>
+                                    <Text>{item?.challenge.title}</Text>
+                                    <Text>{item?.done.toString()}</Text>
                                 </View>
                         }}
                         keyExtractor={item => item?.id ?? ''}
@@ -37,12 +67,13 @@ export default function TabTwoScreen() {
           <View style={styles.ChallengesContainer}>
             <Text>Default Challenges</Text>
             {defaultChallenges && (
-              <FlatList data={user?.challenges}
+              <FlatList data={defaultChallenges}
                       style={styles.ChallengeList}
-                      renderItem={(item) => {
+                      renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.item?.challenge.title}</Text>
-                                    <Text>{item?.item?.done?.toString()}</Text>
+                                    <Text>{item?.challenge.title}</Text>
+                                    <Text>{item?.currentChallenge.toString()}</Text>
+                                    <Text>{item?.done?.toString()}</Text>
                                 </View>
                         }}
                         keyExtractor={item => item?.id ?? ''}

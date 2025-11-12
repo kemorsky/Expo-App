@@ -12,7 +12,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 import mongoose from "mongoose";
 import Challenge from "../models/challengeSchema";
-import UserChallenge from "../models/userChallengeSchema";
 
 async function savePredefinedChallenges() {
   await mongoose.connect(process.env.MONGO_URL || ''); // npx tsx src/seed/data.ts 
@@ -25,12 +24,6 @@ async function savePredefinedChallenges() {
     { title: "Complete a chore you've been postponing (or one that came up today!)", isPredefined: true },
     { title: "Go someplace new and do something fun (like a park, or nearby town)", isPredefined: true },
   ]
-
-  // await Challenge.deleteMany({ isPredefined: true }); // update instead of deleting as deleting renders pre-existing users to be unreachable by Apollo due to null id's
-
-  // await Challenge.updateMany({ isPredefined: true }, { $set: { isPredefined: false } });
-  
-  // await Challenge.insertMany(challenges);
 
   await Promise.all(
     challenges.map(ch => 
