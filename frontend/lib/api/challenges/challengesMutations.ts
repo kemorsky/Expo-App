@@ -79,7 +79,7 @@ export function useMarkChallengeAsDone() {
 }
 
 export function useCreateChallenge() {
-    const [createChallengeMutation, { data, loading, error}] = useMutation<CreateChallengeMutation, CreateChallengeMutationVariables>(CREATE_CHALLENGE)
+    const [createChallengeMutation, { data, loading, error }] = useMutation<CreateChallengeMutation, CreateChallengeMutationVariables>(CREATE_CHALLENGE)
 
     const createChallenge = async (title: string) => {
         const response = await createChallengeMutation({

@@ -26,8 +26,9 @@ export default function TabTwoScreen() {
         setNewChallenge({
           title: data.challenge.title
         })
-        console.log("New challenge created!" + newChallenge);
+        console.log("New challenge created!" + newChallenge.title);
       }
+      setNewChallenge({title: ''});
     } catch (error) {
       throw new Error (`Error creating challenge: ${error}`)
     }
@@ -72,7 +73,6 @@ export default function TabTwoScreen() {
                       renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
                                     <Text>{item?.challenge.title}</Text>
-                                    <Text>{item?.currentChallenge.toString()}</Text>
                                     <Text>{item?.done?.toString()}</Text>
                                 </View>
                         }}
@@ -107,9 +107,12 @@ const styles = StyleSheet.create({
     
   },
   Challenge: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     backgroundColor: '#c5c5c5',
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderColor: '#000000ff',
-  }
+  },
 });
