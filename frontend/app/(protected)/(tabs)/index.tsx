@@ -4,8 +4,6 @@ import { Card } from 'react-native-paper'
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge, useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 
-// import { HelloWave } from '@/components/HelloWave';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
 
@@ -219,6 +217,5 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'column',
     gap: 8,
-    
   }
 });

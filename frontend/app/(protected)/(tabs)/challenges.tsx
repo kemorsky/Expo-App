@@ -3,7 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useMe } from '@/hooks/useMe';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
 import { useCreateChallenge } from '@/lib/api/challenges/challengesMutations';
 import { ChallengeInput } from '@/__generated__/types';
@@ -37,9 +37,8 @@ export default function TabTwoScreen() {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaView style={styles.wrapper}>
         <Text>Challenges</Text>
-        <View style={styles.wrapper}>
           <View style={styles.ChallengesContainer}>
             <Text style={globalStyles.subtitle}>Your Challenges</Text>
             
@@ -89,10 +88,10 @@ export default function TabTwoScreen() {
                         keyExtractor={item => item?.id ?? ''}
               />
             )}
-          </View>
         </View>
+
         
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 }
 

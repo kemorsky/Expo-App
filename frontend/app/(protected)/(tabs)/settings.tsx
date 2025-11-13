@@ -6,7 +6,8 @@ import { globalStyles } from '@/styles/globalStyles';
 import { Button, View, Text, ActivityIndicator, StyleSheet, FlatList } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { useAuth } from '@/utils/auth-context';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function Test() {
     const { user, loading, error } = useMe();
@@ -16,28 +17,53 @@ export default function Test() {
     if (error) return <Text>Error: {error.message}</Text>;
     
     return (
-        <SafeAreaProvider>
+        <SafeAreaView style={styles.wrapper}>
             <Text>Settings</Text>
-            <View style={styles.wrapper}>
-                <View style={styles.SettingsContainer}>
-                    <Text style={globalStyles.subtitle}>Account</Text>
-                    <View style={styles.SettingsList}>
-                        <Text style={styles.Setting}>Manage Account</Text>
-                        <Text style={styles.Setting}>Password & Security</Text>
-                        <Text style={styles.Setting}>Notifications</Text>
+            <View style={styles.SettingsContainer}>
+                <Text style={globalStyles.subtitle}>Account</Text>
+                <View style={styles.SettingsList}>
+                    <View style={styles.Setting}>
+                        <Text>Manage Account</Text>
+                        <Feather name="arrow-right" size={16} color="black" />
+                    </View>
+                    <View style={styles.Setting}>
+                        <Text>Password & Security</Text>
+                        <Feather name="arrow-right" size={16} color="black" />
+                    </View>
+                    <View style={styles.Setting}>
+                        <Text>Notifications</Text>
+                        <Feather name="arrow-right" size={16} color="black" />
                     </View>
                 </View>
-                <View style={styles.SettingsContainer}>
-                    <Text style={globalStyles.subtitle}>Preferences</Text>
-                    <View style={styles.SettingsList}>
-                        <Text style={styles.Setting}>Language{user?.settings?.language}</Text>
-                        <Text style={styles.Setting}>Theme{user?.settings?.theme}</Text>
-                        <Text style={styles.Setting}>Max Challenges Per Day{user?.settings?.numberOfChallengesPerDay}</Text>
-                    </View>
-                </View>
-                <Button title="Log Out" onPress={logOut} />
             </View>
-        </SafeAreaProvider>
+            <View style={styles.SettingsContainer}>
+                <Text style={globalStyles.subtitle}>Preferences</Text>
+                <View style={styles.SettingsList}>
+                    <View style={styles.Setting}>
+                        <Text>Language</Text>
+                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                            <Text>{user?.settings?.language}</Text>
+                            <Feather name="arrow-right" size={16} color="black" />
+                        </View>
+                    </View>
+                     <View style={styles.Setting}>
+                        <Text>Theme</Text>
+                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                            <Text>{user?.settings?.theme}</Text>
+                            <Feather name="arrow-right" size={16} color="black" />
+                        </View>
+                    </View>
+                     <View style={styles.Setting}>
+                        <Text>Max Challenges Per Day</Text>
+                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                            <Text>{user?.settings?.numberOfChallengesPerDay}</Text>
+                            <Feather name="arrow-right" size={16} color="black" />
+                        </View>
+                    </View>
+                </View>
+            </View>
+            <Button title="Log Out" onPress={logOut} />
+        </SafeAreaView>
     )
 }
 
@@ -65,7 +91,7 @@ const styles = StyleSheet.create({
   Setting: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: '#000000ff',
