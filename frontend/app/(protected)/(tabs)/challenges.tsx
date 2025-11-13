@@ -1,4 +1,6 @@
 import { StyleSheet, Text, ActivityIndicator, FlatList, View, Button, TextInput } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useMe } from '@/hooks/useMe';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -39,7 +41,7 @@ export default function TabTwoScreen() {
         <Text>Challenges</Text>
         <View style={styles.wrapper}>
           <View style={styles.ChallengesContainer}>
-            <Text>Your Challenges</Text>
+            <Text style={globalStyles.subtitle}>Your Challenges</Text>
             
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
@@ -53,12 +55,16 @@ export default function TabTwoScreen() {
             />
             <Button title="Create Challenge" onPress={() => handleCreateChallenge(newChallenge.title)} />
             {createdChallenges && (
-              <FlatList data={createdChallenges}
-                      style={styles.ChallengeList}
+              <FlatList 
+                      data={createdChallenges}
+                      contentContainerStyle={styles.ChallengeList}
                       renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.challenge.title}</Text>
-                                    <Text>{item?.done.toString()}</Text>
+                                    <Text style={{maxWidth: 300, }}>{item?.challenge.title}</Text>
+                                    {item?.done === true ? 
+                                      <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                      <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                    }
                                 </View>
                         }}
                         keyExtractor={item => item?.id ?? ''}
@@ -66,14 +72,18 @@ export default function TabTwoScreen() {
             )}
           </View>
           <View style={styles.ChallengesContainer}>
-            <Text>Default Challenges</Text>
+            <Text style={globalStyles.subtitle}>Default Challenges</Text>
             {defaultChallenges && (
-              <FlatList data={defaultChallenges}
-                      style={styles.ChallengeList}
+              <FlatList 
+                      data={defaultChallenges}
+                      contentContainerStyle={styles.ChallengeList}
                       renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text>{item?.challenge.title}</Text>
-                                    <Text>{item?.done?.toString()}</Text>
+                                    <Text style={{maxWidth: 280}}>{item?.challenge.title}</Text>
+                                    {item?.done === true ? 
+                                      <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                      <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                    }
                                 </View>
                         }}
                         keyExtractor={item => item?.id ?? ''}
@@ -87,13 +97,6 @@ export default function TabTwoScreen() {
 }
 
 const styles = StyleSheet.create({
-  // ChallengeList: {
-  //   backgroundColor: '#c5c5c5',
-  //     flexDirection: 'column',
-  //     flex: 1,
-  //     gap: 8,
-
-  // },
   wrapper: {
     height: '100%',
     flexDirection: 'column',
@@ -104,15 +107,22 @@ const styles = StyleSheet.create({
   ChallengesContainer: {
     width: '100%',
     flexDirection: 'column',
-    
+    gap: 8
+  },
+  ChallengeList: {
+    backgroundColor: '#dbdbdbff',
+    paddingHorizontal: 8,
+    flexDirection: 'column',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#000000ff',
   },
   Challenge: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    backgroundColor: '#c5c5c5',
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: '#000000ff',
-  },
+  }
 });

@@ -3,9 +3,10 @@ import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { globalStyles } from '@/styles/globalStyles';
-import { Button, View, Text, ActivityIndicator } from 'react-native';
+import { Button, View, Text, ActivityIndicator, StyleSheet, FlatList } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { useAuth } from '@/utils/auth-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function Test() {
     const { user, loading, error } = useMe();
@@ -15,31 +16,58 @@ export default function Test() {
     if (error) return <Text>Error: {error.message}</Text>;
     
     return (
-        <ParallaxScrollView
-            headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-            headerImage={
-                <IconSymbol 
-                    size={200} 
-                    name="basketball.fill" 
-                    color="black"
-                    style={globalStyles.headerImage} />
-            }>
+        <SafeAreaProvider>
             <Text>Settings</Text>
-            <ThemedView style={globalStyles.titleContainer}>
-                <ThemedText style={globalStyles.title} type='title'>Test</ThemedText>
-            </ThemedView>
-            <ThemedText>This is a test of creating a new tab.</ThemedText>
-            <View>
-                <ThemedText>{user?.settings?.language}</ThemedText>
-                <ThemedText>{user?.settings?.theme}</ThemedText>
-                <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
+            <View style={styles.wrapper}>
+                <View style={styles.SettingsContainer}>
+                    <Text style={globalStyles.subtitle}>Account</Text>
+                    <View style={styles.SettingsList}>
+                        <Text style={styles.Setting}>Manage Account</Text>
+                        <Text style={styles.Setting}>Password & Security</Text>
+                        <Text style={styles.Setting}>Notifications</Text>
+                    </View>
+                </View>
+                <View style={styles.SettingsContainer}>
+                    <Text style={globalStyles.subtitle}>Preferences</Text>
+                    <View style={styles.SettingsList}>
+                        <Text style={styles.Setting}>Language{user?.settings?.language}</Text>
+                        <Text style={styles.Setting}>Theme{user?.settings?.theme}</Text>
+                        <Text style={styles.Setting}>Max Challenges Per Day{user?.settings?.numberOfChallengesPerDay}</Text>
+                    </View>
+                </View>
+                <Button title="Log Out" onPress={logOut} />
             </View>
-            {/* <View>
-                <ThemedText>{user?.settings.language}</ThemedText>
-                <ThemedText>{user?.settings?.theme}</ThemedText>
-                <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
-            </View> */}
-            <Button title="Log Out" onPress={logOut} />
-        </ParallaxScrollView>
+        </SafeAreaProvider>
     )
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    height: '100%',
+    flexDirection: 'column',
+    gap: 24,
+    padding: 16,
+    backgroundColor: '#c5c5c5'
+  },
+  SettingsContainer: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: 8
+  },
+  SettingsList: {
+    backgroundColor: '#dbdbdbff',
+    paddingHorizontal: 8,
+    flexDirection: 'column',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#000000ff',
+  },
+  Setting: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: '#000000ff',
+  }
+});

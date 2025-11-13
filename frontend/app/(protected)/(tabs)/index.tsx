@@ -71,7 +71,6 @@ export default function HomeScreen() {
             <Text style={globalStyles.subtitle}>Today&apos;s challenge</Text>
             <Text style={globalStyles.date}>{formatDate(date.toString())}</Text>
           </View>
-          <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
               <Text style={styles.title}>{currentChallenge.challenge.title}</Text>
@@ -99,6 +98,7 @@ export default function HomeScreen() {
               </View> 
             </View> */}
           </View>
+          <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
         </Card.Content>
       </Card>
       <Card mode="contained">
