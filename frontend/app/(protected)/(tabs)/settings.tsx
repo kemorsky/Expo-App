@@ -1,13 +1,12 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import { globalStyles } from '@/styles/globalStyles';
-import { Button, View, Text, ActivityIndicator, StyleSheet, FlatList } from 'react-native';
+import { Button, View, Text, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { useAuth } from '@/utils/auth-context';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { HorizontalRule } from '@/components/HorizontalRule';
 import Feather from '@expo/vector-icons/Feather';
+import { Wrapper } from '@/components/Wrapper';
+import { Container } from '@/components/Container';
+import { ThemedText } from '@/components/ThemedText';
 
 export default function Test() {
     const { user, loading, error } = useMe();
@@ -17,83 +16,71 @@ export default function Test() {
     if (error) return <Text>Error: {error.message}</Text>;
     
     return (
-        <SafeAreaView style={styles.wrapper}>
-            <Text>Settings</Text>
-            <View style={styles.SettingsContainer}>
-                <Text style={globalStyles.subtitle}>Account</Text>
+        <Wrapper>
+            <ThemedText type='title' style={{alignSelf: 'center'}}>Settings</ThemedText>
+            <Container>
+                <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={styles.SettingsList}>
-                    <View style={styles.Setting}>
-                        <Text>Manage Account</Text>
+                    <Pressable style={styles.Setting}>
+                        <ThemedText>Manage Account</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
-                    </View>
-                    <View style={styles.Setting}>
-                        <Text>Password & Security</Text>
+                    </Pressable>
+                    <HorizontalRule />
+                    <Pressable style={styles.Setting}>
+                        <ThemedText>Password & Security</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
-                    </View>
-                    <View style={styles.Setting}>
-                        <Text>Notifications</Text>
+                    </Pressable>
+                    <HorizontalRule />
+                    <Pressable style={styles.Setting}>
+                        <ThemedText>Notifications</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
-                    </View>
+                    </Pressable>
                 </View>
-            </View>
-            <View style={styles.SettingsContainer}>
-                <Text style={globalStyles.subtitle}>Preferences</Text>
+            </Container>
+            <Container>
+                <ThemedText type='subtitle'>Preferences</ThemedText>
                 <View style={styles.SettingsList}>
-                    <View style={styles.Setting}>
-                        <Text>Language</Text>
+                    <Pressable style={styles.Setting}>
+                        <ThemedText>Language</ThemedText>
                         <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <Text>{user?.settings?.language}</Text>
+                            <ThemedText>{user?.settings?.language}</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </View>
-                    </View>
-                     <View style={styles.Setting}>
-                        <Text>Theme</Text>
+                    </Pressable>
+                    <HorizontalRule />
+                     <Pressable style={styles.Setting}>
+                        <ThemedText>Theme</ThemedText>
                         <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <Text>{user?.settings?.theme}</Text>
+                            <ThemedText>{user?.settings?.theme}</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </View>
-                    </View>
-                     <View style={styles.Setting}>
-                        <Text>Max Challenges Per Day</Text>
+                    </Pressable>
+                    <HorizontalRule />
+                     <Pressable style={styles.Setting}>
+                        <ThemedText>Max Challenges Per Day</ThemedText>
                         <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <Text>{user?.settings?.numberOfChallengesPerDay}</Text>
+                            <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </View>
-                    </View>
+                    </Pressable>
                 </View>
-            </View>
+            </Container>
             <Button title="Log Out" onPress={logOut} />
-        </SafeAreaView>
+        </Wrapper>
     )
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    height: '100%',
-    flexDirection: 'column',
-    gap: 24,
-    padding: 16,
-    backgroundColor: '#c5c5c5'
-  },
-  SettingsContainer: {
-    width: '100%',
-    flexDirection: 'column',
-    gap: 8
-  },
   SettingsList: {
     backgroundColor: '#dbdbdbff',
     paddingHorizontal: 8,
     flexDirection: 'column',
-    borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#000000ff',
   },
   Setting: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: '#000000ff',
   }
 });

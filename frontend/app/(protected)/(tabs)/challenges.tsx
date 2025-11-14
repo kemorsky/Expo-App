@@ -1,13 +1,14 @@
-import { StyleSheet, Text, ActivityIndicator, FlatList, View, Button, TextInput } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { StyleSheet, Text, ActivityIndicator, FlatList, View, Button, TextInput, ScrollView } from 'react-native';
+import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
-
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { globalStyles } from '@/styles/globalStyles';
 import { useCreateChallenge } from '@/lib/api/challenges/challengesMutations';
 import { ChallengeInput } from '@/__generated__/types';
-import { useState } from 'react';
+import { globalStyles } from '@/styles/globalStyles';
+import { Wrapper } from '@/components/Wrapper';
+import { ThemedText } from '@/components/ThemedText';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { HorizontalRule } from '@/components/HorizontalRule';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
@@ -37,10 +38,10 @@ export default function TabTwoScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-        <Text>Challenges</Text>
+    <Wrapper>
+        <ThemedText type='title' style={{alignSelf: 'center'}}>Challenges</ThemedText>
           <View style={styles.ChallengesContainer}>
-            <Text style={globalStyles.subtitle}>Your Challenges</Text>
+            <ThemedText type='subtitle'>Your Challenges</ThemedText>
             
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
@@ -57,9 +58,10 @@ export default function TabTwoScreen() {
               <FlatList 
                       data={createdChallenges}
                       contentContainerStyle={styles.ChallengeList}
+                      ItemSeparatorComponent={HorizontalRule}
                       renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text style={{maxWidth: 300, }}>{item?.challenge.title}</Text>
+                                    <ThemedText>{item?.challenge.title}</ThemedText>
                                     {item?.done === true ? 
                                       <FontAwesome name="check-circle" size={24} color="green" /> : 
                                       <FontAwesome6 name="circle-xmark" size={24} color="red"/>
@@ -71,14 +73,15 @@ export default function TabTwoScreen() {
             )}
           </View>
           <View style={styles.ChallengesContainer}>
-            <Text style={globalStyles.subtitle}>Default Challenges</Text>
+            <ThemedText type='subtitle'>Default Challenges</ThemedText>
             {defaultChallenges && (
               <FlatList 
                       data={defaultChallenges}
                       contentContainerStyle={styles.ChallengeList}
+                      ItemSeparatorComponent={HorizontalRule}
                       renderItem={({ item }) => {
                         return <View style={styles.Challenge}>
-                                    <Text style={{maxWidth: 280}}>{item?.challenge.title}</Text>
+                                    <ThemedText>{item?.challenge.title}</ThemedText>
                                     {item?.done === true ? 
                                       <FontAwesome name="check-circle" size={24} color="green" /> : 
                                       <FontAwesome6 name="circle-xmark" size={24} color="red"/>
@@ -89,20 +92,11 @@ export default function TabTwoScreen() {
               />
             )}
         </View>
-
-        
-    </SafeAreaView>
+    </Wrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    height: '100%',
-    flexDirection: 'column',
-    gap: 24,
-    padding: 16,
-    backgroundColor: '#c5c5c5'
-  },
   ChallengesContainer: {
     width: '100%',
     flexDirection: 'column',
@@ -112,16 +106,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#dbdbdbff',
     paddingHorizontal: 8,
     flexDirection: 'column',
-    borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#000000ff',
   },
   Challenge: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: '#000000ff',
+    alignItems: 'center',
+    paddingVertical: 8,
   }
 });

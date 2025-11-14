@@ -35,7 +35,7 @@ function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{overflow: 'scroll'}}>
         <Stack>
           <Stack.Screen
             name="login"

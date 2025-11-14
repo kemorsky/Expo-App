@@ -6,6 +6,9 @@ import { useAssignRandomChallenge, useMarkChallengeAsDone } from '@/lib/api/chal
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
+import { Wrapper } from '@/components/Wrapper';
+import { ThemedText } from '@/components/ThemedText';
+import { Container } from '@/components/Container';
 
 export default function HomeScreen() {
   const { user, loading, error } = useMe();
@@ -60,25 +63,25 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <Text>Home</Text>
-      <Text>Welcome, {user.name}</Text>
-      <Card mode="elevated">
-        <Card.Content style={styles.cardContent}>
+    <Wrapper>
+      <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
+      <ThemedText type='title'>Welcome, {user.name}</ThemedText>
+      <Container>
+        <View style={styles.cardContent}>
           <View style={styles.cardTitleContainer}>
-            <Text style={globalStyles.subtitle}>Today&apos;s challenge</Text>
-            <Text style={globalStyles.date}>{formatDate(date.toString())}</Text>
+            <ThemedText style={globalStyles.subtitle}>Today&apos;s challenge</ThemedText>
+            <ThemedText style={globalStyles.date}>{formatDate(date.toString())}</ThemedText>
           </View>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
-              <Text style={styles.title}>{currentChallenge.challenge.title}</Text>
+              <ThemedText style={styles.title}>{currentChallenge.challenge.title}</ThemedText>
             )}
             {!currentChallenge && (
-              <Text style={styles.title}>No active challenge</Text>
+              <ThemedText style={styles.title}>No active challenge</ThemedText>
             )}
             {currentChallenge && (
               <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
-                <Text style={styles.buttonMarkAsDoneText}>Mark as done</Text>
+                <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
               </Pressable>
             )}
             
@@ -97,69 +100,61 @@ export default function HomeScreen() {
             </View> */}
           </View>
           <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
-        </Card.Content>
-      </Card>
-      <Card mode="contained">
-        <Card.Content style={styles.cardContent}>
-          <Text style={globalStyles.subtitle}>Stats</Text>
+        </View>
+      </Container>
+      <Container>
+        <View style={styles.cardContent}>
+          <ThemedText style={globalStyles.subtitle}>Stats</ThemedText>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
-                <Text style={{fontSize: 12,}}>Challenges completed</Text>
-                <Text style={styles.title}>{completedChallenges}</Text>
+                <ThemedText style={{fontSize: 12,}}>Challenges completed</ThemedText>
+                <ThemedText style={styles.title}>{completedChallenges}</ThemedText>
               </View>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
-                <Text style={globalStyles.subtitle}>Challenges created</Text>
-                <Text style={styles.title}>{createdChallenges}</Text>
+                <ThemedText style={globalStyles.subtitle}>Challenges created</ThemedText>
+                <ThemedText style={styles.title}>{createdChallenges}</ThemedText>
               </View>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
-                <Text style={{fontSize: 12,}}>Current streak</Text>
-                <Text style={styles.title}>{completedChallenges}</Text>
+                <ThemedText style={{fontSize: 12,}}>Current streak</ThemedText>
+                <ThemedText style={styles.title}>{completedChallenges}</ThemedText>
               </View>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
-                <Text style={globalStyles.subtitle}>Highest streak</Text>
-                <Text style={styles.title}>{createdChallenges}</Text>
+                <ThemedText style={globalStyles.subtitle}>Highest streak</ThemedText>
+                <ThemedText style={styles.title}>{createdChallenges}</ThemedText>
               </View>
             </View>
           </View>
-        </Card.Content>
-      </Card>
-      <Card mode='elevated'>
-        <Card.Content style={styles.cardContent}>
-          <View>
-            <Text style={styles.title}>Your previous challenges</Text>
+        </View>
+      </Container>
+      <Container>
+        <View style={styles.cardContent}>
+            <ThemedText style={styles.title}>Your previous challenges</ThemedText>
             <FlatList
               data={user.challenges?.filter((challenge) => challenge?.done === true)}
+              contentContainerStyle={styles.ChallengeList}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
-                                <Text style={styles.previousChallengeTitleText}>{item?.updatedAt}</Text>
+                                <ThemedText style={styles.previousChallengeTitleText}>{item?.updatedAt}</ThemedText>
                                 <Pressable>
-                                  <Text style={styles.previousChallengeTitleText}>View -&gt; </Text>
+                                  <ThemedText style={styles.previousChallengeTitleText}>View -&gt; </ThemedText>
                                 </Pressable>
                               </View>
-                              <Text>{item?.challenge.title}</Text>
+                              <ThemedText>{item?.challenge.title}</ThemedText>
                           </View>
               }}
               keyExtractor={item => item?.id ?? ''}
             />
-          </View>
-        </Card.Content>
-      </Card>
-    </SafeAreaView>
+        </View>
+      </Container>
+    </Wrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    height: '100%',
-    flexDirection: 'column',
-    gap: 24,
-    padding: 12,
-    backgroundColor: '#c5c5c5'
-  },
   buttonMarkAsDone: {
     height: 32,
     justifyContent: 'center',
@@ -175,9 +170,12 @@ const styles = StyleSheet.create({
     color: '#000000ff',
   },
   cardContent: {
+    backgroundColor: '#dbdbdbff',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    gap: 24
+    gap: 24,
+    padding: 8,
+    borderRadius: 8
   },
   cardTitleContainer: {
     flexDirection: 'row',
@@ -188,6 +186,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+   ChallengeList: {
+    backgroundColor: '#dbdbdbff',
+    paddingHorizontal: 8,
+    flexDirection: 'column',
+    borderRadius: 8,
   },
   title: {
     fontSize: 18,

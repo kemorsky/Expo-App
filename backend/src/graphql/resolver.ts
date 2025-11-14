@@ -324,6 +324,8 @@ const resolvers: Resolvers = {
                         notes: ch.notes,
                         done: ch.done,
                         currentChallenge: ch.currentChallenge,
+                        currentChallengeExpiresAt: ch.currentChallengeExpiresAt,
+                        createdAt: ch.createdAt,
                         updatedAt: ch.updatedAt
                     }
             });
