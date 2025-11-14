@@ -99,7 +99,9 @@ export default function HomeScreen() {
               </View> 
             </View> */}
           </View>
-          <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
+          {!currentChallenge && (
+              <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
+          )}
         </View>
       </Container>
       <Container>
@@ -135,6 +137,7 @@ export default function HomeScreen() {
             <FlatList
               data={user.challenges?.filter((challenge) => challenge?.done === true)}
               contentContainerStyle={styles.ChallengeList}
+              scrollEnabled={true}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
