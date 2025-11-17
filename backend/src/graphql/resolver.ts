@@ -126,7 +126,6 @@ const resolvers: Resolvers = {
             try {
                 const challenge = new Challenge({
                     title: input.title,
-                    author: user._id.toString(),
                     isPredefined: false
                 })
                 await challenge.save()
@@ -150,15 +149,11 @@ const resolvers: Resolvers = {
                     challenge: {
                         id: challenge._id.toString(),
                         title: challenge.title,
-                        author: {
-                            id: user._id.toString(),
-                            name: user.name,
-                            email: user.email
-                        },
                         isPredefined: challenge.isPredefined
                     },
                     currentChallenge: userChallenge.currentChallenge,
-                    done: userChallenge.done
+                    done: userChallenge.done,
+                    createdAt: userChallenge.createdAt
                 }
             } catch (error) {
                 throw new Error (`Error creating new challenge: ${error}`)
@@ -174,7 +169,7 @@ const resolvers: Resolvers = {
             const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
             
             await UserChallenge.updateMany(
-                { author: user._id },
+                { user: user._id },
                 { $set: { currentChallenge: false } }
             )
 
@@ -194,18 +189,13 @@ const resolvers: Resolvers = {
             return {
                 id: assignedChallenge._id.toString(),
                 user: {
-                            id: user._id.toString(),
-                            name: user.name,
-                            email: user.email
-                        },
-                challenge: {
-                    id: challenge._id.toString(),
-                    title: challenge.title,
-                    author: {
                         id: user._id.toString(),
                         name: user.name,
                         email: user.email
                     },
+                challenge: {
+                    id: challenge._id.toString(),
+                    title: challenge.title,
                     isPredefined: challenge.isPredefined
                 },
                 currentChallenge: assignedChallenge.currentChallenge,
@@ -241,11 +231,6 @@ const resolvers: Resolvers = {
                     challenge: {
                         id: challenge._id.toString(),
                         title: challenge.title,
-                        author: {
-                            id: user._id.toString(),
-                            name: user.name,
-                            email: user.email
-                        },
                         isPredefined: challenge.isPredefined
                     },
                     currentChallenge: doneChallenge.currentChallenge,
@@ -283,11 +268,6 @@ const resolvers: Resolvers = {
                     challenge: {
                         id: challenge._id.toString(),
                         title: challenge.title,
-                        author: {
-                            id: user._id.toString(),
-                            name: user.name,
-                            email: user.email
-                        },
                         isPredefined: challenge.isPredefined
                     },
                     currentChallenge: updatedChallenge.currentChallenge,
@@ -306,7 +286,7 @@ const resolvers: Resolvers = {
 
             try {
                 const updateSettings = await User.findByIdAndUpdate(
-                    user._id.toString(), 
+                    user._id, 
                     { settings: input },
                     { new: true, runValidators: true }
                 );
@@ -339,11 +319,6 @@ const resolvers: Resolvers = {
                         challenge: {
                             id: challenge._id.toString(),
                             title: challenge.title,
-                            author: {
-                                id: parent.id,
-                                name: parent.name,
-                                email: parent.email
-                            },
                             isPredefined: challenge.isPredefined
                         },
                         notes: ch.notes,
@@ -356,18 +331,18 @@ const resolvers: Resolvers = {
             });
         },
     },
-    Challenge: {
-        author: async (parent) => {
-            const user = await User.findById(parent.author);
-            if (!user) throw new Error("User not found - challenges");
+    // Challenge: {
+    //     author: async (parent) => {
+    //         const user = await User.findById(parent.author);
+    //         if (!user) throw new Error("User not found - challenges");
 
-            return {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email
-            }
-        }
-    },
+    //         return {
+    //             id: user._id.toString(),
+    //             name: user.name,
+    //             email: user.email
+    //         }
+    //     }
+    // },
 }
 
 export default resolvers

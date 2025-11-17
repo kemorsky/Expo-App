@@ -30,7 +30,6 @@ const typeDefs = `#graphql
     type Challenge {
         id: ID!
         title: String!
-        author: User!
         isPredefined: Boolean!
         createdAt: String
         updatedAt: String

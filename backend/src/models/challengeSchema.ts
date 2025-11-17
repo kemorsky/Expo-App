@@ -3,7 +3,6 @@ import mongoose, { Document, ObjectId } from "mongoose";
 export type ChallengeDocument = Document & {
     _id: ObjectId;
     title: string;
-    author: ObjectId | null;
     notes: string;
     done: boolean;
     currentChallenge: boolean;
@@ -19,11 +18,6 @@ const challengeSchema = new mongoose.Schema<ChallengeDocument>(
             type: String,
             required: [true, "Title must be provided"],
             trim: true
-        },
-        author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            default: null
         },
         isPredefined: {
             type: Boolean,

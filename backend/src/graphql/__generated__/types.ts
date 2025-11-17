@@ -27,7 +27,6 @@ export type AuthPayload = {
 
 export type Challenge = {
   __typename?: 'Challenge';
-  author: User;
   createdAt?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isPredefined: Scalars['Boolean']['output'];
@@ -311,7 +310,6 @@ export type AuthPayloadResolvers<ContextType = any, ParentType = ResolversParent
 };
 
 export type ChallengeResolvers<ContextType = any, ParentType = ResolversParentTypes['Challenge']> = {
-  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isPredefined?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

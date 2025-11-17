@@ -52,7 +52,7 @@ export const userSchema = new mongoose.Schema<UserDocument>(
 userSchema.virtual("challenges", {
     ref: "UserChallenge",
     localField: "_id",
-    foreignField: "author",
+    foreignField: "user",
 });
 
 userSchema.pre("save", async function (next) {
