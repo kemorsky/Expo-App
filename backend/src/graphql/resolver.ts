@@ -163,7 +163,25 @@ const resolvers: Resolvers = {
             const user = await User.findById(context.user.id || context.user._id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
-            const challenges = await UserChallenge.find({ currentChallenge: false, done: false })
+            const expired = await UserChallenge.findOne({ // TODO: Logic works but I need to get it to run outside of manually running the mutation 
+                                                        // as the currentChallenge will always be set to true otherwise
+                user: user._id, 
+                currentChallenge: true, 
+                currentChallengeExpiresAt: { $lte: Date.now()}} );
+
+            if (expired && expired.currentChallengeExpiresAt) {
+                await UserChallenge.findByIdAndUpdate(expired._id, {
+                    currentChallenge: false,
+                    currentChallengeExpiresAt: null
+                })
+            }
+
+            const challenges = await UserChallenge.find({ 
+                user: user._id, 
+                currentChallenge: false, 
+                done: false 
+            });
+            
             if (challenges.length === 0) throw new Error ("No challenges available");
 
             const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
@@ -173,7 +191,7 @@ const resolvers: Resolvers = {
                 { $set: { currentChallenge: false } }
             )
 
-            const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
+            const expirationDate = new Date(Date.now() + 1 * 60 * 1000);
 
             const assignedChallenge = await UserChallenge.findByIdAndUpdate(
                 randomChallenge._id,

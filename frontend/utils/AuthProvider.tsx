@@ -44,7 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         await deleteRefreshToken();
         setUser(null)
         setIsLoggedIn(false)
-        router.replace("/login");
+        router.replace("/Login");
     };
 
     async function rehydrate() {
