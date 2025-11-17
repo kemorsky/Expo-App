@@ -53,7 +53,7 @@ const resolvers: Resolvers = {
             const predefined = await Challenge.find({ isPredefined: true });
 
             const userChallenges = predefined.map((ch) => ({
-                user: user._id.toString(),
+                user: user._id,
                 challenge: ch._id,
                 done: false,
                 currentChallenge: false
@@ -142,6 +142,11 @@ const resolvers: Resolvers = {
                 console.log(challenge)
                 return {
                     id: userChallenge._id.toString(),
+                    user: {
+                            id: user._id.toString(),
+                            name: user.name,
+                            email: user.email
+                        },
                     challenge: {
                         id: challenge._id.toString(),
                         title: challenge.title,
@@ -188,6 +193,11 @@ const resolvers: Resolvers = {
 
             return {
                 id: assignedChallenge._id.toString(),
+                user: {
+                            id: user._id.toString(),
+                            name: user.name,
+                            email: user.email
+                        },
                 challenge: {
                     id: challenge._id.toString(),
                     title: challenge.title,
@@ -223,6 +233,11 @@ const resolvers: Resolvers = {
                 const challenge = doneChallenge.challenge as ChallengeDocument
                 return {
                     id: doneChallenge._id.toString(),
+                    user: {
+                            id: user._id.toString(),
+                            name: user.name,
+                            email: user.email
+                        },
                     challenge: {
                         id: challenge._id.toString(),
                         title: challenge.title,
@@ -259,6 +274,11 @@ const resolvers: Resolvers = {
                 }
                 return {
                     id: updatedChallenge._id.toString(),
+                    user: {
+                            id: user._id.toString(),
+                            name: user.name,
+                            email: user.email
+                        },
                     title: challenge.title,
                     challenge: {
                         id: challenge._id.toString(),
@@ -311,6 +331,11 @@ const resolvers: Resolvers = {
                 const challenge = ch.challenge as ChallengeDocument;
                     return {
                         id: ch._id.toString(),
+                        user: {
+                                id: parent.id,
+                                name: parent.name,
+                                email: parent.email
+                            },
                         challenge: {
                             id: challenge._id.toString(),
                             title: challenge.title,
@@ -334,7 +359,7 @@ const resolvers: Resolvers = {
     Challenge: {
         author: async (parent) => {
             const user = await User.findById(parent.author);
-            if (!user) throw new Error("User not found  - challenges");
+            if (!user) throw new Error("User not found - challenges");
 
             return {
                 id: user._id.toString(),

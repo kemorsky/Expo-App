@@ -173,6 +173,7 @@ export type UserChallenge = {
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<User>;
 };
 
 export type UserInput = {
@@ -368,6 +369,7 @@ export type UserChallengeResolvers<ContextType = any, ParentType = ResolversPare
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {

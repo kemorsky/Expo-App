@@ -38,6 +38,7 @@ const typeDefs = `#graphql
 
     type UserChallenge {
         id: ID!
+        user: User
         challenge: Challenge!
         notes: String
         done: Boolean!
