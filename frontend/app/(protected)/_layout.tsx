@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useAuth } from '@/utils/auth-context';
+import { useAuth } from '@/utils/AuthContext';
 
 export default function ProtectedLayout() {
   const colorScheme = useColorScheme();

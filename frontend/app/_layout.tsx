@@ -5,7 +5,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { AuthProvider } from '@/utils/auth-provider';
+import { AuthProvider } from '@/utils/AuthProvider';
 // import SplashController from './splash';
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";

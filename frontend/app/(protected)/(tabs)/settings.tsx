@@ -1,7 +1,7 @@
 import { globalStyles } from '@/styles/globalStyles';
 import { Button, View, Text, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
 import { useMe } from '@/hooks/useMe';
-import { useAuth } from '@/utils/auth-context';
+import { useAuth } from '@/utils/AuthContext';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import Feather from '@expo/vector-icons/Feather';
 import { Wrapper } from '@/components/Wrapper';

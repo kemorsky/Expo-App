@@ -3,7 +3,7 @@ import { saveToken, getRefreshToken, saveRefreshToken, deleteToken, deleteRefres
 import { PropsWithChildren, useState } from "react";
 import { useLogin, useRefreshToken } from "@/lib/api/user/userMutations";
 import type { AuthPayload } from "@/__generated__/graphql";
-import AuthState from './auth-context'
+import AuthState from './AuthContext'
 
 type AuthProviderProps = PropsWithChildren
 

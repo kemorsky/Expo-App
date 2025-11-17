@@ -1,4 +1,4 @@
-import { useAuth } from '@/utils/auth-context';
+import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
 import { globalStyles } from "@/styles/globalStyles";
@@ -40,7 +40,7 @@ export default function Login() {
                         </Pressable>
                     <View>
                         <Text>Not a user yet?</Text>
-                        <Pressable onPress={() => router.replace("/signIn")}>
+                        <Pressable onPress={() => router.replace("/SignUp")}>
                             <Text style={globalStyles.buttonText}>Create an account</Text>
                         </Pressable>
                     </View>

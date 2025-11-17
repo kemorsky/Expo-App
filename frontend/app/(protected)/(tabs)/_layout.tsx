@@ -40,14 +40,14 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="challenges"
+          name="Challenges"
           options={{
             title: 'Challenges',
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
           }}
         />
         <Tabs.Screen
-          name="settings"
+          name="Settings"
           options={{
             title: 'Settings',
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="basketball.fill" color={color} />,
