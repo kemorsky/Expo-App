@@ -20,12 +20,27 @@ const resolvers: Resolvers = {
                 if (!user) throw new Error("Not authenticated");
                 console.log(user);
 
+                const result = await UserChallenge.updateMany({
+                    user: user._id,
+                    currentChallenge: true,
+                    currentChallengeExpiresAt: { $lte: new Date() }
+                },
+                {
+                    $set: {
+                        currentChallenge: false,
+                        currentChallengeExpiresAt: null
+                    }
+                });
+                
+                console.log(result)
+
                 return {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
                     settings: user.settings
                 }
+
             } catch (error) {
                 console.log(error)
                 throw new Error (`Error getting user: ${error}`)
@@ -163,19 +178,6 @@ const resolvers: Resolvers = {
             const user = await User.findById(context.user.id || context.user._id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
-            const expired = await UserChallenge.findOne({ // TODO: Logic works but I need to get it to run outside of manually running the mutation 
-                                                        // as the currentChallenge will always be set to true otherwise
-                user: user._id, 
-                currentChallenge: true, 
-                currentChallengeExpiresAt: { $lte: Date.now()}} );
-
-            if (expired && expired.currentChallengeExpiresAt) {
-                await UserChallenge.findByIdAndUpdate(expired._id, {
-                    currentChallenge: false,
-                    currentChallengeExpiresAt: null
-                })
-            }
-
             const challenges = await UserChallenge.find({ 
                 user: user._id, 
                 currentChallenge: false, 
@@ -191,7 +193,7 @@ const resolvers: Resolvers = {
                 { $set: { currentChallenge: false } }
             )
 
-            const expirationDate = new Date(Date.now() + 1 * 60 * 1000);
+            const expirationDate = new Date(Date.now() + 24 + 60 * 60 * 1000);
 
             const assignedChallenge = await UserChallenge.findByIdAndUpdate(
                 randomChallenge._id,
