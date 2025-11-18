@@ -56,6 +56,7 @@ input ChallengeCurrentInput {
 }
 
 input ChallengeDoneInput {
+  notes: String
   done: Boolean!
   currentChallenge: Boolean!
 }

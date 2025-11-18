@@ -61,7 +61,7 @@ const resolvers: Resolvers = {
     Mutation: {
         createUser: async (_, { input }) => {
             const existingUser = await User.findOne({email: input!.email})
-            if (existingUser) { throw new Error ("User already exists. Log in or recover your password.") }
+            if (existingUser) { throw new Error ("User already exists. Sign in or recover your password.") }
             const user = new User(input)
             await user.save();
 
@@ -230,7 +230,8 @@ const resolvers: Resolvers = {
             try {
                 const doneChallenge = await UserChallenge.findByIdAndUpdate(
                     id,
-                    { done: input.done,
+                    { notes: input.notes,
+                      done: input.done,
                       currentChallenge: input.currentChallenge
                     },
                     { new: true, runValidators: true }
@@ -253,6 +254,7 @@ const resolvers: Resolvers = {
                         title: challenge.title,
                         isPredefined: challenge.isPredefined
                     },
+                    notes: doneChallenge.notes,
                     currentChallenge: doneChallenge.currentChallenge,
                     done: doneChallenge.done,
                     createdAt: doneChallenge.createdAt,

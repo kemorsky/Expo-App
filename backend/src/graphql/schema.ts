@@ -57,6 +57,7 @@ const typeDefs = `#graphql
     }
 
     input ChallengeDoneInput {
+        notes: String
         done: Boolean!
         currentChallenge: Boolean!
     }

@@ -1,0 +1,119 @@
+import { useState } from 'react';
+import { useMe } from '@/hooks/useMe';
+import { View, StyleSheet, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
+import { ThemedText } from './ThemedText';
+import { ChallengeDoneInput } from '@/__generated__/graphql';
+import { globalStyles } from '@/styles/globalStyles';
+
+type ModalProps = {
+    openModal: boolean,
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function ChallengeDoneModal(props: ModalProps) {
+    const { openModal, setOpenModal } = props;
+    const { user, loading } = useMe();
+    const { markChallengeAsDone } = useMarkChallengeAsDone();
+
+    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: '', currentChallenge: true, done: false});
+
+    if (!user || loading) return <ActivityIndicator />;
+
+    const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
+
+    const handleMarkChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
+        try {
+            const data = await markChallengeAsDone(id, notes, done, currentChallenge);
+            if (data) {
+                console.log("success")
+                console.log(data)
+                setNotes({
+                    notes: data.notes,
+                    done: data.done,
+                    currentChallenge: data.currentChallenge
+                })
+                setOpenModal(!openModal)
+            }
+            } catch (error) {
+            throw new Error (`Error marking challenge as done: ${error}`)
+            }
+    }
+
+    return (
+        <Modal
+            transparent={true}
+            visible={openModal}
+            animationType="slide"
+            onRequestClose={() => {
+                setOpenModal(!openModal)
+            }}>
+            <View style={styles.modalContainer}>
+                <View style={styles.modalView}>
+                    <View style={styles.modalHeader}>
+                        <ThemedText type='title'>Complete challenge</ThemedText>
+                        <Pressable onPress={() => setOpenModal(!openModal)}>
+                            <AntDesign name="close" size={24} color="black" />
+                        </Pressable>
+                    </View>
+                    <ThemedText>{currentChallenge?.challenge.title}</ThemedText>
+                    <TextInput 
+                        style={globalStyles.input}
+                        onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
+                        value={notes.notes ?? ''}
+                        placeholder="Add notes to this challenge (not required)"/>
+                    <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                        <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
+                    </Pressable>
+                </View>
+            </View>
+        </Modal>
+    )
+}
+
+const styles = StyleSheet.create({
+    buttonMarkAsDone: {
+        height: 32,
+        justifyContent: 'center',
+        padding: 8,
+        borderWidth: 1,
+        borderColor: '#000000ff',
+        borderRadius: 4,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        backgroundColor: '#ffffffff',
+    },
+    buttonMarkAsDoneText: {
+        fontSize: 14,
+        color: '#000000ff',
+    },
+    modalContainer: {
+        position: 'absolute',
+        top: 80,
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#a15858ff',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    modalHeader: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    modalView: {
+        backgroundColor: 'white',
+        borderRadius: 8,
+        padding: 12,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+})

@@ -27,7 +27,6 @@ export type AuthPayload = {
 
 export type Challenge = {
   __typename?: 'Challenge';
-  author: User;
   createdAt?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isPredefined: Scalars['Boolean']['output'];
@@ -43,6 +42,7 @@ export type ChallengeCurrentInput = {
 export type ChallengeDoneInput = {
   currentChallenge: Scalars['Boolean']['input'];
   done: Scalars['Boolean']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ChallengeInput = {
@@ -173,6 +173,7 @@ export type UserChallenge = {
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<User>;
 };
 
 export type UserInput = {

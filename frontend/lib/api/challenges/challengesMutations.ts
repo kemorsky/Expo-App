@@ -64,11 +64,11 @@ export function useAssignRandomChallenge() {
 
 export function useMarkChallengeAsDone() {
     const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE)
-    const markChallengeAsDone = async (id: string, done: boolean, currentChallenge: boolean) => {
+    const markChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
         const response = await markChallengeAsDoneMutation({
             variables: {
                 markChallengeAsDoneId: id,
-                input: { done, currentChallenge }
+                input: { notes, done, currentChallenge }
             }
         })
 

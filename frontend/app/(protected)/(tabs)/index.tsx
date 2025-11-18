@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList, Button } from 'react-native';
 import { useMe } from '@/hooks/useMe';
-import { Card } from 'react-native-paper'
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge, useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 
@@ -9,8 +8,11 @@ import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/Container';
+import React, { useState } from 'react';
+import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 
 export default function HomeScreen() {
+  const [openModal, setOpenModal] = useState(false);
   const { user, loading, error } = useMe();
   const { markChallengeAsDone } = useMarkChallengeAsDone();
   const { assignRandomChallenge } = useAssignRandomChallenge();
@@ -38,25 +40,7 @@ export default function HomeScreen() {
           curentChallengeExpiresAt: data.currentChallengeExpiresAt,
         }
       }
-
       console.log(data)
-    } catch (error) {
-      throw new Error (`Error marking challenge as done: ${error}`)
-    }
-  }
-
-  const handleMarkChallengeAsDone = async (id: string, done: boolean, currentChallenge: boolean) => {
-    try {
-      const data = await markChallengeAsDone(id, done, currentChallenge);
-      if (data) {
-        console.log("success")
-        console.log(data)
-        return {
-          id: data.id,
-          done: data.done,
-          currentChallenge: data.currentChallenge
-        }
-      }
     } catch (error) {
       throw new Error (`Error marking challenge as done: ${error}`)
     }
@@ -64,6 +48,8 @@ export default function HomeScreen() {
 
   return (
     <Wrapper>
+      <Button onPress={() => setOpenModal(true)} title='Open'/>
+      <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
       <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
       <ThemedText type='title'>Welcome, {user.name}</ThemedText>
       <Container>
@@ -80,7 +66,7 @@ export default function HomeScreen() {
               <ThemedText style={styles.title}>No active challenge</ThemedText>
             )}
             {currentChallenge && (
-              <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(openModal)}>
                 <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
               </Pressable>
             )}
@@ -158,6 +144,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  bottomSheet: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
+  },
   buttonMarkAsDone: {
     height: 32,
     justifyContent: 'center',
