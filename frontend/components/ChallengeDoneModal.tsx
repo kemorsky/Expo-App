@@ -38,11 +38,12 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     currentChallenge: data.currentChallenge
                 })
                 setOpenModal(!openModal)
-            }
+            };
+            setNotes({notes: '', done: false, currentChallenge: false});
             } catch (error) {
-            throw new Error (`Error marking challenge as done: ${error}`)
-            }
-    }
+                throw new Error (`Error marking challenge as done: ${error}`)
+            };
+    };
 
     return (
         <Modal

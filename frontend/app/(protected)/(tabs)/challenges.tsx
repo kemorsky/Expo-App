@@ -1,5 +1,5 @@
 import { StyleSheet, Text, ActivityIndicator, FlatList, View, Button, TextInput, ScrollView } from 'react-native';
-import { useState } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useMe } from '@/hooks/useMe';
 import { useCreateChallenge } from '@/lib/api/challenges/challengesMutations';
 import { ChallengeInput } from '@/__generated__/types';
@@ -9,11 +9,13 @@ import { ThemedText } from '@/components/ThemedText';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { HorizontalRule } from '@/components/HorizontalRule';
+import { BottomSheet } from '@/components/BottomSheet';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
   const { createChallenge } = useCreateChallenge();
   const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
+  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
 
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -39,6 +41,7 @@ export default function TabTwoScreen() {
 
   return (
     <Wrapper>
+        <BottomSheet snapTo={'75%'} />
         <ThemedText type='title' style={{alignSelf: 'center'}}>Challenges</ThemedText>
           <View style={styles.ChallengesContainer}>
             <ThemedText type='subtitle'>Your Challenges</ThemedText>
