@@ -9,6 +9,7 @@ import { AuthProvider } from '@/utils/AuthProvider';
 // import SplashController from './splash';
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
+import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Root() {
 
@@ -35,30 +36,32 @@ function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider style={{overflow: 'scroll'}}>
-        <Stack>
-          <Stack.Screen
-            name="login"
-            options={{
-              headerShown: false,
-              animation: "none"
-          }} />
-          <Stack.Screen
-            name="signIn"
-            options={{
-              headerShown: false,
-              animation: "none"
-          }} />
-<          Stack.Screen
-            name="(protected)"
-            options={{
-              headerShown: false,
-              animation: "none",
-          }} />
-          <Stack.Screen name="onboarding" />
-        </Stack>
-        <StatusBar style="auto" />
-      </SafeAreaProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <SafeAreaProvider style={{overflow: 'scroll'}}>
+          <Stack>
+            <Stack.Screen
+              name="login"
+              options={{
+                headerShown: false,
+                animation: "none"
+            }} />
+            <Stack.Screen
+              name="signIn"
+              options={{
+                headerShown: false,
+                animation: "none"
+            }} />
+  <          Stack.Screen
+              name="(protected)"
+              options={{
+                headerShown: false,
+                animation: "none",
+            }} />
+            <Stack.Screen name="onboarding" />
+          </Stack>
+          <StatusBar style="auto" />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

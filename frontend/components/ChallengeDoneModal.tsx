@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
+import { formatDate } from '@/utils/formatDate';
 import { View, StyleSheet, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
@@ -20,6 +21,8 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const [notes, setNotes] = useState<ChallengeDoneInput>({notes: '', currentChallenge: true, done: false});
 
     if (!user || loading) return <ActivityIndicator />;
+
+    const date = new Date();
 
     const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
 
@@ -43,30 +46,34 @@ export default function ChallengeDoneModal(props: ModalProps) {
 
     return (
         <Modal
-            transparent={true}
+            transparent
+            allowSwipeDismissal
             visible={openModal}
             animationType="slide"
             onRequestClose={() => {
                 setOpenModal(!openModal)
             }}>
             <View style={styles.modalContainer}>
-                <View style={styles.modalView}>
-                    <View style={styles.modalHeader}>
-                        <ThemedText type='title'>Complete challenge</ThemedText>
-                        <Pressable onPress={() => setOpenModal(!openModal)}>
-                            <AntDesign name="close" size={24} color="black" />
-                        </Pressable>
-                    </View>
-                    <ThemedText>{currentChallenge?.challenge.title}</ThemedText>
-                    <TextInput 
-                        style={globalStyles.input}
-                        onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
-                        value={notes.notes ?? ''}
-                        placeholder="Add notes to this challenge (not required)"/>
-                    <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
-                        <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
+                <View style={styles.modalHeader}>
+                    <ThemedText type='subtitle'>Complete challenge</ThemedText>
+                    <Pressable onPress={() => setOpenModal(!openModal)}>
+                        <AntDesign name="close" size={24} color="black" />
                     </Pressable>
                 </View>
+                <View style={styles.modalTitle}>
+                    <ThemedText style={globalStyles.date}>{formatDate(date.toString())}</ThemedText>
+                    <ThemedText type='title'>{currentChallenge?.challenge.title}</ThemedText>
+                </View>
+                <TextInput 
+                    style={[globalStyles.input, {height: 150, }]}
+                    multiline
+                    editable
+                    onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
+                    value={notes.notes ?? ''}
+                    placeholder="Add notes to this challenge (not required)"/>
+                <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                    <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
+                </Pressable>
             </View>
         </Modal>
     )
@@ -82,6 +89,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         backgroundColor: '#ffffffff',
+        alignSelf: 'flex-end'
     },
     buttonMarkAsDoneText: {
         fontSize: 14,
@@ -89,24 +97,16 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         position: 'absolute',
-        top: 80,
+        top: 120,
         height: '100%',
         width: '100%',
-        backgroundColor: '#a15858ff',
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    modalHeader: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    modalView: {
         backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        gap: 30,
         borderRadius: 8,
         padding: 12,
-        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -116,4 +116,13 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
+    modalHeader: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    modalTitle: {
+        gap: 6
+    }
 })

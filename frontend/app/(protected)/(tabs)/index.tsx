@@ -48,7 +48,6 @@ export default function HomeScreen() {
 
   return (
     <Wrapper>
-      <Button onPress={() => setOpenModal(true)} title='Open'/>
       <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
       <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
       <ThemedText type='title'>Welcome, {user.name}</ThemedText>
@@ -66,7 +65,7 @@ export default function HomeScreen() {
               <ThemedText style={styles.title}>No active challenge</ThemedText>
             )}
             {currentChallenge && (
-              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(openModal)}>
+              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
                 <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
               </Pressable>
             )}
