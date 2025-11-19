@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList, Button } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { formatDate } from '@/utils/formatDate';
-import { useAssignRandomChallenge, useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
+import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
@@ -14,7 +14,6 @@ import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
   const { user, loading, error } = useMe();
-  const { markChallengeAsDone } = useMarkChallengeAsDone();
   const { assignRandomChallenge } = useAssignRandomChallenge();
 
   if (!user || loading) return <ActivityIndicator />;
@@ -59,30 +58,16 @@ export default function HomeScreen() {
           </View>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
-              <ThemedText style={styles.title}>{currentChallenge.challenge.title}</ThemedText>
+              <ThemedText type='title'>{currentChallenge.challenge.title}</ThemedText>
             )}
             {!currentChallenge && (
-              <ThemedText style={styles.title}>No active challenge</ThemedText>
+              <ThemedText type='title'>No active challenge</ThemedText>
             )}
             {currentChallenge && (
               <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
                 <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
               </Pressable>
             )}
-            
-            {/* <View style={styles.cardButtonContainer}>
-              {/* <View style={styles.stepContainer}>
-                <Text>Want to add notes?</Text>
-                <Pressable style={styles.buttonAddNotes}>
-                  <Text style={styles.buttonAddNotesText}>More</Text>
-                </Pressable>
-              </View> */}
-              {/* <View>
-                <Pressable style={styles.buttonMarkAsDone}>
-                  <Text style={styles.buttonMarkAsDoneText}>Mark as done</Text>
-                </Pressable>
-              </View> 
-            </View> */}
           </View>
           {!currentChallenge && (
               <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
@@ -96,21 +81,21 @@ export default function HomeScreen() {
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
                 <ThemedText style={{fontSize: 12,}}>Challenges completed</ThemedText>
-                <ThemedText style={styles.title}>{completedChallenges}</ThemedText>
+                <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
                 <ThemedText style={globalStyles.subtitle}>Challenges created</ThemedText>
-                <ThemedText style={styles.title}>{createdChallenges}</ThemedText>
+                <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
                 <ThemedText style={{fontSize: 12,}}>Current streak</ThemedText>
-                <ThemedText style={styles.title}>{completedChallenges}</ThemedText>
+                <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
               <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
                 <ThemedText style={globalStyles.subtitle}>Highest streak</ThemedText>
-                <ThemedText style={styles.title}>{createdChallenges}</ThemedText>
+                <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
             </View>
           </View>
@@ -118,7 +103,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <View style={styles.cardContent}>
-            <ThemedText style={styles.title}>Your previous challenges</ThemedText>
+            <ThemedText type='title'>Your previous challenges</ThemedText>
             <FlatList
               data={user.challenges?.filter((challenge) => challenge?.done === true)}
               contentContainerStyle={styles.ChallengeList}
@@ -143,12 +128,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  bottomSheet: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-
-  },
   buttonMarkAsDone: {
     height: 32,
     justifyContent: 'center',
@@ -186,11 +165,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     flexDirection: 'column',
     borderRadius: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'left',
   },
   stepContainer: {
     gap: 6,

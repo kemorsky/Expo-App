@@ -37,7 +37,7 @@ function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView style={{flex: 1}}>
-        <SafeAreaProvider style={{overflow: 'scroll'}}>
+        <SafeAreaProvider style={{overflow: 'scroll', position: 'relative'}}>
           <Stack>
             <Stack.Screen
               name="login"
