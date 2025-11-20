@@ -47,10 +47,10 @@ export default function HomeScreen() {
 
   return (
     <Wrapper>
-      <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
-      <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
-      <ThemedText type='title'>Welcome, {user.name}</ThemedText>
       <Container>
+        <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
+        <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
+        <ThemedText type='title'>Welcome, {user.name}</ThemedText>
         <View style={styles.cardContent}>
           <View style={styles.cardTitleContainer}>
             <ThemedText style={globalStyles.subtitle}>Today&apos;s challenge</ThemedText>
@@ -73,8 +73,6 @@ export default function HomeScreen() {
               <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
           )}
         </View>
-      </Container>
-      <Container>
         <View style={styles.cardContent}>
           <ThemedText style={globalStyles.subtitle}>Stats</ThemedText>
           <View style={styles.statsContainer}>
@@ -100,14 +98,13 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-      </Container>
-      <Container>
         <View style={styles.cardContent}>
             <ThemedText type='title'>Your previous challenges</ThemedText>
             <FlatList
               data={user.challenges?.filter((challenge) => challenge?.done === true)}
               contentContainerStyle={styles.ChallengeList}
-              scrollEnabled={true}
+              maxToRenderPerBatch={5}
+              scrollEnabled={false}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>

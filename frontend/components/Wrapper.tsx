@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { ScrollView, StyleSheet } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type WrapperProps = {
@@ -8,7 +8,9 @@ type WrapperProps = {
 export const Wrapper = ({ children }: WrapperProps) => {
     return (
         <SafeAreaView style={styles.wrapper}>
-            {children}
+            <ScrollView showsVerticalScrollIndicator={false}> 
+                {children}
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -16,9 +18,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        minHeight: '100%',
-        flexDirection: 'column',
-        gap: 24,
+        minHeight: 752,
         padding: 12,
         backgroundColor: '#c5c5c5'
     },

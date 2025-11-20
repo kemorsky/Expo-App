@@ -13,7 +13,7 @@ export default function ProtectedLayout() {
   
   if (!user?.token && !user?.refreshToken) {
     console.log('get a token you bum')
-    return <Redirect href="/login" />;
+    return <Redirect href="/Login" />;
   }
 
   return (

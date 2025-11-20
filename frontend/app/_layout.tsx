@@ -37,16 +37,17 @@ function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView style={{flex: 1}}>
-        <SafeAreaProvider style={{overflow: 'scroll', position: 'relative'}}>
+        <SafeAreaProvider>
+          <StatusBar style="auto" />
           <Stack>
             <Stack.Screen
-              name="login"
+              name="Login"
               options={{
                 headerShown: false,
                 animation: "none"
             }} />
             <Stack.Screen
-              name="signIn"
+              name="SignUp"
               options={{
                 headerShown: false,
                 animation: "none"
@@ -59,7 +60,6 @@ function RootLayout() {
             }} />
             <Stack.Screen name="onboarding" />
           </Stack>
-          <StatusBar style="auto" />
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </ThemeProvider>

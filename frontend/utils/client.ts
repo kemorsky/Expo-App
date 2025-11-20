@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 import { SetContextLink } from "@apollo/client/link/context";
 import { getToken } from "@/utils/token";
 
-const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
+const httpLink = new HttpLink({ uri: "https://expo-app-pied.vercel.app/api/graphql" });
 
 const authLink = new SetContextLink(async (prevContext, operation) => {
     const token = await getToken();
