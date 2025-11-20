@@ -21,6 +21,14 @@ export default function TabTwoScreen() {
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   let toggleSheetRef: (() => void) | undefined;
 
+  // const expandHandler = useCallback(() => {
+  //   bottomSheetRef.current?.expand();
+  // }, []);
+
+  // const closeHandler = useCallback(() => {
+  //   bottomSheetRef.current?.close();
+  // }, []);
+
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
   
@@ -58,13 +66,14 @@ export default function TabTwoScreen() {
     <Wrapper>
       <Container>
         <Button title="Open Sheet" onPress={() => toggleSheetRef?.()}/>
-        <BottomSheet snapTo={'75%'} {/* currently broken, ref setup triggers on every render and crashes Expo Go */}
-                    toggleSheetRef={(fn) => { toggleSheetRef = fn; }}>
+          
+        <BottomSheet snapTo={'75%'}
+                    toggleSheetRef={(fn) => { toggleSheetRef = fn; }}> {/* currently broken, ref setup triggers on every render and crashes Expo Go */}
           <View style={{flexDirection: 'column', gap: 20}}>
             <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
-              <ThemedText> {/*  currently broken, will come back to this at the next opportunity */}
-                {/* {formatDate(activeChallenge?.updatedAt ?? '')} */}
-              </ThemedText>
+              {/* <ThemedText> {/*  currently broken, will come back to this at the next opportunity */}
+                {/* {formatDate(activeChallenge?.updatedAt ?? '')}
+              </ThemedText> */}
               <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <ThemedText type='subtitle'>
                   {activeChallenge?.challenge.title}
