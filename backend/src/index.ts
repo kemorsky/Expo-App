@@ -1,3 +1,7 @@
+import graphqlHandler from '../api/graphql';
+
+export default graphqlHandler;
+
 // import dotenv from "dotenv";
 // import path from "path";
 // import { fileURLToPath } from "url";
