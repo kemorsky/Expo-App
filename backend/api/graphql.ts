@@ -25,6 +25,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use("/api/graphql", 
+    express.json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
         const authHeader = req.headers.authorization || "";
