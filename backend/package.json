@@ -27,6 +27,7 @@
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.0",
     "multer": "^2.0.2",
+    "serverless-http": "^4.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
