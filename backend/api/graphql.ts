@@ -24,8 +24,7 @@ const server = new ApolloServer({
 
 await server.start();
 
-app.use("/graphql", 
-    express.json(),
+app.use("/api/graphql", 
     expressMiddleware(server, {
       context: async ({ req }) => {
         const authHeader = req.headers.authorization || "";
@@ -48,4 +47,4 @@ app.use("/graphql",
 
 // app.use(express.json());
 
-export default serverless(app);
+export default app;

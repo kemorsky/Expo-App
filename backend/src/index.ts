@@ -1,6 +1,7 @@
-import graphqlHandler from '../api/graphql';
+import app from '../api/graphql';
+import serverless from 'serverless-http';
 
-export default graphqlHandler;
+export default serverless(app);
 
 // import dotenv from "dotenv";
 // import path from "path";
