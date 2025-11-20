@@ -1,70 +1,70 @@
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+// import dotenv from "dotenv";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   dotenv.config();
+// }
 
-import express from "express";
-import http from 'http';
-import cors from "cors";
-import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { expressMiddleware } from '@as-integrations/express4';
-import typeDefs from './graphql/schema.js';
-import resolvers from './graphql/resolver.js';
-import { dbConnect } from "./config/dbConnect.js";
-import { verifyToken } from "./utils/jwt.js";
+// import express from "express";
+// import http from 'http';
+// import cors from "cors";
+// import { ApolloServer } from '@apollo/server';
+// import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+// import { expressMiddleware } from '@as-integrations/express4';
+// import typeDefs from './graphql/schema.js';
+// import resolvers from './graphql/resolver.js';
+// import { dbConnect } from "./config/dbConnect.js";
+// import { verifyToken } from "./utils/jwt.js";
 
-await dbConnect();
+// await dbConnect();
 
-const app = express();
+// const app = express();
 
-app.use(cors({
-  origin: "*",
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: "*",
+//   credentials: true,
+// }));
 
-const httpServer = http.createServer(app);
+// const httpServer = http.createServer(app);
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
-});
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+// });
 
-await server.start();
+// await server.start();
 
-app.use("/graphql", 
-    express.json(),
-    expressMiddleware(server, {
-      context: async ({ req }) => {
-        const authHeader = req.headers.authorization || "";
-        const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
-        console.log(token)
+// app.use("/graphql", 
+//     express.json(),
+//     expressMiddleware(server, {
+//       context: async ({ req }) => {
+//         const authHeader = req.headers.authorization || "";
+//         const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+//         console.log(token)
 
-        let user = null;
-        if (token) {
-          try {
-            user = verifyToken(token);
-            console.log("Decoded user:", user);
-          } catch (error) {
-            console.error("Invalid token", error);
-          }
-        }
-        return { user };
-      }
-    })
-);
+//         let user = null;
+//         if (token) {
+//           try {
+//             user = verifyToken(token);
+//             console.log("Decoded user:", user);
+//           } catch (error) {
+//             console.error("Invalid token", error);
+//           }
+//         }
+//         return { user };
+//       }
+//     })
+// );
 
-app.use(express.json());
+// app.use(express.json());
 
-await new Promise<void>((resolve) => {
-  httpServer.listen({ port: 4000 }, resolve);
-  console.log("🚀 Server running at http://localhost:4000/graphql");
-});
+// await new Promise<void>((resolve) => {
+//   httpServer.listen({ port: 4000 }, resolve);
+//   console.log("🚀 Server running at http://localhost:4000/graphql");
+// });
