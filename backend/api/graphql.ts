@@ -17,9 +17,6 @@ app.use(cors({
   credentials: true,
 }));
 
-
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
 const server = new ApolloServer({
   typeDefs,
   resolvers
@@ -49,6 +46,6 @@ app.use("/graphql",
     })
 );
 
-app.use(express.json());
+// app.use(express.json());
 
 export default serverless(app);
