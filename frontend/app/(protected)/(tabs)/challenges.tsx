@@ -10,7 +10,7 @@ import { ThemedText } from '@/components/ThemedText';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { HorizontalRule } from '@/components/HorizontalRule';
-import { BottomSheet } from '@/components/BottomSheet';
+import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
 import type { UserChallenge } from '@/__generated__/graphql';
 import { formatDate } from '@/utils/formatDate';
 
@@ -19,15 +19,7 @@ export default function TabTwoScreen() {
   const { createChallenge } = useCreateChallenge();
   const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
-  let toggleSheetRef: (() => void) | undefined;
-
-  // const expandHandler = useCallback(() => {
-  //   bottomSheetRef.current?.expand();
-  // }, []);
-
-  // const closeHandler = useCallback(() => {
-  //   bottomSheetRef.current?.close();
-  // }, []);
+  const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null);
 
   if (!user ||loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -64,11 +56,10 @@ export default function TabTwoScreen() {
 
   return (
     <Wrapper>
-      <Container>
-        <Button title="Open Sheet" onPress={() => toggleSheetRef?.()}/>
-          
-        <BottomSheet snapTo={'75%'}
-                    toggleSheetRef={(fn) => { toggleSheetRef = fn; }}> {/* currently broken, ref setup triggers on every render and crashes Expo Go */}
+      <Container>  
+        <BottomSheet snapPoints={[150]}
+                    initialIndex={1}
+                    controller={setSheetController}>
           <View style={{flexDirection: 'column', gap: 20}}>
             <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
               {/* <ThemedText> {/*  currently broken, will come back to this at the next opportunity */}
@@ -90,40 +81,41 @@ export default function TabTwoScreen() {
           </View>
         </BottomSheet>
         <ThemedText type='title' style={{alignSelf: 'center'}}>Challenges</ThemedText>
-          <View style={styles.ChallengesContainer}>
-            <ThemedText type='subtitle'>Your Challenges</ThemedText>
-            {defaultChallenges?.length === 0 && (
-              <Text>You have not created any challenges of your own yet.</Text>
-            )}  
-            <TextInput 
-                      placeholder="Title"
-                      style={globalStyles.input}
-                      value={newChallenge.title}
-                      onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
-                      autoCapitalize="none"
-            />
-            <Button title="Create Challenge" onPress={() => handleCreateChallenge(newChallenge.title)} />
-            <SectionList 
-                        sections={DATA}
-                        keyExtractor={item => item?.id ?? ''}
-                        ItemSeparatorComponent={HorizontalRule}
-                        scrollEnabled={false}
-                        renderItem={({ item }) => {
-                        return <View style={styles.Challenge}>
-                                  <ThemedText>{item?.challenge.title}</ThemedText>
-                                  <Pressable onPress={() => { setActiveChallenge(item); toggleSheetRef?.() }}>
-                                    <Text>Open</Text>
-                                  </Pressable>
-                                  {item?.done === true ? 
-                                    <FontAwesome name="check-circle" size={24} color="green" /> : 
-                                    <FontAwesome6 name="circle-xmark" size={24} color="red"/>
-                                  }
-                                </View>
-                        }}
-                        renderSectionHeader={({section: {title}}) => (
-                          <Text style={styles.header}>{title}</Text>
-            )}  />
-          </View>
+        <View style={styles.ChallengesContainer}>
+          <ThemedText type='subtitle'>Your Challenges</ThemedText>
+          {defaultChallenges?.length === 0 && (
+            <Text>You have not created any challenges of your own yet.</Text>
+          )}  
+          <TextInput 
+                    placeholder="Title"
+                    style={globalStyles.input}
+                    value={newChallenge.title}
+                    onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
+                    autoCapitalize="none"
+          />
+          <Button title="Create Challenge" onPress={() => handleCreateChallenge(newChallenge.title)} />
+          <SectionList 
+                      sections={DATA}
+                      keyExtractor={item => item?.id ?? ''}
+                      ItemSeparatorComponent={HorizontalRule}
+                      scrollEnabled={false}
+                      renderItem={({ item }) => {
+                      return <View style={styles.Challenge}>
+                                <ThemedText>{item?.challenge.title}</ThemedText>
+                                <Pressable onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
+                                  <Text>Open</Text>
+                                </Pressable>
+                                {item?.done === true ? 
+                                  <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                  <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                }
+                              </View>
+                      }}
+                      renderSectionHeader={({section: {title}}) => (
+                        <Text style={styles.header}>{title}</Text>
+                      )}
+          />
+        </View>
       </Container>
     </Wrapper>
   );

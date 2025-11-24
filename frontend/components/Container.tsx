@@ -14,6 +14,7 @@ export const Container = ({ children }: ContainerProps) => {
 
 const styles = StyleSheet.create({
     container: {
+        padding: 12,
         width: '100%',
         flexDirection: 'column',
         gap: 24,

@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         minHeight: 752,
-        padding: 12,
         backgroundColor: '#c5c5c5'
     },
 })
