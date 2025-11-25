@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import serverless from "serverless-http";
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express4';
 import typeDefs from '../src/graphql/schema.js';
@@ -30,7 +29,6 @@ app.use("/api/graphql",
       context: async ({ req }) => {
         const authHeader = req.headers.authorization || "";
         const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
-        console.log(token)
 
         let user = null;
         if (token) {

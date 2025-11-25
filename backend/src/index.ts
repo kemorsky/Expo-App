@@ -51,7 +51,6 @@ export default serverless(app);
 //       context: async ({ req }) => {
 //         const authHeader = req.headers.authorization || "";
 //         const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
-//         console.log(token)
 
 //         let user = null;
 //         if (token) {

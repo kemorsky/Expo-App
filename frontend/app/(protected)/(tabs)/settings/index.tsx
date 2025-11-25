@@ -42,29 +42,35 @@ export default function Settings() {
             <Container>
                 <ThemedText type='subtitle'>Preferences</ThemedText>
                 <View style={styles.SettingsList}>
-                    <Pressable style={styles.Setting}>
-                        <ThemedText>Language</ThemedText>
-                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <ThemedText>{user?.settings?.language}</ThemedText>
-                            <Feather name="arrow-right" size={16} color="black" />
-                        </View>
-                    </Pressable>
+                    <Link href='/settings/language' push asChild>
+                        <Pressable style={styles.Setting}>
+                            <ThemedText>Language</ThemedText>
+                            <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                                <ThemedText>{user?.settings?.language}</ThemedText>
+                                <Feather name="arrow-right" size={16} color="black" />
+                            </View>
+                        </Pressable>
+                    </Link>
                     <HorizontalRule />
-                     <Pressable style={styles.Setting}>
-                        <ThemedText>Theme</ThemedText>
-                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <ThemedText>{user?.settings?.theme}</ThemedText>
-                            <Feather name="arrow-right" size={16} color="black" />
-                        </View>
-                    </Pressable>
+                    <Link href='/settings/theme' push asChild>
+                        <Pressable style={styles.Setting}>
+                            <ThemedText>Theme</ThemedText>
+                            <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                                <ThemedText>{user?.settings?.theme}</ThemedText>
+                                <Feather name="arrow-right" size={16} color="black" />
+                            </View>
+                        </Pressable>
+                    </Link>
                     <HorizontalRule />
-                     <Pressable style={styles.Setting}>
-                        <ThemedText>Max Challenges Per Day</ThemedText>
-                        <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                            <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
-                            <Feather name="arrow-right" size={16} color="black" />
-                        </View>
-                    </Pressable>
+                    <Link href='/settings/max-challenges' push asChild>
+                        <Pressable style={styles.Setting}>
+                            <ThemedText>Max Challenges Per Day</ThemedText>
+                            <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+                                <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
+                                <Feather name="arrow-right" size={16} color="black" />
+                            </View>
+                        </Pressable>
+                    </Link>
                 </View>
             </Container>
             <Button title="Log Out" onPress={logOut} />

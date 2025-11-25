@@ -18,7 +18,6 @@ const resolvers: Resolvers = {
                 .populate("settings");
 
                 if (!user) throw new Error("Not authenticated");
-                console.log(user);
 
                 const result = await UserChallenge.updateMany({
                     user: user._id,
@@ -120,7 +119,7 @@ const resolvers: Resolvers = {
                 const newAccessToken = generateToken({ _id: user._id.toString() });
                 const newRefreshToken = generateRefreshToken({ _id: user._id.toString() });
 
-                await User.findByIdAndUpdate(user.id, { refreshToken: newRefreshToken})
+                await User.findByIdAndUpdate(user.id, { refreshToken: newRefreshToken })
 
                 return {
                     id: user._id.toString(),

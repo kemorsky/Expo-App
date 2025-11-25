@@ -22,6 +22,9 @@ export default function SettingsLayout() {
         <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
           <Stack.Screen name="index" options={{ title: 'Settings' }} />
           <Stack.Screen name="manage-account" options={{ headerShown: true, title: 'Manage Account' }} />
+          <Stack.Screen name="language" options={{ headerShown: true, title: 'Language' }} />
+          <Stack.Screen name="theme" options={{ headerShown: true, title: 'Theme' }} />
+          <Stack.Screen name="max-challenges" options={{ headerShown: true, title: 'Max Challenges Per Day' }} />
         </Stack>
         <StatusBar style="auto" />
       </SafeAreaProvider>

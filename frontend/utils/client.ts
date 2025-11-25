@@ -3,6 +3,7 @@ import { SetContextLink } from "@apollo/client/link/context";
 import { getToken } from "@/utils/token";
 
 const httpLink = new HttpLink({ uri: "https://expo-app-pied.vercel.app/api/graphql" });
+// const httpLink = new HttpLink({ uri: "https://localhost:4000/graphql" });
 
 const authLink = new SetContextLink(async (prevContext, operation) => {
     const token = await getToken();

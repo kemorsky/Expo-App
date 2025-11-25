@@ -1,10 +1,10 @@
 import { Link } from "expo-router";
 import { View, Button, Text } from "react-native";
 
-export default function ManageAccount() {
+export default function Language() {
     return (
         <View>
-            <Text>Manage Account</Text>
+            <Text>Language</Text>
             <Link href='/settings' dismissTo asChild>
                 <Button title="Dismiss to Settings" />
             </Link>
