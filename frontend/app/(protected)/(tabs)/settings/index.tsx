@@ -7,8 +7,9 @@ import Feather from '@expo/vector-icons/Feather';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
+import { Link } from 'expo-router';
 
-export default function Test() {
+export default function Settings() {
     const { user, loading, error } = useMe();
     const  { logOut } = useAuth();
 
@@ -17,14 +18,15 @@ export default function Test() {
     
     return (
         <Wrapper>
-            <ThemedText type='title' style={{alignSelf: 'center'}}>Settings</ThemedText>
             <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={styles.SettingsList}>
-                    <Pressable style={styles.Setting}>
-                        <ThemedText>Manage Account</ThemedText>
-                        <Feather name="arrow-right" size={16} color="black" />
-                    </Pressable>
+                    <Link href='/settings/manage-account' push asChild>
+                        <Pressable style={styles.Setting}>
+                            <ThemedText>Manage Account</ThemedText>
+                            <Feather name="arrow-right" size={16} color="black" />
+                        </Pressable>
+                    </Link>
                     <HorizontalRule />
                     <Pressable style={styles.Setting}>
                         <ThemedText>Password & Security</ThemedText>

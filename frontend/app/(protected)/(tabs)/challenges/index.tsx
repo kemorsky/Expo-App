@@ -80,7 +80,6 @@ export default function TabTwoScreen() {
             </ThemedText>
           </View>
         </BottomSheet>
-        <ThemedText type='title' style={{alignSelf: 'center'}}>Challenges</ThemedText>
         <View style={styles.ChallengesContainer}>
           <ThemedText type='subtitle'>Your Challenges</ThemedText>
           {defaultChallenges?.length === 0 && (

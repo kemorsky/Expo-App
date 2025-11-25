@@ -8,7 +8,7 @@ import AuthState from './AuthContext'
 type AuthProviderProps = PropsWithChildren
 
 export function AuthProvider({ children }: AuthProviderProps) {
-    const [ user, setUser ] = useState<AuthPayload | null>(null); // PREVIOUSLY User | null
+    const [ user, setUser ] = useState<AuthPayload | null>(null);
     const [ isLoggedIn, setIsLoggedIn ] = useState(false);
     const [ isRehydrated, setIsRehydrated ] = useState(false);
     const { login }  = useLogin();
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 refreshToken: data.refreshToken
             })
             setIsLoggedIn(true)
-            router.replace("/");
+            router.replace("/home");
         } catch (error) {
             throw new Error (`Login failed: ${error}`);
         }

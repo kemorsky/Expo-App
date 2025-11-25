@@ -9,7 +9,7 @@ import { AuthProvider } from '@/utils/AuthProvider';
 // import SplashController from './splash';
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
-import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Root() {
 
@@ -52,13 +52,13 @@ function RootLayout() {
                 headerShown: false,
                 animation: "none"
             }} />
-  <          Stack.Screen
+            <Stack.Screen
               name="(protected)"
               options={{
                 headerShown: false,
-                animation: "none",
+                animation: "default",
             }} />
-            <Stack.Screen name="onboarding" />
+            {/* <Stack.Screen name="onboarding" /> */}
           </Stack>
         </SafeAreaProvider>
       </GestureHandlerRootView>

@@ -49,7 +49,6 @@ export default function HomeScreen() {
     <Wrapper>
       <Container>
         <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
-        <ThemedText type='title' style={{alignSelf: 'center'}}>Home</ThemedText>
         <ThemedText type='title'>Welcome, {user.name}</ThemedText>
         <View style={styles.cardContent}>
           <View style={styles.cardTitleContainer}>
