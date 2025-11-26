@@ -27,7 +27,7 @@ const resolvers: Resolvers = {
                 {
                     $set: {
                         currentChallenge: false,
-                        currentChallengeExpiresAt: null
+                        currentChallengeExpiresAt: null  
                     }
                 });
                 

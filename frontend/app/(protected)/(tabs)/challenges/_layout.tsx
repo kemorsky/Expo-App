@@ -21,6 +21,7 @@ export default function ChallengesLayout() {
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="index" options={{ title: 'Challenges' }} />
+          <Stack.Screen name="create-challenge" options={{ headerShown: true, title: 'Create Challenge' }} />
         </Stack>
         <StatusBar style="auto" />
       </SafeAreaProvider>

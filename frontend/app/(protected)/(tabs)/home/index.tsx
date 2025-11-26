@@ -76,21 +76,21 @@ export default function HomeScreen() {
           <ThemedText style={globalStyles.subtitle}>Stats</ThemedText>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
-              <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
+              <View style={styles.stats}>
                 <ThemedText style={{fontSize: 12,}}>Challenges completed</ThemedText>
                 <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
-              <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
+              <View style={styles.stats}>
                 <ThemedText style={globalStyles.subtitle}>Challenges created</ThemedText>
                 <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
-              <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
+              <View style={styles.stats}>
                 <ThemedText style={{fontSize: 12,}}>Current streak</ThemedText>
                 <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
-              <View style={{width: 160, height: 80, padding: 8, justifyContent: 'space-between', borderRadius: 8, backgroundColor: 'red'}}>
+              <View style={styles.stats}>
                 <ThemedText style={globalStyles.subtitle}>Highest streak</ThemedText>
                 <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
@@ -185,5 +185,13 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'column',
     gap: 8,
+  },
+  stats: {
+    width: 160, 
+    height: 80, 
+    padding: 8, 
+    justifyContent: 'space-between',
+    borderRadius: 8, 
+    backgroundColor: 'red'
   }
 });

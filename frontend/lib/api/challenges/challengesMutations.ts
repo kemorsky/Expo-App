@@ -52,7 +52,10 @@ const CREATE_CHALLENGE = gql`
 `
 
 export function useAssignRandomChallenge() {
-    const [assignRandomChallengeMutation, { data, loading, error }] = useMutation<AssignRandomChallengeMutation, AssignRandomChallengeMutationVariables>(ASSIGN_RANDOM_CHALLENGE)
+    const [assignRandomChallengeMutation, { data, loading, error }] = useMutation<AssignRandomChallengeMutation, AssignRandomChallengeMutationVariables>(ASSIGN_RANDOM_CHALLENGE, {
+        refetchQueries: ["Me"]
+    });
+    
     const assignRandomChallenge = async () => {
         const response = await assignRandomChallengeMutation()
 
@@ -63,7 +66,10 @@ export function useAssignRandomChallenge() {
 }
 
 export function useMarkChallengeAsDone() {
-    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE)
+    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE, {
+        refetchQueries: ["Me"]
+    });
+
     const markChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
         const response = await markChallengeAsDoneMutation({
             variables: {
@@ -79,7 +85,9 @@ export function useMarkChallengeAsDone() {
 }
 
 export function useCreateChallenge() {
-    const [createChallengeMutation, { data, loading, error }] = useMutation<CreateChallengeMutation, CreateChallengeMutationVariables>(CREATE_CHALLENGE)
+    const [createChallengeMutation, { data, loading, error }] = useMutation<CreateChallengeMutation, CreateChallengeMutationVariables>(CREATE_CHALLENGE, {
+        refetchQueries: ["Me"]
+    });
 
     const createChallenge = async (title: string) => {
         const response = await createChallengeMutation({

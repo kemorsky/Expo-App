@@ -12,6 +12,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
 import type { UserChallenge } from '@/__generated__/graphql';
+import { Link } from 'expo-router';
 import { formatDate } from '@/utils/formatDate';
 
 export default function TabTwoScreen() {
@@ -92,7 +93,9 @@ export default function TabTwoScreen() {
                     onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
                     autoCapitalize="none"
           />
-          <Button title="Create Challenge" onPress={() => handleCreateChallenge(newChallenge.title)} />
+          <Link href='/challenges/create-challenge' push asChild>
+            <Button title="Create Challenge" />
+          </Link>
           <SectionList 
                       sections={DATA}
                       keyExtractor={item => item?.id ?? ''}

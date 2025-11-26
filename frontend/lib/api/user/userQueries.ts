@@ -55,9 +55,7 @@ export const GET_USERS = gql`
 }`
 
 export function useMe() {
-  const { data, loading, error, refetch } = useQuery<MeQuery>(MeDocument, {
-    fetchPolicy: 'network-only'
-  })
+  const { data, loading, error, refetch } = useQuery<MeQuery>(MeDocument);
 
   return {
     user: data?.me,
