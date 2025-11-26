@@ -57,7 +57,7 @@ export default function HomeScreen() {
           </View>
           <View style={styles.cardContentContainer}>
             {currentChallenge && (
-              <ThemedText type='title'>{currentChallenge.challenge.title}</ThemedText>
+              <ThemedText style={{maxWidth: 235}} type='title'>{currentChallenge.challenge.title}</ThemedText>
             )}
             {!currentChallenge && (
               <ThemedText type='title'>No active challenge</ThemedText>

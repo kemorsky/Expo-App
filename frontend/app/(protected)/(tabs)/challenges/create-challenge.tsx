@@ -7,10 +7,12 @@ import { useMe } from "@/hooks/useMe";
 import { useState } from "react";
 import { ChallengeInput } from "@/__generated__/graphql";
 import { globalStyles } from "@/styles/globalStyles";
+import { useRouter } from "expo-router";
 
 export default function CreateChallenge() {
     const { user, loading, error } = useMe();
     const { createChallenge } = useCreateChallenge();
+    const router = useRouter();
 
     const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
 
@@ -26,6 +28,7 @@ export default function CreateChallenge() {
                     title: data.challenge.title
                 })
                 console.log("New challenge created!" + newChallenge.title);
+                router.push('/challenges');
             }
         setNewChallenge({title: ''});
         } catch (error) {
@@ -43,7 +46,7 @@ export default function CreateChallenge() {
                             style={globalStyles.input}
                             value={newChallenge.title}
                             onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
-                            autoCapitalize="none"
+                            autoCapitalize="sentences"
                     />
                     <Pressable onPress={() => handleCreateChallenge(newChallenge.title)}>
                         <ThemedText >Create Challenge</ThemedText>

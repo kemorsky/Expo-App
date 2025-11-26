@@ -19,20 +19,6 @@ const resolvers: Resolvers = {
 
                 if (!user) throw new Error("Not authenticated");
 
-                const result = await UserChallenge.updateMany({
-                    user: user._id,
-                    currentChallenge: true,
-                    currentChallengeExpiresAt: { $lte: new Date() }
-                },
-                {
-                    $set: {
-                        currentChallenge: false,
-                        currentChallengeExpiresAt: null  
-                    }
-                });
-                
-                console.log(result)
-
                 return {
                     id: user._id.toString(),
                     name: user.name,
@@ -323,7 +309,31 @@ const resolvers: Resolvers = {
             } catch (error) {
                 throw new Error (`Error updating user settings: ${error}`)
             }
-        }
+        },
+        // purgeExpiredChallenge: async (_, __, context) => {
+        //     const user = await User.findById(context.user.id || context.user._id)
+        //     if (!user) throw new Error("Not authenticated");
+
+        //     const result = await UserChallenge.updateMany({
+        //         user: user._id,
+        //         currentChallenge: true,
+        //         currentChallengeExpiresAt: { $lte: new Date() }
+        //     },
+        //     {
+        //         $set: {
+        //             currentChallenge: false,
+        //             currentChallengeExpiresAt: null  
+        //         }
+        //     });
+                
+        //     return {
+        //         acknowledged: result.acknowledged,
+        //         matchedCount: result.matchedCount,
+        //         modifiedCount: result.modifiedCount,
+        //         upsertedCount: result.upsertedCount,
+        //         upsertedId: result.upsertedId?.toString()
+        //     };
+        // },
     },
     User: {
         challenges: async (parent) => {

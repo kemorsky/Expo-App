@@ -1,7 +1,6 @@
 import { StyleSheet, Text, ActivityIndicator, View, Button, TextInput, SectionList, Pressable } from 'react-native';
 import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
-import { useCreateChallenge } from '@/lib/api/challenges/challengesMutations';
 import { ChallengeInput } from '@/__generated__/types';
 import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
@@ -13,11 +12,11 @@ import { HorizontalRule } from '@/components/HorizontalRule';
 import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
 import type { UserChallenge } from '@/__generated__/graphql';
 import { Link } from 'expo-router';
+import Feather from '@expo/vector-icons/Feather';
 import { formatDate } from '@/utils/formatDate';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
-  const { createChallenge } = useCreateChallenge();
   const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null);
@@ -38,22 +37,6 @@ export default function TabTwoScreen() {
       data: defaultChallenges ?? []
     }
   ]
-
-  const handleCreateChallenge = async (title: string) => {
-    try {
-      const data = await createChallenge(title);
-      if (data) {
-        console.log(data)
-        setNewChallenge({
-          title: data.challenge.title
-        })
-        console.log("New challenge created!" + newChallenge.title);
-      }
-      setNewChallenge({title: ''});
-    } catch (error) {
-      throw new Error (`Error creating challenge: ${error}`)
-    }
-  }
 
   return (
     <Wrapper>
@@ -81,40 +64,38 @@ export default function TabTwoScreen() {
             </ThemedText>
           </View>
         </BottomSheet>
-        <View style={styles.ChallengesContainer}>
-          <ThemedText type='subtitle'>Your Challenges</ThemedText>
-          {defaultChallenges?.length === 0 && (
-            <Text>You have not created any challenges of your own yet.</Text>
-          )}  
-          <TextInput 
-                    placeholder="Title"
-                    style={globalStyles.input}
-                    value={newChallenge.title}
-                    onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
-                    autoCapitalize="none"
-          />
-          <Link href='/challenges/create-challenge' push asChild>
-            <Button title="Create Challenge" />
-          </Link>
+        <View style={styles.challengesContainer}>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
+            <ThemedText type='subtitle'>Your Challenges</ThemedText>
+            {defaultChallenges?.length === 0 && (
+              <Text>You have not created any challenges of your own yet.</Text>
+            )}  
+            <Link href='/challenges/create-challenge' push asChild>
+              <Button title="Create Challenge" />
+            </Link>
+          </View>
           <SectionList 
                       sections={DATA}
                       keyExtractor={item => item?.id ?? ''}
+                      contentContainerStyle={styles.sectionList}
                       ItemSeparatorComponent={HorizontalRule}
-                      scrollEnabled={false}
+                      scrollEnabled={true}
                       renderItem={({ item }) => {
-                      return <View style={styles.Challenge}>
-                                <ThemedText>{item?.challenge.title}</ThemedText>
-                                <Pressable onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
-                                  <Text>Open</Text>
-                                </Pressable>
-                                {item?.done === true ? 
-                                  <FontAwesome name="check-circle" size={24} color="green" /> : 
-                                  <FontAwesome6 name="circle-xmark" size={24} color="red"/>
-                                }
-                              </View>
+                        return <View style={styles.challenge}>
+                                  <View style={styles.challengeItem}>
+                                  {item?.done === true ? 
+                                      <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                      <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                    }
+                                  <ThemedText style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                  </View>
+                                  <Pressable onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
+                                    <Feather name="arrow-right" size={16} color="black" />
+                                  </Pressable>
+                                </View>
                       }}
                       renderSectionHeader={({section: {title}}) => (
-                        <Text style={styles.header}>{title}</Text>
+                        <Text style={{paddingVertical: 14}}>{title}</Text>
                       )}
           />
         </View>
@@ -124,21 +105,35 @@ export default function TabTwoScreen() {
 }
 
 const styles = StyleSheet.create({
-  ChallengesContainer: {
+  challengesContainer: {
     width: '100%',
     flexDirection: 'column',
     gap: 8
   },
-  ChallengeList: {
+  challengeList: {
     backgroundColor: '#dbdbdbff',
     paddingHorizontal: 8,
     flexDirection: 'column',
     borderRadius: 8,
   },
-  Challenge: {
+  challenge: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 8,
+  },
+  challengeItem: {
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  sectionList: {
+    height: 500,
+    overflow: 'scroll',
+    backgroundColor: '#dbdbdbff',
+    paddingHorizontal: 8,
+    flexDirection: 'column',
+    borderRadius: 8,
   }
 });

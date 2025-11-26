@@ -19,21 +19,27 @@ export default function Settings() {
     return (
         <Wrapper>
             <Container>
+                <View style={styles.userRundown}>
+                    <ThemedText>Username: {user?.name}</ThemedText>
+                    <ThemedText>E-mail: {user?.email}</ThemedText>
+                </View>
+            </Container>
+            <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
-                <View style={styles.SettingsList}>
+                <View style={styles.settingsList}>
                     <Link href='/settings/manage-account' push asChild>
-                        <Pressable style={styles.Setting}>
+                        <Pressable style={styles.setting}>
                             <ThemedText>Manage Account</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </Pressable>
                     </Link>
                     <HorizontalRule />
-                    <Pressable style={styles.Setting}>
+                    <Pressable style={styles.setting}>
                         <ThemedText>Password & Security</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
                     <HorizontalRule />
-                    <Pressable style={styles.Setting}>
+                    <Pressable style={styles.setting}>
                         <ThemedText>Notifications</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
@@ -41,9 +47,9 @@ export default function Settings() {
             </Container>
             <Container>
                 <ThemedText type='subtitle'>Preferences</ThemedText>
-                <View style={styles.SettingsList}>
+                <View style={styles.settingsList}>
                     <Link href='/settings/language' push asChild>
-                        <Pressable style={styles.Setting}>
+                        <Pressable style={styles.setting}>
                             <ThemedText>Language</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.language}</ThemedText>
@@ -53,7 +59,7 @@ export default function Settings() {
                     </Link>
                     <HorizontalRule />
                     <Link href='/settings/theme' push asChild>
-                        <Pressable style={styles.Setting}>
+                        <Pressable style={styles.setting}>
                             <ThemedText>Theme</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.theme}</ThemedText>
@@ -63,7 +69,7 @@ export default function Settings() {
                     </Link>
                     <HorizontalRule />
                     <Link href='/settings/max-challenges' push asChild>
-                        <Pressable style={styles.Setting}>
+                        <Pressable style={styles.setting}>
                             <ThemedText>Max Challenges Per Day</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
@@ -79,16 +85,23 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  SettingsList: {
+  settingsList: {
     backgroundColor: '#dbdbdbff',
     paddingHorizontal: 8,
     flexDirection: 'column',
     borderRadius: 8,
   },
-  Setting: {
+  setting: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 12,
+  },
+  userRundown: {
+    backgroundColor: '#dbdbdbff',
+    padding: 8,
+    flexDirection: 'column',
+    gap: 8,
+    borderRadius: 8,
   }
 });
