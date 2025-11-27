@@ -1,14 +1,18 @@
-export const formatDate = (isoString?: string): string => {
-    if (!isoString) return '';
+export const formatDate = (dateInput?: string | number): string => {
+  if (!dateInput) return '';
 
-    const date = new Date(isoString);
-    
-    return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    //   hour: '2-digit',
-    //   minute: '2-digit',
-    //   hour12: false,
-    }).format(date);
-  };
+  const timestamp = typeof dateInput === 'string' && !isNaN(Number(dateInput))
+    ? Number(dateInput)
+    : dateInput;
+
+  const date = new Date(timestamp);
+
+  // check if the date is valid
+  if (isNaN(date.getTime())) return '';
+
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+};

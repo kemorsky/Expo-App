@@ -27,6 +27,13 @@ function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    MontserratBold: require('../assets/fonts/Montserrat-Bold.ttf'),
+    MontserratRegular: require('../assets/fonts/Montserrat-Regular.ttf'),
+    MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
+    RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
+    RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
+    RobotoRegular: require('../assets/fonts/Roboto-Regular.ttf'),
+    RobotoSemiBold: require('../assets/fonts/Roboto-SemiBold.ttf'),
   });
 
   if (!loaded) {

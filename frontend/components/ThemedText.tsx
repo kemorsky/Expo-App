@@ -5,7 +5,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'subtitle' | 'link';
+  type?: 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'option' | 'link';
 };
 
 export function ThemedText({
@@ -21,9 +21,12 @@ export function ThemedText({
     <Text
       style={[
         { color },
+        type === 'challenge' ? styles.challenge : undefined,
+        type === 'date' ? styles.date : undefined,
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
+        type === 'option' ? styles.option : undefined,
         type === 'link' ? styles.link : undefined,
         style,
       ]}
@@ -33,20 +36,34 @@ export function ThemedText({
 }
 
 const styles = StyleSheet.create({
+  challenge: {
+    fontSize: 22,
+    fontFamily: 'RobotoBold'
+  },
+  date: {
+    color: '#808080',
+    fontSize: 18,
+    fontFamily: 'RobotoSemiBold'
+  },
   default: {
-    fontSize: 14,
+    fontSize: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontFamily: 'MontserratBold'
   },
   subtitle: {
+    fontSize: 18,
+    fontFamily: 'RobotoSemiBold'
+  },
+  option: {
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: 'RobotoSemiBold',
+    color: '#0a7ea4',
   },
   link: {
     lineHeight: 30,
-    fontSize: 16,
+    fontSize: 18,
     color: '#0a7ea4',
   },
 });

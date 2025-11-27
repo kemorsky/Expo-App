@@ -29,18 +29,18 @@ export default function Settings() {
                 <View style={styles.settingsList}>
                     <Link href='/settings/manage-account' push asChild>
                         <Pressable style={styles.setting}>
-                            <ThemedText>Manage Account</ThemedText>
+                            <ThemedText type='option'>Manage Account</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </Pressable>
                     </Link>
                     <HorizontalRule />
                     <Pressable style={styles.setting}>
-                        <ThemedText>Password & Security</ThemedText>
+                        <ThemedText type='option'>Password & Security</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
                     <HorizontalRule />
                     <Pressable style={styles.setting}>
-                        <ThemedText>Notifications</ThemedText>
+                        <ThemedText type='option'>Notifications</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
                 </View>
@@ -50,7 +50,7 @@ export default function Settings() {
                 <View style={styles.settingsList}>
                     <Link href='/settings/language' push asChild>
                         <Pressable style={styles.setting}>
-                            <ThemedText>Language</ThemedText>
+                            <ThemedText type='option'>Language</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.language}</ThemedText>
                                 <Feather name="arrow-right" size={16} color="black" />
@@ -60,7 +60,7 @@ export default function Settings() {
                     <HorizontalRule />
                     <Link href='/settings/theme' push asChild>
                         <Pressable style={styles.setting}>
-                            <ThemedText>Theme</ThemedText>
+                            <ThemedText type='option'>Theme</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.theme}</ThemedText>
                                 <Feather name="arrow-right" size={16} color="black" />
@@ -70,7 +70,7 @@ export default function Settings() {
                     <HorizontalRule />
                     <Link href='/settings/max-challenges' push asChild>
                         <Pressable style={styles.setting}>
-                            <ThemedText>Max Challenges Per Day</ThemedText>
+                            <ThemedText type='option'>Max Challenges Per Day</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
                                 <Feather name="arrow-right" size={16} color="black" />

@@ -66,7 +66,7 @@ export default function TabTwoScreen() {
         </BottomSheet>
         <View style={styles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
-            <ThemedText type='subtitle'>Your Challenges</ThemedText>
+            <ThemedText type='subtitle'>My Challenges</ThemedText>
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
             )}  
@@ -79,7 +79,7 @@ export default function TabTwoScreen() {
                       keyExtractor={item => item?.id ?? ''}
                       contentContainerStyle={styles.sectionList}
                       ItemSeparatorComponent={HorizontalRule}
-                      scrollEnabled={true}
+                      scrollEnabled={false}
                       renderItem={({ item }) => {
                         return <View style={styles.challenge}>
                                   <View style={styles.challengeItem}>
@@ -87,7 +87,7 @@ export default function TabTwoScreen() {
                                       <FontAwesome name="check-circle" size={24} color="green" /> : 
                                       <FontAwesome6 name="circle-xmark" size={24} color="red"/>
                                     }
-                                  <ThemedText style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                  <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
                                   </View>
                                   <Pressable onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
                                     <Feather name="arrow-right" size={16} color="black" />

@@ -44,6 +44,4 @@ app.use("/api/graphql",
     })
 );
 
-// app.use(express.json());
-
 export default app;

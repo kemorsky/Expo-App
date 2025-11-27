@@ -24,6 +24,7 @@ export default function HomeScreen() {
   const completedChallenges = user.challenges?.filter((challenge) => challenge?.done === true).length || 0;
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
+  const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.updatedAt) - Number(a?.updatedAt)).slice(0, 5)
 
   const handleAssignRandomChallenge = async () => {
     try {
@@ -50,34 +51,34 @@ export default function HomeScreen() {
       <Container>
         <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
         <ThemedText type='title'>Welcome, {user.name}</ThemedText>
-        <View style={styles.cardContent}>
-          <View style={styles.cardTitleContainer}>
-            <ThemedText style={globalStyles.subtitle}>Today&apos;s challenge</ThemedText>
-            <ThemedText style={globalStyles.date}>{formatDate(date.toString())}</ThemedText>
-          </View>
-          <View style={styles.cardContentContainer}>
-            {currentChallenge && (
-              <ThemedText style={{maxWidth: 235}} type='title'>{currentChallenge.challenge.title}</ThemedText>
-            )}
-            {!currentChallenge && (
-              <ThemedText type='title'>No active challenge</ThemedText>
-            )}
-            {currentChallenge && (
-              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
-                <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
-              </Pressable>
-            )}
-          </View>
-          {!currentChallenge && (
-              <Button title="Get a challenge" onPress={() => handleAssignRandomChallenge()}/>
-          )}
+        <View style={styles.cardTitleContainer}>
+            <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
+            <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
         </View>
         <View style={styles.cardContent}>
-          <ThemedText style={globalStyles.subtitle}>Stats</ThemedText>
+          {currentChallenge && (
+            <>
+              <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
+              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
+                <ThemedText>Mark as done</ThemedText>
+              </Pressable>
+            </>
+          )}
+          {!currentChallenge && (
+            <>
+              <ThemedText type='challenge'>No active challenge</ThemedText>
+              <Pressable style={styles.buttonMarkAsDone} onPress={() => handleAssignRandomChallenge()}>
+                <ThemedText>Get a challenge</ThemedText>
+              </Pressable>
+            </>
+          )}
+        </View>
+        <ThemedText type='subtitle'>Stats</ThemedText>
+        <View style={styles.cardContent}>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={styles.stats}>
-                <ThemedText style={{fontSize: 12,}}>Challenges completed</ThemedText>
+                <ThemedText style={{fontSize: 14,}}>Challenges completed</ThemedText>
                 <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
               <View style={styles.stats}>
@@ -97,17 +98,17 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+        <ThemedText type='subtitle'>Your previous challenges</ThemedText>
         <View style={styles.cardContent}>
-            <ThemedText type='title'>Your previous challenges</ThemedText>
             <FlatList
-              data={user.challenges?.filter((challenge) => challenge?.done === true)}
+              data={recentChallenges}
               contentContainerStyle={styles.ChallengeList}
               maxToRenderPerBatch={5}
               scrollEnabled={false}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
-                                <ThemedText style={styles.previousChallengeTitleText}>{item?.updatedAt}</ThemedText>
+                                <ThemedText style={styles.previousChallengeTitleText}>{formatDate(item?.updatedAt ?? '')}</ThemedText>
                                 <Pressable>
                                   <ThemedText style={styles.previousChallengeTitleText}>View -&gt; </ThemedText>
                                 </Pressable>
@@ -125,8 +126,9 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   buttonMarkAsDone: {
-    height: 32,
+    height: 40,
     justifyContent: 'center',
+    alignSelf: 'flex-end',
     padding: 8,
     borderWidth: 1,
     borderColor: '#000000ff',
@@ -142,7 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#dbdbdbff',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    gap: 24,
     padding: 8,
     borderRadius: 8
   },
