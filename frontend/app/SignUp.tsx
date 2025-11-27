@@ -23,7 +23,7 @@ export default function SignIn() {
                     password: data.password ?? ''
                 })
                 console.log("Signup successful" + newUser);
-                router.replace("/");
+                router.replace("/home");
             } else {
                 console.error("Signup failed: no data returned");
             }

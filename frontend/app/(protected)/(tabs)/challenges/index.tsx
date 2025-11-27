@@ -81,18 +81,18 @@ export default function TabTwoScreen() {
                       ItemSeparatorComponent={HorizontalRule}
                       scrollEnabled={false}
                       renderItem={({ item }) => {
-                        return <View style={styles.challenge}>
-                                  <View style={styles.challengeItem}>
-                                  {item?.done === true ? 
-                                      <FontAwesome name="check-circle" size={24} color="green" /> : 
-                                      <FontAwesome6 name="circle-xmark" size={24} color="red"/>
-                                    }
-                                  <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
-                                  </View>
-                                  <Pressable onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
-                                    <Feather name="arrow-right" size={16} color="black" />
-                                  </Pressable>
-                                </View>
+                        return <View>
+                                <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
+                                    <View style={styles.challengeItem}>
+                                    {item?.done === true ? 
+                                        <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                        <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                      }
+                                    <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                    </View>                               
+                                    <Feather name="arrow-right" size={16} color="black" />                                
+                                </Pressable>
+                              </View>
                       }}
                       renderSectionHeader={({section: {title}}) => (
                         <Text style={{paddingVertical: 14}}>{title}</Text>

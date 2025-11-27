@@ -10,7 +10,7 @@ type WrapperProps = {
 
 export const Wrapper = ({ children }: WrapperProps) => {
     return (
-        <Animated.View style={styles.wrapper} 
+        <Animated.View style={styles.wrapper}
                         entering={FadeIn.springify().damping(80).stiffness(200)}
                         exiting={FadeOut.springify().damping(80).stiffness(200)}>
             <ScrollView showsVerticalScrollIndicator={false}> 
