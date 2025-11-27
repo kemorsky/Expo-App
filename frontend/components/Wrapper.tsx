@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, View} from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 type WrapperProps = {
     children: React.ReactNode
@@ -9,11 +10,13 @@ type WrapperProps = {
 
 export const Wrapper = ({ children }: WrapperProps) => {
     return (
-        <SafeAreaView style={styles.wrapper}>
+        <Animated.View style={styles.wrapper} 
+                        entering={FadeIn.springify().damping(80).stiffness(200)}
+                        exiting={FadeOut.springify().damping(80).stiffness(200)}>
             <ScrollView showsVerticalScrollIndicator={false}> 
                 {children}
             </ScrollView>
-        </SafeAreaView>
+        </Animated.View>
     )
 }
 
