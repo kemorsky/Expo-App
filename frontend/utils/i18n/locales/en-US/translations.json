@@ -15,7 +15,7 @@
   },
   "home": {
     "title": "Home",
-    "welcome": "Welcome, {{user.name}}",
+    "welcome": "Welcome",
     "subtitles": {
         "challenge": "Today's Challenge",
         "stats": "Stats",

@@ -38,12 +38,12 @@ export function ThemedText({
 const styles = StyleSheet.create({
   challenge: {
     fontSize: 22,
-    fontFamily: 'RobotoBold'
+    fontFamily: 'PoppinsBold'
   },
   date: {
     color: '#808080',
     fontSize: 18,
-    fontFamily: 'RobotoSemiBold'
+    fontFamily: 'PoppinsSemiBold'
   },
   default: {
     fontSize: 16,
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    fontFamily: 'RobotoSemiBold'
+    fontFamily: 'PoppinsSemiBold'
   },
   option: {
     fontSize: 16,
-    fontFamily: 'RobotoSemiBold',
+    fontFamily: 'PoppinsSemiBold',
     color: '#0a7ea4',
   },
   link: {

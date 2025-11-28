@@ -88,7 +88,7 @@ export default function TabTwoScreen() {
                                         <FontAwesome name="check-circle" size={24} color="green" /> : 
                                         <FontAwesome6 name="circle-xmark" size={24} color="red"/>
                                       }
-                                    <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                    <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
                                     </View>                               
                                     <Feather name="arrow-right" size={16} color="black" />                                
                                 </Pressable>
