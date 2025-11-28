@@ -5,10 +5,14 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/utils/AuthProvider';
+import * as SplashScreen from 'expo-splash-screen';
+import 'react-native-reanimated';
+import '../utils/i18n'
 // import SplashController from './splash';
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useEffect } from 'react';
 
 export default function Root() {
 
@@ -35,8 +39,13 @@ function RootLayout() {
     RobotoSemiBold: require('../assets/fonts/Roboto-SemiBold.ttf'),
   });
 
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 

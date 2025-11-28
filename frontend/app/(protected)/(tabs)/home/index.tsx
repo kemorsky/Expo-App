@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList } from 'react-native';
 import { useMe } from '@/hooks/useMe';
+import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
@@ -15,6 +14,7 @@ export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
   const { user, loading, error } = useMe();
   const { assignRandomChallenge } = useAssignRandomChallenge();
+  const { t } = useTranslation();
 
   if (!user || loading) return <ActivityIndicator />;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -50,7 +50,7 @@ export default function HomeScreen() {
     <Wrapper>
       <Container>
         <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
-        <ThemedText type='title'>Welcome, {user.name}</ThemedText>
+        <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
         <View style={styles.cardTitleContainer}>
             <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
             <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>

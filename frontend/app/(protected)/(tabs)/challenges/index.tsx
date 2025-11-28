@@ -1,7 +1,7 @@
-import { StyleSheet, Text, ActivityIndicator, View, Button, TextInput, SectionList, Pressable } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, View, Button, SectionList, Pressable } from 'react-native';
 import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
-import { ChallengeInput } from '@/__generated__/types';
+import { useTranslation } from 'react-i18next';
 import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
@@ -17,7 +17,7 @@ import { formatDate } from '@/utils/formatDate';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
-  const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
+  const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null);
 
@@ -29,11 +29,11 @@ export default function TabTwoScreen() {
 
   const DATA = [
     {
-      title: 'Created Challenges',
+      title: t('tabs.challenges.headers.created'),
       data: createdChallenges ?? []
     },
     {
-      title: 'Default Challenges',
+      title: t('tabs.challenges.headers.default'),
       data: defaultChallenges ?? []
     }
   ]
@@ -46,9 +46,9 @@ export default function TabTwoScreen() {
                     controller={setSheetController}>
           <View style={{flexDirection: 'column', gap: 20}}>
             <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
-              {/* <ThemedText> {/*  currently broken, will come back to this at the next opportunity */}
-                {/* {formatDate(activeChallenge?.updatedAt ?? '')}
-              </ThemedText> */}
+              <ThemedText>
+                {formatDate(activeChallenge?.updatedAt ?? '')}
+              </ThemedText>
               <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <ThemedText type='subtitle'>
                   {activeChallenge?.challenge.title}
@@ -66,7 +66,7 @@ export default function TabTwoScreen() {
         </BottomSheet>
         <View style={styles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
-            <ThemedText type='subtitle'>My Challenges</ThemedText>
+            <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
             )}  

@@ -1,0 +1,55 @@
+{
+  "language": "Language",
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "button": "Login"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "button": "Sign Up"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome, {{user.name}}",
+    "subtitles": {
+        "challenge": "Today's Challenge",
+        "stats": "Stats",
+        "previousChallenges": "Previous Challenges"
+    },
+    "stats": {
+        "completedChallenges": "Completed Challenges",
+        "createdChallenges": "Created Challenges",
+        "currentStreak": "Current Streak",
+        "bestStreak": "Best Streak"
+    },
+    "previousChallenges": {
+        
+    }
+  },
+  "tabs": {
+    "challenges": {
+      "title": "My Challenges",
+      "createButton": "Create Challenge",
+      "headers": {
+        "created": "Created Challenges",
+        "default": "Default Challenges"
+      },
+      "challengeTitle": "Challenge Title",
+      "subtitle": "Today's Challenge",
+      "button": "Submit"
+    },
+    "settings": {
+      "title": "Settings",
+      "manageAccount": "Manage Account",
+      "theme": "Theme",
+      "maxChallenges": "Max Challenges Per Day",
+      "language": "Language",
+      "button": "Logout"
+    }
+  }
+}
