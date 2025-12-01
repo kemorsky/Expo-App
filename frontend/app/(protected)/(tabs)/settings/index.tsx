@@ -1,5 +1,5 @@
 import { globalStyles } from '@/styles/globalStyles';
-import { Button, View, Text, ActivityIndicator, StyleSheet, Pressable } from 'react-native';
+import { Button, View, Text, StyleSheet, Pressable } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { useAuth } from '@/utils/AuthContext';
 import { HorizontalRule } from '@/components/HorizontalRule';
@@ -8,12 +8,13 @@ import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router';
+import SettingsPageSkeleton from '@/components/skeleton/pages/SettingsPageSkeleton';
 
 export default function Settings() {
     const { user, loading, error } = useMe();
     const  { logOut } = useAuth();
 
-    if (loading) return <ActivityIndicator />;
+    if (!user ||loading) return <SettingsPageSkeleton />;
     if (error) return <Text>Error: {error.message}</Text>;
     
     return (

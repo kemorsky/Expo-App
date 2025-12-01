@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ActivityIndicator, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useMe } from '@/hooks/useMe';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
@@ -9,6 +9,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/Container';
 import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
+import { HorizontalRule } from '@/components/HorizontalRule';
+import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
 
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
@@ -16,7 +18,7 @@ export default function HomeScreen() {
   const { assignRandomChallenge } = useAssignRandomChallenge();
   const { t } = useTranslation();
 
-  if (!user || loading) return <ActivityIndicator />;
+  if (!user ||loading) return <HomePageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
 
   const date = new Date();
@@ -104,6 +106,7 @@ export default function HomeScreen() {
               data={recentChallenges}
               contentContainerStyle={styles.ChallengeList}
               maxToRenderPerBatch={5}
+              ItemSeparatorComponent={HorizontalRule}
               scrollEnabled={false}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
@@ -171,8 +174,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: 4,
     paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderColor: '#000000ff'
   },
   previousChallengeTitle: {
     width: '100%',

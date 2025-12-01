@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ActivityIndicator, View, Button, SectionList, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, SectionList, Pressable } from 'react-native';
 import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ import type { UserChallenge } from '@/__generated__/graphql';
 import { Link } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
 import { formatDate } from '@/utils/formatDate';
+import ChallengesPageSkeleton from '@/components/skeleton/pages/ChallengesPageSkeleton';
 
 export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
@@ -21,7 +22,7 @@ export default function TabTwoScreen() {
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null);
 
-  if (!user ||loading) return <ActivityIndicator />;
+  if (!user ||loading) return <ChallengesPageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
   
   const defaultChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === true);
@@ -84,11 +85,11 @@ export default function TabTwoScreen() {
                         return <View>
                                 <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
                                     <View style={styles.challengeItem}>
-                                    {item?.done === true ? 
-                                        <FontAwesome name="check-circle" size={24} color="green" /> : 
-                                        <FontAwesome6 name="circle-xmark" size={24} color="red"/>
-                                      }
-                                    <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                      {item?.done === true ? 
+                                          <FontAwesome name="check-circle" size={24} color="green" /> : 
+                                          <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                        }
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
                                     </View>                               
                                     <Feather name="arrow-right" size={16} color="black" />                                
                                 </Pressable>
@@ -129,8 +130,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   sectionList: {
-    height: 500,
-    overflow: 'scroll',
     backgroundColor: '#dbdbdbff',
     paddingHorizontal: 8,
     flexDirection: 'column',

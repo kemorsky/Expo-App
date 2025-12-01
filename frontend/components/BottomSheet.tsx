@@ -104,14 +104,10 @@ export const BottomSheet = ({ snapPoints, controller, initialIndex = 0, children
         opacity: withTiming(isSheetActive?.value ? 1 : 0, { duration: 300 }),
     }));
 
-    const animatedBackdropProps = useAnimatedProps(() => ({
-        pointerEvents: isSheetActive.value ? 'auto' : 'none', 
-    }) as any);
-
     return (
         <> 
-            {/* BackDrop */}
-            <Animated.View animatedProps={animatedBackdropProps} style={[styles.backdrop, animatedBackdropStyle]} />
+            {/* BackDrop */} {/* pointerEvents set directly inside the element prevent scrolling of the background page */}
+            <Animated.View pointerEvents={isSheetActive.value ? "auto" : "none"} style={[styles.backdrop, animatedBackdropStyle]} />
             {/* BottomSheet */}
             <GestureDetector gesture={gesture}>
                 <Animated.View style={[styles.bottomSheet, animatedStyle]}>
