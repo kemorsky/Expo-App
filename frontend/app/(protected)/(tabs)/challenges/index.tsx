@@ -1,21 +1,21 @@
-import { StyleSheet, Text, View, Button, SectionList, Pressable } from 'react-native';
+import { StyleSheet, Text, View, SectionList, Pressable } from 'react-native';
+import { globalStyles } from '@/styles/globalStyles';
+import { Link } from 'expo-router';
 import { useContext, useState } from 'react';
 import { useMe } from '@/hooks/useMe';
-import { BottomSheetContext } from './_layout';
 import { useTranslation } from 'react-i18next';
-import { globalStyles } from '@/styles/globalStyles';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Feather from '@expo/vector-icons/Feather';
+import { BottomSheetContext } from './_layout';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import ChallengesPageSkeleton from '@/components/skeleton/pages/ChallengesPageSkeleton';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import type { UserChallenge } from '@/__generated__/graphql';
-import { Link } from 'expo-router';
-import Feather from '@expo/vector-icons/Feather';
 import { formatDate } from '@/utils/formatDate';
-import ChallengesPageSkeleton from '@/components/skeleton/pages/ChallengesPageSkeleton';
 
-export default function TabTwoScreen() {
+export default function Challenges() {
   const { user, loading, error } = useMe();
   const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
@@ -85,13 +85,12 @@ export default function TabTwoScreen() {
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
             )}
-            <Pressable style={styles.createButton} >
-              <MaterialIcons name="add-circle" size={24} color="black" />
-              <Link href='/challenges/create-challenge' push asChild>
-                <Button accessibilityLabel="Create Challenge Button"
-                        title="Create Challenge" />
-              </Link>
-            </Pressable>
+            <Link href='/challenges/create-challenge' push asChild>
+              <Pressable style={styles.createButton}>
+                <MaterialIcons name="add-circle" size={24} color="black" />
+                <ThemedText>Create Challenge</ThemedText>
+              </Pressable>
+            </Link>
           </View>
           <SectionList 
                       sections={DATA}
@@ -134,7 +133,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 4,
+    gap: 4,
+    padding: 8,
     borderRadius: 8
   },
   challengesContainer: {

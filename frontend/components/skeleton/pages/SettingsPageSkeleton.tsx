@@ -1,30 +1,74 @@
-import { StyleSheet, View } from 'react-native';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
-import { ChallengeSkeleton } from '@/components/skeleton/blocks/ChallengesSkeleton';
 import { SkeletonText } from "../blocks/SkeletonText";
+import { View, StyleSheet, Pressable } from 'react-native';
+import { HorizontalRule } from '@/components/HorizontalRule';
 
 export default function SettingsPageSkeleton() {
 
   return (
     <Wrapper>
       <Container>
-        <View style={styles.challengesContainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
+          <View style={styles.userRundown}>
+            <SkeletonText width="45%" height={24} />
             <SkeletonText width="65%" height={24} />
-            <SkeletonText width="60%" height={24} />
+            <SkeletonText width="65%" height={24} />
           </View>
-          < ChallengeSkeleton />
-        </View>
+      </Container>
+      <Container>
+          <SkeletonText width="35%" height={24} />
+          <View style={styles.settingsList}>
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>
+              <HorizontalRule />
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>
+              <HorizontalRule />
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>
+          </View>
+      </Container>
+      <Container>
+          <SkeletonText width="35%" height={24} />
+          <View style={styles.settingsList}>
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>              
+              <HorizontalRule />           
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>          
+              <HorizontalRule />      
+              <Pressable style={styles.setting}>
+                  <SkeletonText width="65%" height={25} />
+              </Pressable>
+          </View>
       </Container>
     </Wrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  challengesContainer: {
-    width: '100%',
+  settingsList: {
+    backgroundColor: '#dbdbdbff',
+    paddingHorizontal: 8,
     flexDirection: 'column',
-    gap: 8
+    borderRadius: 8,
+  },
+  setting: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  userRundown: {
+    backgroundColor: '#dbdbdbff',
+    padding: 8,
+    flexDirection: 'column',
+    gap: 8,
+    borderRadius: 8,
   }
 });

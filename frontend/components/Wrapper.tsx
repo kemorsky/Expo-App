@@ -1,14 +1,11 @@
-import { ScrollView, StyleSheet, View} from "react-native"
+import { ScrollView, StyleSheet } from "react-native"
 import { useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { SafeAreaView } from "react-native-safe-area-context";
-import Animated, { Easing, FadeIn, FadeOut, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 type WrapperProps = {
     children: React.ReactNode
 };
-
-// SafeAreaView adds vertical padding which makes the app look weird on mobile. Consider using View instead or tweak SafeAreaView
 
 export const Wrapper = ({ children }: WrapperProps) => {
     const opacity = useSharedValue(0);

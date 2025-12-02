@@ -14,7 +14,7 @@ export default function ChallengesPageSkeleton() {
             <SkeletonText width="65%" height={24} />
             <SkeletonText width="60%" height={24} />
           </View>
-          < ChallengeSkeleton />
+          <ChallengeSkeleton />
         </View>
       </Container>
     </Wrapper>

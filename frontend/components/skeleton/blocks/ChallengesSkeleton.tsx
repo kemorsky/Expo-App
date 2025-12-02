@@ -10,28 +10,30 @@ export const ChallengeSkeleton = () => {
       <View>
         <SkeletonText width="50%" height={20} />
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
+            <View style={styles.challengeItem}>
+                <SkeletonCircle size={24} />
+                <SkeletonText width="90%" height={20} />
+            </View>
+        </View>
+        <View style={styles.challenge}>
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
@@ -41,28 +43,30 @@ export const ChallengeSkeleton = () => {
       <View>
         <SkeletonText width="50%" height={20} />
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
             </View>
         </View>
         <View style={styles.challenge}>
-            {/* Profile Picture */}
+            <View style={styles.challengeItem}>
+                <SkeletonCircle size={24} />
+                <SkeletonText width="90%" height={20} />
+            </View>
+        </View>
+        <View style={styles.challenge}>
             <View style={styles.challengeItem}>
                 <SkeletonCircle size={24} />
                 <SkeletonText width="90%" height={20} />
