@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, SectionList, Pressable } from 'react-native';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMe } from '@/hooks/useMe';
+import { BottomSheetContext } from './_layout';
 import { useTranslation } from 'react-i18next';
 import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
@@ -9,7 +10,6 @@ import { ThemedText } from '@/components/ThemedText';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { HorizontalRule } from '@/components/HorizontalRule';
-import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
 import type { UserChallenge } from '@/__generated__/graphql';
 import { Link } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
@@ -20,7 +20,7 @@ export default function TabTwoScreen() {
   const { user, loading, error } = useMe();
   const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
-  const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null);
+  const { setContent, controller } = useContext(BottomSheetContext);
 
   if (!user ||loading) return <ChallengesPageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -39,32 +39,37 @@ export default function TabTwoScreen() {
     }
   ]
 
+  const openChallenge = (activeChallenge: UserChallenge) => {
+    if (activeChallenge) {
+      setContent(
+        <View style={{flexDirection: 'column', gap: 20}}>
+          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
+            <ThemedText>
+              {formatDate(activeChallenge?.updatedAt ?? '')}
+            </ThemedText>
+            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <ThemedText type='subtitle'>
+                {activeChallenge?.challenge.title}
+              </ThemedText>
+              {activeChallenge?.done === true ? 
+                <FontAwesome name="check-circle" size={24} color="green" /> : 
+                <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+              }
+            </View>
+          </View>
+          <ThemedText>
+            {activeChallenge?.notes}
+          </ThemedText>
+        </View>
+      )
+    };
+
+    controller?.open();
+  };
+
   return (
     <Wrapper>
       <Container>  
-        <BottomSheet snapPoints={[150]}
-                    initialIndex={1}
-                    controller={setSheetController}>
-          <View style={{flexDirection: 'column', gap: 20}}>
-            <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
-              <ThemedText>
-                {formatDate(activeChallenge?.updatedAt ?? '')}
-              </ThemedText>
-              <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <ThemedText type='subtitle'>
-                  {activeChallenge?.challenge.title}
-                </ThemedText>
-                {activeChallenge?.done === true ? 
-                  <FontAwesome name="check-circle" size={24} color="green" /> : 
-                  <FontAwesome6 name="circle-xmark" size={24} color="red"/>
-                }
-              </View>
-            </View>
-            <ThemedText>
-              {activeChallenge?.notes}
-            </ThemedText>
-          </View>
-        </BottomSheet>
         <View style={styles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
@@ -82,14 +87,19 @@ export default function TabTwoScreen() {
                       ItemSeparatorComponent={HorizontalRule}
                       scrollEnabled={false}
                       renderItem={({ item }) => {
+                        if (item === null) {
+                          return null; // fallback check in case item is null or something unintended
+                        }
                         return <View>
-                                <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); sheetController?.open() }}>
+                                <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); openChallenge(item) }}>
                                     <View style={styles.challengeItem}>
                                       {item?.done === true ? 
                                           <FontAwesome name="check-circle" size={24} color="green" /> : 
                                           <FontAwesome6 name="circle-xmark" size={24} color="red"/>
                                         }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>{item?.challenge.title}</ThemedText>
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>
+                                          {item?.challenge.title}
+                                        </ThemedText>
                                     </View>                               
                                     <Feather name="arrow-right" size={16} color="black" />                                
                                 </Pressable>

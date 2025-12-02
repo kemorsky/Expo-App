@@ -15,11 +15,11 @@ export const Wrapper = ({ children }: WrapperProps) => {
 
     useFocusEffect(
         useCallback(() => {
-            opacity.value = 0.75;
+            opacity.value = 0.9;
             opacity.value = withTiming(1, { duration: 300,});
 
             return () => {
-                opacity.value = withTiming(0.75, { duration: 300 })
+                opacity.value = withTiming(0.9, { duration: 300 })
             };
         }, [opacity])
     );

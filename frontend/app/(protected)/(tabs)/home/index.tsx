@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
+import { Link } from 'expo-router';
 import { useMe } from '@/hooks/useMe';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
@@ -57,6 +58,9 @@ export default function HomeScreen() {
             <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
             <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
         </View>
+        <Link href='/(protected)/(tabs)/home/modal'>
+          <Text>Open Modal</Text>
+        </Link>
         <View style={styles.cardContent}>
           {currentChallenge && (
             <>

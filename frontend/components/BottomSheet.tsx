@@ -1,30 +1,30 @@
 import { useEffect } from "react";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { Dimensions, StyleSheet, View } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolate, Extrapolation, useAnimatedProps } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolate, Extrapolation } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export type BottomSheetController = {
     open: () => void;
     close: () => void;
-    snapTo: (index: number) => void;
 };
 
 type BottomSheetProps = {
-    snapPoints: number[];
-    controller?: (ctrl: BottomSheetController) => void;
-    initialIndex?: number;
+    controller: (ctrl: BottomSheetController) => void;
     children: React.ReactNode,
 }
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-export const BottomSheet = ({ snapPoints, controller, initialIndex = 0, children }: BottomSheetProps) => {
+export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const context = useSharedValue({ y: 0 });
     const isSheetActive = useSharedValue(false);
+    const headerHeight = useHeaderHeight();
 
-    const openTo = snapPoints[initialIndex] ?? snapPoints[0];
-    const closed = SCREEN_HEIGHT;
+    const TOP_OFFSET = headerHeight + 200;
+    const openTo = TOP_OFFSET;
+    const closed = SCREEN_HEIGHT;     
 
     useEffect(() => {
         if (!controller) return;
@@ -37,17 +37,11 @@ export const BottomSheet = ({ snapPoints, controller, initialIndex = 0, children
             close: () => {
                 isSheetActive.value = false;
                 translateY.value = withTiming(closed, { duration: 300 });
-            },
-            snapTo: (i: number) => {
-                const point = snapPoints[i];
-                if (typeof point === "number") {
-                    translateY.value = withTiming(point, { duration: 300 });
-                }
             }
         };
 
         controller(api);
-    }, [controller, isSheetActive, openTo, closed, snapPoints, translateY]);
+    }, [controller, isSheetActive, openTo, closed, translateY]);
 
     const gesture = Gesture.Pan()
         .onStart(() => {
@@ -56,39 +50,29 @@ export const BottomSheet = ({ snapPoints, controller, initialIndex = 0, children
         .onUpdate((evt) => {
             const next = context.value.y + evt.translationY;
 
-            const minSnap = Math.min(...snapPoints);
-
             translateY.value = Math.min(
                 closed,
-                Math.max(next, minSnap)
+                Math.max(next, openTo)
             );
         })
         .onEnd(() => {
             const current = translateY.value;
 
-            // finds nearest snap point
-            const nearest = snapPoints.reduce((prev, curr) => {
-                return Math.abs(curr - current) < Math.abs(prev - current)
-                    ? curr
-                    : prev;
-            }, snapPoints[0]);
-
             // if too low, close instead of snapping
-            const closeThreshold = (closed + nearest) / 2;
+            const closeThreshold = (closed + openTo) / 2;
             if (current > closeThreshold) {
                 isSheetActive.value = false;
                 translateY.value = withTiming(closed, { duration: 300 });
             } else {
                 isSheetActive.value = true;
-                translateY.value = withTiming(nearest, { duration: 300 });
+                translateY.value = withTiming(openTo, { duration: 300 });
             }
         });
 
     const animatedStyle = useAnimatedStyle(() => {
-        const lowest = Math.min(...snapPoints);
         const borderRadius = interpolate(
             translateY.value,
-            [lowest, closed],
+            [openTo, closed],
             [25, 5],
             Extrapolation.CLAMP
         );
@@ -106,8 +90,10 @@ export const BottomSheet = ({ snapPoints, controller, initialIndex = 0, children
 
     return (
         <> 
-            {/* BackDrop */} {/* pointerEvents set directly inside the element prevent scrolling of the background page */}
-            <Animated.View pointerEvents={isSheetActive.value ? "auto" : "none"} style={[styles.backdrop, animatedBackdropStyle]} />
+            {/* BackDrop - GestureDetector prevents scrolling of the background page */}
+            <GestureDetector gesture={Gesture.Pan().onStart(() => {})}>
+                <Animated.View style={[styles.backdrop, animatedBackdropStyle]} />
+            </GestureDetector>
             {/* BottomSheet */}
             <GestureDetector gesture={gesture}>
                 <Animated.View style={[styles.bottomSheet, animatedStyle]}>
@@ -137,7 +123,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: '#854141ff',
-        zIndex: 100
+        zIndex: 1000
     },
     content: {
         padding: 12,
