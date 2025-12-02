@@ -19,7 +19,6 @@ export default function HomeLayout() {
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="index" options={{ title: 'Home' }} />
-          <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'card' }} />
         </Stack>
         <StatusBar style="auto" />
       </SafeAreaProvider>
