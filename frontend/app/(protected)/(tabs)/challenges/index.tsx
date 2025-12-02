@@ -7,8 +7,7 @@ import { globalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import type { UserChallenge } from '@/__generated__/graphql';
 import { Link } from 'expo-router';
@@ -40,29 +39,39 @@ export default function TabTwoScreen() {
   ]
 
   const openChallenge = (activeChallenge: UserChallenge) => {
-    if (activeChallenge) {
       setContent(
         <View style={{flexDirection: 'column', gap: 20}}>
-          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start'}}>
-            <ThemedText>
-              {formatDate(activeChallenge?.updatedAt ?? '')}
-            </ThemedText>
+          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <ThemedText type='subtitle'>
-                {activeChallenge?.challenge.title}
+              <ThemedText type='date'>
+                {formatDate(activeChallenge?.updatedAt ?? '')}
               </ThemedText>
-              {activeChallenge?.done === true ? 
-                <FontAwesome name="check-circle" size={24} color="green" /> : 
-                <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+              {activeChallenge.done && activeChallenge.done === true ? 
+                  <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
+                  <MaterialIcons name="remove-circle-outline" size={24} color="red" />
               }
             </View>
+            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <ThemedText style={{ fontSize: 22 }} type='subtitle'>
+                {activeChallenge?.challenge.title}
+              </ThemedText>
+            </View>
           </View>
-          <ThemedText>
-            {activeChallenge?.notes}
-          </ThemedText>
+          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
+              <ThemedText type='subtitle'>
+                Notes
+              </ThemedText>
+              {activeChallenge.notes && activeChallenge.notes.length > 0 ? 
+                  <ThemedText style={{ maxWidth: 300}}>
+                    {activeChallenge?.notes}
+                  </ThemedText> : 
+                  <ThemedText>
+                    You haven&apos;t added notes to this challenge.
+                  </ThemedText>
+              }
+            </View>
         </View>
-      )
-    };
+      );
 
     controller?.open();
   };
@@ -75,10 +84,14 @@ export default function TabTwoScreen() {
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
-            )}  
-            <Link href='/challenges/create-challenge' push asChild>
-              <Button title="Create Challenge" />
-            </Link>
+            )}
+            <Pressable style={styles.createButton} >
+              <MaterialIcons name="add-circle" size={24} color="black" />
+              <Link href='/challenges/create-challenge' push asChild>
+                <Button accessibilityLabel="Create Challenge Button"
+                        title="Create Challenge" />
+              </Link>
+            </Pressable>
           </View>
           <SectionList 
                       sections={DATA}
@@ -94,10 +107,10 @@ export default function TabTwoScreen() {
                                 <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); openChallenge(item) }}>
                                     <View style={styles.challengeItem}>
                                       {item?.done === true ? 
-                                          <FontAwesome name="check-circle" size={24} color="green" /> : 
-                                          <FontAwesome6 name="circle-xmark" size={24} color="red"/>
+                                          <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
+                                          <MaterialIcons name="remove-circle-outline" size={24} color="red" />
                                         }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'green' : 'red' }}>
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'black' : '#444444ff' }}>
                                           {item?.challenge.title}
                                         </ThemedText>
                                     </View>                               
@@ -116,6 +129,14 @@ export default function TabTwoScreen() {
 }
 
 const styles = StyleSheet.create({
+  createButton: {
+    backgroundColor: 'yellow',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 4,
+    borderRadius: 8
+  },
   challengesContainer: {
     width: '100%',
     flexDirection: 'column',

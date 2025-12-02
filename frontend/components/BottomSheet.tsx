@@ -22,7 +22,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
     const isSheetActive = useSharedValue(false);
     const headerHeight = useHeaderHeight();
 
-    const TOP_OFFSET = headerHeight + 200;
+    const TOP_OFFSET = headerHeight + 180;
     const openTo = TOP_OFFSET;
     const closed = SCREEN_HEIGHT;     
 
@@ -122,16 +122,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        backgroundColor: '#854141ff',
+        backgroundColor: '#e6a8a8ff',
         zIndex: 1000
     },
     content: {
         padding: 12,
         width: '100%',
-        backgroundColor: '#862e2eff',
+        backgroundColor: '#e6a8a8ff',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'center'
     },
     handle: {
         alignSelf: "center",
