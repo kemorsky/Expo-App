@@ -50,6 +50,9 @@ export default function Challenges() {
                   <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                   <MaterialIcons name="remove-circle-outline" size={24} color="red" />
               }
+              <Pressable onPress={controller?.close}>
+                <ThemedText>Close BottomSheet (debug)</ThemedText>
+              </Pressable>
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText style={{ fontSize: 22 }} type='subtitle'>
@@ -92,6 +95,16 @@ export default function Challenges() {
               </Pressable>
             </Link>
           </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
+              <MaterialIcons name="check-circle-outline" size={24} color="green" />
+              <ThemedText>Completed</ThemedText>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
+              <MaterialIcons name="remove-circle-outline" size={24} color="red" />
+              <ThemedText>Not Completed</ThemedText>
+            </View>
+          </View>
           <SectionList 
                       sections={DATA}
                       keyExtractor={item => item?.id ?? ''}
@@ -109,7 +122,7 @@ export default function Challenges() {
                                           <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                                           <MaterialIcons name="remove-circle-outline" size={24} color="red" />
                                         }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? 'black' : '#444444ff' }}>
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? '#444444ff' : 'black' }}>
                                           {item?.challenge.title}
                                         </ThemedText>
                                     </View>                               

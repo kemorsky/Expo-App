@@ -80,7 +80,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
         return {
             transform: [{ translateY: translateY.value }],
             borderRadius,
-            display: translateY.value === closed ? 'none' : 'flex', // <-- hides it completely
+            opacity: translateY.value === closed ? 0 : 1, // <-- hides it completely
         };
     });
 
