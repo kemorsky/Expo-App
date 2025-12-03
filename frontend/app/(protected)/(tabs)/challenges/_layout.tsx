@@ -33,8 +33,8 @@ export default function ChallengesLayout() {
                                   controller: sheetController}}
     >
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <SafeAreaProvider style={{ overflow: 'visible' }}>
-          <Stack>
+        <SafeAreaProvider>
+          <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
             <Stack.Screen name="index" options={{ title: 'Challenges' }} />
             <Stack.Screen name="create-challenge" options={{ title: 'Create Challenge' }} />
           </Stack>

@@ -39,20 +39,37 @@ export default function CreateChallenge() {
     return (
         <Wrapper>
             <Container>
-                <View>
-                    <ThemedText type='title'>Create Challenge</ThemedText>
+                <View style={styles.content}>
+                    <ThemedText style={{ maxWidth: 250 }} type='subtitle'>Add your own challenge. You call the shots here!</ThemedText>
                     <TextInput 
+                            aria-label="Create Challenge Input Field"
                             placeholder="Title"
                             style={globalStyles.input}
                             value={newChallenge.title}
                             onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
                             autoCapitalize="sentences"
                     />
-                    <Pressable onPress={() => handleCreateChallenge(newChallenge.title)}>
-                        <ThemedText >Create Challenge</ThemedText>
+                    <Pressable style={styles.button} onPress={() => handleCreateChallenge(newChallenge.title)}>
+                        <ThemedText>Create Challenge</ThemedText>
                     </Pressable>
                 </View>
             </Container>
         </Wrapper>
     )
 }
+
+const styles = StyleSheet.create({
+    content: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        gap: 20
+    },
+    button: {
+        backgroundColor: 'yellow',
+        padding: 16,
+        borderRadius: 8,
+        alignSelf: 'flex-end',
+        
+    }
+})
