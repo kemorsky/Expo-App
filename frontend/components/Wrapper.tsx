@@ -27,7 +27,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
 
     return (
         <Animated.View style={[styles.wrapper, animatedStyle]}>
-            <ScrollView showsVerticalScrollIndicator={false}> 
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}> 
                 {children}
             </ScrollView>
         </Animated.View>
@@ -41,4 +41,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#c5c5c5',
         paddingBottom: 80
     },
+    content: {
+        flexDirection: 'column',
+        backgroundColor: '#c5c5c5',
+        gap: 8,
+    }
 })

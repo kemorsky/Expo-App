@@ -50,13 +50,16 @@ export default function HomeScreen() {
 
   return (
     <Wrapper>
+      <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
       <Container>
-        <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
         <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
+      </Container>
+      <Container>
         <View style={styles.cardTitleContainer}>
             <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
             <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
         </View>
+        
         <View style={styles.cardContent}>
           {currentChallenge && (
             <>
@@ -75,6 +78,8 @@ export default function HomeScreen() {
             </>
           )}
         </View>
+      </Container>
+      <Container>
         <ThemedText type='subtitle'>Stats</ThemedText>
         <View style={styles.cardContent}>
           <View style={styles.statsContainer}>
@@ -100,6 +105,8 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+      </Container>
+      <Container>
         <ThemedText type='subtitle'>Your previous challenges</ThemedText>
         <View style={styles.cardContent}>
             <FlatList
