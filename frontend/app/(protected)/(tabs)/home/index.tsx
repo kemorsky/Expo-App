@@ -3,7 +3,7 @@ import { useMe } from '@/hooks/useMe';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';
-import { globalStyles } from '@/styles/globalStyles';
+import { useGlobalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/Container';
@@ -15,6 +15,7 @@ import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
   const { user, loading, error } = useMe();
+  const globalStyles = useGlobalStyles();
   const { assignRandomChallenge } = useAssignRandomChallenge();
   const { t } = useTranslation();
 

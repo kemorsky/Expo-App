@@ -1,9 +1,8 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/utils/AuthProvider';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
@@ -13,6 +12,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useEffect } from 'react';
+import { useThemeConfig } from '@/hooks/theme';
 
 export default function Root() {
 
@@ -27,7 +27,7 @@ export default function Root() {
 }
 
 function RootLayout() {
-  const colorScheme = useColorScheme();
+  const theme = useThemeConfig();
   const [loaded] = useFonts({
     MontserratBold: require('../assets/fonts/Montserrat-Bold.ttf'),
     MontserratRegular: require('../assets/fonts/Montserrat-Regular.ttf'),
@@ -49,7 +49,7 @@ function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={theme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <StatusBar style="auto" />

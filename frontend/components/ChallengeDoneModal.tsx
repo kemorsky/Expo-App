@@ -6,7 +6,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 import { ThemedText } from './ThemedText';
 import { ChallengeDoneInput } from '@/__generated__/graphql';
-import { globalStyles } from '@/styles/globalStyles';
+import { useGlobalStyles } from '@/styles/globalStyles';
 
 type ModalProps = {
     openModal: boolean,
@@ -16,6 +16,7 @@ type ModalProps = {
 export default function ChallengeDoneModal(props: ModalProps) {
     const { openModal, setOpenModal } = props;
     const { user, loading } = useMe();
+    const globalStyles = useGlobalStyles();
     const { markChallengeAsDone } = useMarkChallengeAsDone();
 
     const [notes, setNotes] = useState<ChallengeDoneInput>({notes: '', currentChallenge: true, done: false});

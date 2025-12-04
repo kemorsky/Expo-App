@@ -1,13 +1,15 @@
 import { ScrollView, StyleSheet } from "react-native"
+import { useGlobalStyles } from "@/styles/globalStyles";
 import { useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 type WrapperProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
 };
 
 export const Wrapper = ({ children }: WrapperProps) => {
+    const globalStyles = useGlobalStyles();
     const opacity = useSharedValue(0);
 
     useFocusEffect(
@@ -26,7 +28,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
     }));
 
     return (
-        <Animated.View style={[styles.wrapper, animatedStyle]}>
+        <Animated.View style={[styles.wrapper, globalStyles.wrapperBackground, animatedStyle]}>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}> 
                 {children}
             </ScrollView>
@@ -38,12 +40,10 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         minHeight: 752,
-        backgroundColor: '#c5c5c5',
-        paddingBottom: 80
+        paddingBottom: 80,
     },
     content: {
         flexDirection: 'column',
-        backgroundColor: '#c5c5c5',
         gap: 8,
     }
 })

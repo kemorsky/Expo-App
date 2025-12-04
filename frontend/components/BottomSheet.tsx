@@ -80,7 +80,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
         return {
             transform: [{ translateY: translateY.value }],
             borderRadius,
-            opacity: translateY.value === closed ? 0 : 1, // <-- hides it completely
+            opacity: translateY.value === closed ? 0 : 1, // <-- hides it completely, display: none caused issue with touch registration
         };
     });
 
