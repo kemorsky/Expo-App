@@ -12,22 +12,24 @@ import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useEffect } from 'react';
-import { useThemeConfig } from '@/hooks/theme';
+import { ThemeConfigProvider, useThemeConfig } from '@/hooks/useThemeConfig';
 
 export default function Root() {
 
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <RootLayout />
-        {/* <SplashController /> */}
+        <ThemeConfigProvider>
+          <RootLayout />
+          {/* <SplashController /> */}
+        </ThemeConfigProvider>
       </AuthProvider>
     </ApolloProvider>
   )
 }
 
 function RootLayout() {
-  const theme = useThemeConfig();
+  const { theme } = useThemeConfig();
   const [loaded] = useFonts({
     MontserratBold: require('../assets/fonts/Montserrat-Bold.ttf'),
     MontserratRegular: require('../assets/fonts/Montserrat-Regular.ttf'),

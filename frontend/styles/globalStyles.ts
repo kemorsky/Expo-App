@@ -1,11 +1,17 @@
 import { StyleSheet } from 'react-native';
-import { useThemeConfig } from '@/hooks/theme';
+import { useThemeConfig } from '@/hooks/useThemeConfig';
 
 export const useGlobalStyles = () => {
-    const theme = useThemeConfig();
+    const { theme } = useThemeConfig();
     return StyleSheet.create({
-        wrapperBackground: {
-            backgroundColor: theme.colors.background
+        wrapper: {
+            backgroundColor: theme.colors.background,
+            flex: 1,
+            minHeight: 752,
+            paddingBottom: 80,
+        },
+        card: {
+            backgroundColor: theme.colors.card
         },
         headerImage: {
             color: '#fafafa',
@@ -14,13 +20,10 @@ export const useGlobalStyles = () => {
             position: 'absolute'
         },
         container: {
-            minHeight: "100%",
-            flexDirection: "column",
-            backgroundColor: '#c5c5c5',
+            padding: 12,
+            width: '100%',
+            flexDirection: 'column',
             gap: 12,
-            padding: 16,
-            alignItems: "center",
-            justifyContent: "center"
         },
         titleContainer: {
             flexDirection: 'row',

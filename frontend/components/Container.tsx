@@ -1,22 +1,16 @@
-import { View, StyleSheet } from "react-native"
+import { useGlobalStyles } from "@/styles/globalStyles";
+import { View } from "react-native"
 
 type ContainerProps = {
     children: React.ReactNode
 }
 
 export const Container = ({ children }: ContainerProps) => {
+    const globalStyles = useGlobalStyles();
+    
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             {children}
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 12,
-        width: '100%',
-        flexDirection: 'column',
-        gap: 12,
-    }
-})

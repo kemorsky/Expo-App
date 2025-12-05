@@ -28,7 +28,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
     }));
 
     return (
-        <Animated.View style={[styles.wrapper, globalStyles.wrapperBackground, animatedStyle]}>
+        <Animated.View style={[globalStyles.wrapper, animatedStyle]}>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}> 
                 {children}
             </ScrollView>
@@ -37,11 +37,6 @@ export const Wrapper = ({ children }: WrapperProps) => {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-        minHeight: 752,
-        paddingBottom: 80,
-    },
     content: {
         flexDirection: 'column',
         gap: 8,

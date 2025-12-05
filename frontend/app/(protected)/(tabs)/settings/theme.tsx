@@ -3,10 +3,12 @@ import { HorizontalRule } from "@/components/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/Wrapper";
 import { useMe } from "@/hooks/useMe";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 
 export default function Theme() {
     const { user, loading, error } = useMe();
+    const { setLightTheme, setDarkTheme } = useThemeConfig();
 
     if (!user || loading) return <ActivityIndicator />;
     if (error) return <Text>Error: {error.message}</Text>;
@@ -16,11 +18,11 @@ export default function Theme() {
             <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={styles.settingsList}>
-                    <Pressable style={styles.setting}>
+                    <Pressable style={styles.setting} onPress={setLightTheme}>
                         <ThemedText>Light</ThemedText>
                     </Pressable>
                     <HorizontalRule />
-                    <Pressable style={styles.setting}>
+                    <Pressable style={styles.setting} onPress={setDarkTheme}>
                         <ThemedText>Dark</ThemedText>
                     </Pressable>
                 </View>
