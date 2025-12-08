@@ -1,12 +1,9 @@
 import { createContext, useState } from 'react';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Redirect, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
 import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAuth } from '@/utils/AuthContext';
 
 export const BottomSheetContext = createContext({ // determines the content of the bottom sheet
@@ -15,7 +12,6 @@ export const BottomSheetContext = createContext({ // determines the content of t
 });
 
 export default function ChallengesLayout() {
-  const colorScheme = useColorScheme();
   const { user } = useAuth();
 
   const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null); // gesture and behavior controller
@@ -32,18 +28,16 @@ export default function ChallengesLayout() {
                                   setContent: setSheetContent,
                                   controller: sheetController}}
     >
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <SafeAreaProvider>
-          <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
-            <Stack.Screen name="index" options={{ title: 'Challenges' }} />
-            <Stack.Screen name="create-challenge" options={{ title: 'Create Challenge' }} />
-          </Stack>
-          <BottomSheet controller={setSheetController}>
-            {sheetContent}
-          </BottomSheet>
-          <StatusBar style="auto" />
-        </SafeAreaProvider>
-      </ThemeProvider>
+      <SafeAreaProvider>
+        <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
+          <Stack.Screen name="index" options={{ title: 'Challenges' }} />
+          <Stack.Screen name="create-challenge" options={{ title: 'Create Challenge' }} />
+        </Stack>
+        <BottomSheet controller={setSheetController}>
+          {sheetContent}
+        </BottomSheet>
+        <StatusBar style="auto" />
+      </SafeAreaProvider>
     </BottomSheetContext.Provider>
   );
 }

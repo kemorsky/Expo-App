@@ -1,14 +1,13 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Redirect, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAuth } from '@/utils/AuthContext';
+import { useThemeConfig } from '@/hooks/useThemeConfig';
 
 export default function ProtectedLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useThemeConfig();
   const { user } = useAuth();
   
   if (!user?.token && !user?.refreshToken) {
@@ -17,7 +16,7 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={theme}>
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

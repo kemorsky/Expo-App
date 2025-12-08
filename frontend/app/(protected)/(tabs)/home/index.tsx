@@ -61,7 +61,7 @@ export default function HomeScreen() {
             <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
         </View>
         
-        <View style={styles.cardContent}>
+        <View style={globalStyles.card}>
           {currentChallenge && (
             <>
               <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
@@ -82,7 +82,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type='subtitle'>Stats</ThemedText>
-        <View style={styles.cardContent}>
+        <View style={globalStyles.card}>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
               <View style={styles.stats}>
@@ -109,7 +109,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type='subtitle'>Your previous challenges</ThemedText>
-        <View style={styles.cardContent}>
+        <View style={globalStyles.card}>
             <FlatList
               data={recentChallenges}
               contentContainerStyle={styles.ChallengeList}
@@ -150,13 +150,6 @@ const styles = StyleSheet.create({
   buttonMarkAsDoneText: {
     fontSize: 14,
     color: '#000000ff',
-  },
-  cardContent: {
-    backgroundColor: '#dbdbdbff',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    padding: 8,
-    borderRadius: 8
   },
   cardTitleContainer: {
     flexDirection: 'row',

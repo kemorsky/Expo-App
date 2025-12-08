@@ -11,7 +11,11 @@ export const useGlobalStyles = () => {
             paddingBottom: 80,
         },
         card: {
-            backgroundColor: theme.colors.card
+            backgroundColor: theme.colors.card,
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: 8,
+            borderRadius: 8
         },
         headerImage: {
             color: '#fafafa',
