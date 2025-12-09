@@ -6,7 +6,6 @@ import typeDefs from '../src/graphql/schema.js';
 import resolvers from '../src/graphql/resolver.js';
 import { dbConnect } from "../src/config/dbConnect.js";
 import { verifyToken } from "../src/utils/jwt.js";
-import { StringFormatParams } from "better-auth/*";
 
 await dbConnect();
 

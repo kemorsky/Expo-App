@@ -1,8 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { ThemedText } from "@/components/ThemedText";
 import { View, TextInput, KeyboardAvoidingView, Platform, Text, Pressable } from "react-native";
-import { Button } from "react-native-paper";
-import { globalStyles } from "@/styles/globalStyles";
+import { useGlobalStyles } from '@/styles/globalStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserInput } from '@/__generated__/graphql';
 import { useSignIn } from '@/lib/api/user/userMutations';
@@ -12,6 +11,7 @@ export default function SignIn() {
     const { createUser } = useSignIn();
     const [ newUser, setNewUser ] = useState<UserInput>({email: '', name: '', password: '',});
     const router = useRouter();
+    const globalStyles = useGlobalStyles();
 
     const signIn = async (email: string, name: string, password: string) => {
         try {
