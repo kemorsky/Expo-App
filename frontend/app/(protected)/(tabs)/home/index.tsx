@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
+import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
@@ -54,6 +55,7 @@ export default function HomeScreen() {
       <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
       <Container>
         <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
+        <Link href="/Onboarding">Go to onboarding</Link>
       </Container>
       <Container>
         <View style={styles.cardTitleContainer}>

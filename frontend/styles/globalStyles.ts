@@ -5,6 +5,7 @@ export const useGlobalStyles = () => {
     const { theme } = useThemeConfig();
     return StyleSheet.create({
         wrapper: {
+            width: '100%',
             backgroundColor: theme.colors.background,
             flex: 1,
             minHeight: 752,

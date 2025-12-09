@@ -74,7 +74,12 @@ function RootLayout() {
                 headerShown: false,
                 animation: "default",
             }} />
-            {/* <Stack.Screen name="onboarding" /> */}
+            <Stack.Screen 
+              name="Onboarding"
+              options={{
+                headerShown: false,
+                animation: "default"
+            }} />
           </Stack>
         </SafeAreaProvider>
       </GestureHandlerRootView>
