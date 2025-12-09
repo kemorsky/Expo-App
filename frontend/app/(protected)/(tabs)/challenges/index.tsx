@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, SectionList, Pressable } from 'react-native';
-import { globalStyles } from '@/styles/globalStyles';
+import { useGlobalStyles } from '@/styles/globalStyles';
 import { Link } from 'expo-router';
 import { useContext, useState } from 'react';
-import { useMe } from '@/hooks/useMe';
+import { useMe } from '@/lib/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Feather from '@expo/vector-icons/Feather';
@@ -20,6 +20,7 @@ export default function Challenges() {
   const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const { setContent, controller } = useContext(BottomSheetContext);
+  const globalStyles = useGlobalStyles();
 
   if (!user ||loading) return <ChallengesPageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;

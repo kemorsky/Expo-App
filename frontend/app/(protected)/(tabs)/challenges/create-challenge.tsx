@@ -3,15 +3,16 @@ import { Wrapper } from "@/components/Wrapper";
 import { Container } from "@/components/Container";
 import { ThemedText } from "@/components/ThemedText";
 import { useCreateChallenge } from "@/lib/api/challenges/challengesMutations";
-import { useMe } from "@/hooks/useMe";
+import { useMe } from '@/lib/api/user/userQueries';
 import { useState } from "react";
 import { ChallengeInput } from "@/__generated__/graphql";
-import { globalStyles } from "@/styles/globalStyles";
+import { useGlobalStyles } from '@/styles/globalStyles';
 import { useRouter } from "expo-router";
 
 export default function CreateChallenge() {
     const { user, loading, error } = useMe();
     const { createChallenge } = useCreateChallenge();
+    const globalStyles = useGlobalStyles();
     const router = useRouter();
 
     const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})

@@ -1,7 +1,7 @@
-import { globalStyles } from '@/styles/globalStyles';
 import { Button, View, Text, StyleSheet, Pressable } from 'react-native';
-import { useMe } from '@/hooks/useMe';
+import { useMe } from '@/lib/api/user/userQueries';
 import { useAuth } from '@/utils/AuthContext';
+import { useGlobalStyles } from '@/styles/globalStyles';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import Feather from '@expo/vector-icons/Feather';
 import { Wrapper } from '@/components/Wrapper';
@@ -13,6 +13,7 @@ import SettingsPageSkeleton from '@/components/skeleton/pages/SettingsPageSkelet
 export default function Settings() {
     const { user, loading, error } = useMe();
     const  { logOut } = useAuth();
+    const globalStyles = useGlobalStyles();
 
     if (!user ||loading) return <SettingsPageSkeleton />;
     if (error) return <Text>Error: {error.message}</Text>;

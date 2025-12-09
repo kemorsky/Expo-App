@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
-import { useMe } from '@/hooks/useMe';
+import { useMe } from '@/lib/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';

@@ -2,7 +2,7 @@ import { Container } from "@/components/Container";
 import { HorizontalRule } from "@/components/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/Wrapper";
-import { useMe } from "@/hooks/useMe";
+import { useMe } from '@/lib/api/user/userQueries';
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 
 export default function Language() {
