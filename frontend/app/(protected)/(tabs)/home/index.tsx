@@ -38,6 +38,7 @@ export default function HomeScreen() {
         return {
           id: data.id,
           challenge: {
+            id: data.challenge.id,
             title: data.challenge.title,
           },
           currentChallenge: data.currentChallenge,

@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client/react";
 import type { MeQuery, User } from '@/__generated__/graphql';
 import { MeDocument } from '@/__generated__/graphql';
 
-const GET_USER = gql`
+export const GET_USER = gql`
   query Me {
     me {
       id

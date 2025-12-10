@@ -188,7 +188,7 @@ export type UserLogin = {
 export type AssignRandomChallengeMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'UserChallenge', id: string, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, done: boolean, challenge: { __typename?: 'Challenge', id: string, title: string } } };
+export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'UserChallenge', id: string, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, done: boolean, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
 
 export type MarkChallengeAsDoneMutationVariables = Exact<{
   markChallengeAsDoneId: Scalars['ID']['input'];
@@ -196,7 +196,7 @@ export type MarkChallengeAsDoneMutationVariables = Exact<{
 }>;
 
 
-export type MarkChallengeAsDoneMutation = { __typename?: 'Mutation', markChallengeAsDone: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, createdAt?: string | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string } } };
+export type MarkChallengeAsDoneMutation = { __typename?: 'Mutation', markChallengeAsDone: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, currentChallengeExpiresAt?: string | null, createdAt?: string | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
 
 export type CreateChallengeMutationVariables = Exact<{
   input: ChallengeInput;
@@ -225,6 +225,13 @@ export type RefreshTokenMutationVariables = Exact<{
 
 
 export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken: { __typename?: 'AuthPayload', id?: string | null, name?: string | null, email?: string | null, token?: string | null, refreshToken?: string | null } };
+
+export type UpdateUserSettingsMutationVariables = Exact<{
+  input: SettingsInput;
+}>;
+
+
+export type UpdateUserSettingsMutation = { __typename?: 'Mutation', updateUserSettings: { __typename?: 'Settings', language?: string | null, numberOfChallengesPerDay?: number | null, theme?: string | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 

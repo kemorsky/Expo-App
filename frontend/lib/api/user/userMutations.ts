@@ -1,7 +1,9 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 import { CreateUserMutation, CreateUserMutationVariables, RefreshTokenMutation, 
-  type RefreshTokenMutationVariables, type LoginMutation, type LoginMutationVariables } from "@/__generated__/graphql";
+  type RefreshTokenMutationVariables, type LoginMutation, type LoginMutationVariables,
+  UpdateUserSettingsMutation, SettingsInput, 
+  UpdateUserSettingsMutationVariables} from "@/__generated__/graphql";
 
 const LOGIN = gql`
   mutation Login($input: UserLogin!) {
@@ -34,6 +36,16 @@ const REFRESH_TOKEN = gql`
       email
       token
       refreshToken
+    }
+  }
+`
+
+const UPDATE_USER_SETTINGS = gql`
+  mutation UpdateUserSettings($input: SettingsInput!) {
+    updateUserSettings(input: $input) {
+      language
+      numberOfChallengesPerDay
+      theme
     }
   }
 `
@@ -82,4 +94,21 @@ export function useSignIn() {
   }
 
   return { createUser, data, error, loading }
+}
+
+export function useUpdateUserSettings() {
+  const [updateUserSettingsMutation, { data, error, loading }] = useMutation<UpdateUserSettingsMutation, UpdateUserSettingsMutationVariables>(UPDATE_USER_SETTINGS, {
+    refetchQueries: ["Me"]
+  });
+
+  const updateUserSettings = async (input: Partial<SettingsInput>) => {
+    const response = await updateUserSettingsMutation({
+      variables: {
+        input
+      }
+    })
+    return response.data?.updateUserSettings
+  }
+  
+  return { updateUserSettings, data, error, loading }
 }

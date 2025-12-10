@@ -1,7 +1,7 @@
 import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
-import { globalStyles } from "@/styles/globalStyles";
+import { useGlobalStyles } from "@/styles/globalStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -11,6 +11,7 @@ export default function Login() {
     const { logIn } = useAuth();
     const [ user, setUser ] = useState<UserLogin>({email: '', password: ''})
     const router = useRouter();
+    const globalStyles = useGlobalStyles();
 
     const handleEmailChange = (email: string) => setUser((prev) => ({ ...prev, email }));
     const handlePasswordChange = (password: string) => setUser((prev) => ({ ...prev, password }));
