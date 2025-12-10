@@ -12,9 +12,12 @@ const ASSIGN_RANDOM_CHALLENGE = gql`
                 title
                 isPredefined
             }
+            notes
+            done
             currentChallenge
             currentChallengeExpiresAt
-            done
+            createdAt
+            updatedAt
         }
     }
 `
