@@ -4,6 +4,7 @@ import { useThemeConfig } from '@/hooks/useThemeConfig';
 export const useGlobalStyles = () => {
     const { theme } = useThemeConfig();
     return StyleSheet.create({
+        // global
         wrapper: {
             width: '100%',
             backgroundColor: theme.colors.background,
@@ -34,6 +35,61 @@ export const useGlobalStyles = () => {
             flexDirection: 'row',
             gap: 8
         },
+        input: {
+            backgroundColor: theme.colors.background,
+            height: 54,
+            width: "100%",
+            borderWidth: 1,
+            borderRadius: 4,
+            padding: 16,
+            fontSize: 16
+        },
+
+        // home
+
+        // challenges
+
+        createChallengeButton: {
+            backgroundColor: 'yellow',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 4,
+            padding: 8,
+            borderRadius: 8
+        },
+        challengesContainer: {
+            width: '100%',
+            flexDirection: 'column',
+            gap: 8
+        },
+        challengeList: {
+            backgroundColor: theme.colors.card,
+            paddingHorizontal: 8,
+            flexDirection: 'column',
+            borderRadius: 8,
+        },
+        challenge: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: 8,
+        },
+        challengeItem: {
+            flexDirection: 'row',
+            gap: 8,
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        challengesSectionList: {
+            backgroundColor: theme.colors.card,
+            paddingHorizontal: 8,
+            flexDirection: 'column',
+            borderRadius: 8,
+        },
+
+        // settings
+
         settingsList: {
             backgroundColor: theme.colors.card,
             paddingHorizontal: 8,
@@ -53,15 +109,7 @@ export const useGlobalStyles = () => {
             gap: 8,
             borderRadius: 8,
         },
-        input: {
-            backgroundColor: theme.colors.background,
-            height: 54,
-            width: "100%",
-            borderWidth: 1,
-            borderRadius: 4,
-            padding: 16,
-            fontSize: 16
-        },
+
         buttonLogin: {
             width: 180,
             height: 54,

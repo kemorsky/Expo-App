@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     borderColor: '#000000ff',
     borderRadius: 4,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#9c3131ff',
   },
   buttonMarkAsDoneText: {
     fontSize: 14,

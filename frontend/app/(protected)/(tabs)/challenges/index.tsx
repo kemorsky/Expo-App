@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SectionList, Pressable } from 'react-native';
+import { Text, View, SectionList, Pressable } from 'react-native';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { Link } from 'expo-router';
 import { useContext, useState } from 'react';
@@ -45,7 +45,7 @@ export default function Challenges() {
           <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText type='date'>
-                {formatDate(activeChallenge?.updatedAt ?? '')}
+                {formatDate(activeChallenge.updatedAt ?? '')}
               </ThemedText>
               {activeChallenge.done && activeChallenge.done === true ? 
                   <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
@@ -57,7 +57,7 @@ export default function Challenges() {
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText style={{ fontSize: 22 }} type='subtitle'>
-                {activeChallenge?.challenge.title}
+                {activeChallenge.challenge.title}
               </ThemedText>
             </View>
           </View>
@@ -67,7 +67,7 @@ export default function Challenges() {
               </ThemedText>
               {activeChallenge.notes && activeChallenge.notes.length > 0 ? 
                   <ThemedText style={{ maxWidth: 300}}>
-                    {activeChallenge?.notes}
+                    {activeChallenge.notes}
                   </ThemedText> : 
                   <ThemedText>
                     You haven&apos;t added notes to this challenge.
@@ -83,14 +83,14 @@ export default function Challenges() {
   return (
     <Wrapper>
       <Container>  
-        <View style={styles.challengesContainer}>
+        <View style={globalStyles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
             {defaultChallenges?.length === 0 && (
               <Text>You have not created any challenges of your own yet.</Text>
             )}
             <Link href='/challenges/create-challenge' push asChild>
-              <Pressable style={styles.createButton}>
+              <Pressable style={globalStyles.createChallengeButton}>
                 <MaterialIcons name="add-circle" size={24} color="black" />
                 <ThemedText>Create Challenge</ThemedText>
               </Pressable>
@@ -109,7 +109,7 @@ export default function Challenges() {
           <SectionList 
                       sections={DATA}
                       keyExtractor={item => item?.id ?? ''}
-                      contentContainerStyle={styles.sectionList}
+                      contentContainerStyle={globalStyles.challengesSectionList}
                       ItemSeparatorComponent={HorizontalRule}
                       scrollEnabled={false}
                       renderItem={({ item }) => {
@@ -117,8 +117,8 @@ export default function Challenges() {
                           return null; // fallback check in case item is null or something unintended
                         }
                         return <View>
-                                <Pressable style={styles.challenge} onPress={() => { setActiveChallenge(item); openChallenge(item) }}>
-                                    <View style={styles.challengeItem}>
+                                <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); openChallenge(item) }}>
+                                    <View style={globalStyles.challengeItem}>
                                       {item?.done === true ? 
                                           <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                                           <MaterialIcons name="remove-circle-outline" size={24} color="red" />
@@ -139,45 +139,4 @@ export default function Challenges() {
       </Container>
     </Wrapper>
   );
-}
-
-const styles = StyleSheet.create({
-  createButton: {
-    backgroundColor: 'yellow',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    padding: 8,
-    borderRadius: 8
-  },
-  challengesContainer: {
-    width: '100%',
-    flexDirection: 'column',
-    gap: 8
-  },
-  challengeList: {
-    backgroundColor: '#dbdbdbff',
-    paddingHorizontal: 8,
-    flexDirection: 'column',
-    borderRadius: 8,
-  },
-  challenge: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  challengeItem: {
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  sectionList: {
-    backgroundColor: '#dbdbdbff',
-    paddingHorizontal: 8,
-    flexDirection: 'column',
-    borderRadius: 8,
-  }
-});
+};
