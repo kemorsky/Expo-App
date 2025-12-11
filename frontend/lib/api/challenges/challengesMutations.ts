@@ -59,37 +59,37 @@ const CREATE_CHALLENGE = gql`
 
 export function useAssignRandomChallenge() {
     const [assignRandomChallengeMutation, { data, loading, error }] = useMutation<AssignRandomChallengeMutation, AssignRandomChallengeMutationVariables>(ASSIGN_RANDOM_CHALLENGE, {
-        update(cache, { data: assignRandomChallenge }) {
-            if (!assignRandomChallenge?.assignRandomChallenge) return;
+        update(cache, { data }) {
+            const updated = data?.assignRandomChallenge;
+            if (!updated) return;
 
             const normalizedChallenge: Partial<UserChallenge> = {
-                ...assignRandomChallenge.assignRandomChallenge,
+                ...updated,
                 __typename: "UserChallenge",
                 challenge: {
-                    ...assignRandomChallenge.assignRandomChallenge.challenge,
+                    ...updated.challenge,
                     __typename: "Challenge",
                 },
-                currentChallenge: assignRandomChallenge.assignRandomChallenge.currentChallenge,
-                currentChallengeExpiresAt: assignRandomChallenge.assignRandomChallenge.currentChallengeExpiresAt
+                done: updated.done,
+                currentChallenge: updated.currentChallenge,
             };
-
-            const existingData = cache.readQuery<{ me: { challenges: UserChallenge[] } }>({
+            
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
                 query: GET_USER,
             });
-
-            if (existingData?.me?.challenges) {
-                cache.writeQuery({
-                query: GET_USER,
-                data: {
-                    me: {
-                    ...existingData.me,
-                    challenges: existingData.me.challenges.map(ch =>
-                        ch.currentChallenge ? normalizedChallenge : ch
-                    ),
+            
+            if (!existing?.me?.id) return;
+    
+            cache.modify({
+                id: cache.identify({ __typename: "User", id: existing?.me.id }),
+                fields: {
+                    challenges: (existingChallenges = []) => {
+                        return existingChallenges.map((ch: UserChallenge) =>
+                            ch.currentChallenge  ? normalizedChallenge : ch
+                        );
                     },
                 },
-                });
-            }
+            });
         }
     });
     
@@ -104,37 +104,37 @@ export function useAssignRandomChallenge() {
 
 export function useMarkChallengeAsDone() {
     const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE, {
-        update(cache, { data: markChallengeAsDone }) {
-            if (!markChallengeAsDone?.markChallengeAsDone) return;
+        update(cache, { data }) {
+            const updated = data?.markChallengeAsDone;
+            if (!updated) return;
 
             const normalizedChallenge: Partial<UserChallenge> = {
-                ...markChallengeAsDone.markChallengeAsDone,
+                ...updated,
                 __typename: "UserChallenge",
                 challenge: {
-                    ...markChallengeAsDone.markChallengeAsDone.challenge,
+                    ...updated.challenge,
                     __typename: "Challenge",
                 },
-                done: markChallengeAsDone.markChallengeAsDone.done,
-                currentChallenge: markChallengeAsDone.markChallengeAsDone.currentChallenge,
+                done: updated.done,
+                currentChallenge: updated.currentChallenge,
             };
-
-            const existingData = cache.readQuery<{ me: { challenges: UserChallenge[] } }>({
+            
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
                 query: GET_USER,
             });
-
-            if (existingData?.me?.challenges) {
-                cache.writeQuery({
-                query: GET_USER,
-                data: {
-                    me: {
-                    ...existingData.me,
-                    challenges: existingData.me.challenges.map(ch =>
-                        ch.currentChallenge && ch.done ? normalizedChallenge : ch
-                    ),
+            
+            if (!existing?.me?.id) return;
+    
+            cache.modify({
+                id: cache.identify({ __typename: "User", id: existing?.me.id }),
+                fields: {
+                    challenges: (existingChallenges = []) => {
+                        return existingChallenges.map((ch: UserChallenge) =>
+                            ch.currentChallenge && ch.done ? normalizedChallenge : ch
+                        );
                     },
                 },
-                });
-            }
+            });
         }
     });
 

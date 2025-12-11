@@ -3,7 +3,8 @@ import { useMutation } from '@apollo/client/react'
 import { CreateUserMutation, CreateUserMutationVariables, RefreshTokenMutation, 
   type RefreshTokenMutationVariables, type LoginMutation, type LoginMutationVariables,
   UpdateUserSettingsMutation, SettingsInput, 
-  UpdateUserSettingsMutationVariables} from "@/__generated__/graphql";
+  UpdateUserSettingsMutationVariables, Settings} from "@/__generated__/graphql";
+  import { GET_USER } from './userQueries';
 
 const LOGIN = gql`
   mutation Login($input: UserLogin!) {
@@ -98,7 +99,29 @@ export function useSignIn() {
 
 export function useUpdateUserSettings() {
   const [updateUserSettingsMutation, { data, error, loading }] = useMutation<UpdateUserSettingsMutation, UpdateUserSettingsMutationVariables>(UPDATE_USER_SETTINGS, {
-    refetchQueries: ["Me"]
+    update(cache, { data }) {
+      const updated = data?.updateUserSettings;
+      if (!updated) return;
+
+      const existing = cache.readQuery<{ me: { id: string } }>({
+          query: GET_USER,
+        });
+      
+      if (!existing?.me?.id) return;
+
+      cache.modify({
+        id: cache.identify({ __typename: "User", id: existing?.me.id }),
+        fields: {
+          settings(existingSettings = {}) {
+            return {
+              ...existingSettings,
+              ...updated,
+              __typename: "Settings",
+            } as Settings;
+          }
+        }
+      });
+    }
   });
 
   const updateUserSettings = async (input: Partial<SettingsInput>) => {

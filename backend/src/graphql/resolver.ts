@@ -34,9 +34,8 @@ const resolvers: Resolvers = {
         },
         challenge: async (_, { id } ) => await Challenge.findById(id),
         getChallenges: async (_, { isPredefined }, context ) => {
-            const user = await User.findById(context.user.id || context.user._id).populate("challenges");
+            const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
-            console.log(context.user.challenges);
 
             return UserChallenge.find({ author: user._id.toString(), isPredefined: false });
         },
@@ -120,7 +119,7 @@ const resolvers: Resolvers = {
         },
         createChallenge: async (_, { input }, context) => {
             console.log(context.user)
-            const user = await User.findById(context.user.id || context.user._id);
+            const user = await User.findById(context.user.id);
             if (!user) throw new Error("Not authenticated");
 
             try {
@@ -160,7 +159,7 @@ const resolvers: Resolvers = {
             }
         },
         assignRandomChallenge: async (_, __, context) => {
-            const user = await User.findById(context.user.id || context.user._id).populate("challenges");
+            const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
             const challenges = await UserChallenge.find({ 
@@ -250,7 +249,7 @@ const resolvers: Resolvers = {
             }
         },
         updateChallenge: async (_, { id, input }, context) => {
-            const user = await User.findById(context.user.id || context.user._id);
+            const user = await User.findById(context.user.id);
             if (!user) throw new Error("Not authenticated");
 
             try {
@@ -288,7 +287,7 @@ const resolvers: Resolvers = {
         },
         deleteChallenge: async (_, { id }) => { await UserChallenge.findByIdAndDelete(id); return true },
         updateUserSettings: async (_, { input }, context) => {
-            const user = await User.findById(context.user.id || context.user._id);
+            const user = await User.findById(context.user.id);
             if (!user) throw new Error("Not authenticated");
 
             try {
@@ -310,7 +309,7 @@ const resolvers: Resolvers = {
             }
         },
         // purgeExpiredChallenge: async (_, __, context) => {
-        //     const user = await User.findById(context.user.id || context.user._id)
+        //     const user = await User.findById(context.user.id)
         //     if (!user) throw new Error("Not authenticated");
 
         //     const result = await UserChallenge.updateMany({
