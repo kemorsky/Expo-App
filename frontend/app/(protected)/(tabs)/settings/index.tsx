@@ -1,4 +1,4 @@
-import { Button, View, Text, StyleSheet, Pressable } from 'react-native';
+import { Button, View, Text, Pressable } from 'react-native';
 import { useMe } from '@/lib/api/user/userQueries';
 import { useAuth } from '@/utils/AuthContext';
 import { useGlobalStyles } from '@/styles/globalStyles';
@@ -21,27 +21,27 @@ export default function Settings() {
     return (
         <Wrapper>
             <Container>
-                <View style={styles.userRundown}>
+                <View style={globalStyles.userRundown}>
                     <ThemedText>Username: {user?.name}</ThemedText>
                     <ThemedText>E-mail: {user?.email}</ThemedText>
                 </View>
             </Container>
             <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
-                <View style={styles.settingsList}>
+                <View style={globalStyles.settingsList}>
                     <Link href='/settings/manage-account' push asChild>
-                        <Pressable style={styles.setting}>
+                        <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>Manage Account</ThemedText>
                             <Feather name="arrow-right" size={16} color="black" />
                         </Pressable>
                     </Link>
                     <HorizontalRule />
-                    <Pressable style={styles.setting}>
+                    <Pressable style={globalStyles.setting}>
                         <ThemedText type='option'>Password & Security</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
                     <HorizontalRule />
-                    <Pressable style={styles.setting}>
+                    <Pressable style={globalStyles.setting}>
                         <ThemedText type='option'>Notifications</ThemedText>
                         <Feather name="arrow-right" size={16} color="black" />
                     </Pressable>
@@ -49,9 +49,9 @@ export default function Settings() {
             </Container>
             <Container>
                 <ThemedText type='subtitle'>Preferences</ThemedText>
-                <View style={styles.settingsList}>
+                <View style={globalStyles.settingsList}>
                     <Link href='/settings/language' push asChild>
-                        <Pressable style={styles.setting}>
+                        <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>Language</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.language}</ThemedText>
@@ -61,7 +61,7 @@ export default function Settings() {
                     </Link>
                     <HorizontalRule />
                     <Link href='/settings/theme' push asChild>
-                        <Pressable style={styles.setting}>
+                        <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>Theme</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.theme}</ThemedText>
@@ -71,7 +71,7 @@ export default function Settings() {
                     </Link>
                     <HorizontalRule />
                     <Link href='/settings/max-challenges' push asChild>
-                        <Pressable style={styles.setting}>
+                        <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>Max Challenges Per Day</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
@@ -84,26 +84,4 @@ export default function Settings() {
             <Button title="Log Out" onPress={logOut} />
         </Wrapper>
     )
-}
-
-const styles = StyleSheet.create({
-  settingsList: {
-    backgroundColor: '#dbdbdbff',
-    paddingHorizontal: 8,
-    flexDirection: 'column',
-    borderRadius: 8,
-  },
-  setting: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  userRundown: {
-    backgroundColor: '#dbdbdbff',
-    padding: 8,
-    flexDirection: 'column',
-    gap: 8,
-    borderRadius: 8,
-  }
-});
+};

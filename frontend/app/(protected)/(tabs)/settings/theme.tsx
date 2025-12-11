@@ -6,13 +6,16 @@ import { Wrapper } from "@/components/Wrapper";
 import { useMe } from '@/lib/api/user/userQueries';
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { useUpdateUserSettings } from "@/lib/api/user/userMutations";
-import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import Entypo from '@expo/vector-icons/Entypo';
 import { SettingsInput } from "@/__generated__/graphql";
+import { useGlobalStyles } from "@/styles/globalStyles";
 
 export default function Theme() {
     const { user, loading, error } = useMe();
     const { setLightTheme, setDarkTheme } = useThemeConfig();
     const { updateUserSettings } = useUpdateUserSettings();
+    const globalStyles = useGlobalStyles();
 
     const [ newTheme, setNewTheme ] = useState<SettingsInput>({ theme: '' });
     if (!user || loading) return <ActivityIndicator />;
@@ -24,7 +27,6 @@ export default function Theme() {
             if (data) {
                 console.log(data)
                 setNewTheme({ theme: data.theme })
-                console.log("Theme changes successfully!" + newTheme.theme);
             }
         } catch (error) {
             throw new Error (`Error updating user settings: ${error}`)
@@ -35,31 +37,18 @@ export default function Theme() {
         <Wrapper>
             <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
-                <View style={styles.settingsList}>
-                    <Pressable style={styles.setting} onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
+                <View style={globalStyles.settingsList}>
+                    <Pressable style={globalStyles.setting} onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
                         <ThemedText>Light</ThemedText>
+                        {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                     <HorizontalRule />
-                    <Pressable style={styles.setting} onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
+                    <Pressable style={globalStyles.setting} onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
                         <ThemedText>Dark</ThemedText>
+                        {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                 </View>
             </Container>
         </Wrapper>
     )
-}
-
-const styles = StyleSheet.create({
-  settingsList: {
-    backgroundColor: '#dbdbdbff',
-    paddingHorizontal: 8,
-    flexDirection: 'column',
-    borderRadius: 8,
-  },
-  setting: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-  }
-});
+};

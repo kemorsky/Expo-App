@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
   },
   option: {
     fontSize: 16,
-    fontFamily: 'PoppinsSemiBold',
-    color: '#0a7ea4',
+    fontFamily: 'PoppinsSemiBold'
   },
   link: {
     lineHeight: 30,

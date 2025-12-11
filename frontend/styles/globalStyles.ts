@@ -34,20 +34,24 @@ export const useGlobalStyles = () => {
             flexDirection: 'row',
             gap: 8
         },
-        title: {
-            color: theme.colors.text,
-            fontWeight: 'bold',
-            fontSize: 32
+        settingsList: {
+            backgroundColor: theme.colors.card,
+            paddingHorizontal: 8,
+            flexDirection: 'column',
+            borderRadius: 8,
         },
-        subtitle: {
-            color: theme.colors.text,
-            fontWeight: '700',
-            fontSize: 14
+        setting: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: 12,
         },
-        date: {
-            color: '#808080',
-            fontWeight: 'normal',
-            fontSize: 14
+        userRundown: {
+            backgroundColor: theme.colors.card,
+            padding: 8,
+            flexDirection: 'column',
+            gap: 8,
+            borderRadius: 8,
         },
         input: {
             backgroundColor: theme.colors.background,

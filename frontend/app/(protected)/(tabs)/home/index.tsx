@@ -93,7 +93,7 @@ export default function HomeScreen() {
                 <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
               <View style={styles.stats}>
-                <ThemedText style={globalStyles.subtitle}>Challenges created</ThemedText>
+                <ThemedText type='subtitle'>Challenges created</ThemedText>
                 <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
             </View>
@@ -103,7 +103,7 @@ export default function HomeScreen() {
                 <ThemedText type='title'>{completedChallenges}</ThemedText>
               </View>
               <View style={styles.stats}>
-                <ThemedText style={globalStyles.subtitle}>Highest streak</ThemedText>
+                <ThemedText type='subtitle'>Highest streak</ThemedText>
                 <ThemedText type='title'>{createdChallenges}</ThemedText>
               </View>
             </View>

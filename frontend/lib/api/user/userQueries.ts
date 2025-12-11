@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useQuery } from "@apollo/client/react";
-import type { MeQuery, User } from '@/__generated__/graphql';
+import type { MeQuery } from '@/__generated__/graphql';
 import { MeDocument } from '@/__generated__/graphql';
 
 export const GET_USER = gql`
