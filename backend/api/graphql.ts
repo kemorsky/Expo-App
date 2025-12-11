@@ -46,10 +46,14 @@ app.use("/api/graphql",
       context: async ({ req }) => {
         const authHeader = req.headers.authorization || "";
         const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+        
 
         let user = null;
+        
         if (token) {
           user = getCachedUser(token);
+          console.log("Context user keys:", user ? Object.keys(user) : null);
+
           if (!user) {
             try {
               user = verifyToken(token);

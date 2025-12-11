@@ -297,7 +297,6 @@ const resolvers: Resolvers = {
                     { settings: input },
                     { new: true, runValidators: true }
                 );
-                console.log(updateSettings)
                 if (!updateSettings) {
                     throw new Error(`User with id ${user.id} not found`);
                 }
