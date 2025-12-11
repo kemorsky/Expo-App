@@ -41,8 +41,10 @@ const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
             type: String,
             default: null
         }
-    },
-        { timestamps: true }
+    }, {
+            timestamps: true,
+            validateBeforeSave: true,
+    }
 )
 
 const UserChallenge = mongoose.model<UserChallengeDocument>("UserChallenge", userChallengeSchema);
