@@ -36,7 +36,7 @@ export const useGlobalStyles = () => {
             gap: 8
         },
         input: {
-            backgroundColor: theme.colors.background,
+            backgroundColor: '#fff',
             height: 54,
             width: "100%",
             borderWidth: 1,
@@ -47,10 +47,56 @@ export const useGlobalStyles = () => {
 
         // home
 
+        buttonMarkAsDone: {
+            height: 40,
+            justifyContent: 'center',
+            alignSelf: 'flex-end',
+            padding: 8,
+            borderWidth: 1,
+            borderColor: '#000000ff',
+            borderRadius: 4,
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            backgroundColor: theme.colors.primary,
+        },
+
+        // mark challenge as done modal
+
+        modalContainer: {
+            position: 'absolute',
+            top: 120,
+            height: '100%',
+            width: '100%',
+            backgroundColor: theme.colors.card,
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            gap: 30,
+            borderRadius: 8,
+            padding: 12,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        modalHeader: {
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        modalTitle: {
+            gap: 6
+        },
+
+
         // challenges
 
         createChallengeButton: {
-            backgroundColor: 'yellow',
+            backgroundColor: theme.colors.primary,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',

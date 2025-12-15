@@ -50,7 +50,7 @@ export default function CreateChallenge() {
                             onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
                             autoCapitalize="sentences"
                     />
-                    <Pressable style={styles.button} onPress={() => handleCreateChallenge(newChallenge.title)}>
+                    <Pressable style={globalStyles.createChallengeButton} onPress={() => handleCreateChallenge(newChallenge.title)}>
                         <ThemedText>Create Challenge</ThemedText>
                     </Pressable>
                 </View>

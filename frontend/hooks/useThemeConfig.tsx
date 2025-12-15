@@ -21,11 +21,10 @@ export const DarkTheme: Theme = {
   ..._DarkTheme,
   colors: {
     ..._DarkTheme.colors,
-    primary: '',
+    primary: Colors.dark.buttonBackground,
     background: Colors.dark.wrapperBackground,
     card: Colors.dark.card,
     text: Colors.dark.text,
-
   },
 };
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMe } from '@/hooks/useMe';
 import { formatDate } from '@/utils/formatDate';
-import { View, StyleSheet, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
+import { View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
 import { ThemedText } from './ThemedText';
@@ -55,15 +55,15 @@ export default function ChallengeDoneModal(props: ModalProps) {
             onRequestClose={() => {
                 setOpenModal(!openModal)
             }}>
-            <View style={styles.modalContainer}>
-                <View style={styles.modalHeader}>
+            <View style={globalStyles.modalContainer}>
+                <View style={globalStyles.modalHeader}>
                     <ThemedText type='subtitle'>Complete challenge</ThemedText>
                     <Pressable onPress={() => setOpenModal(!openModal)}>
-                        <AntDesign name="close" size={24} color="black" />
+                        <AntDesign name="close" size={24} color="white" />
                     </Pressable>
                 </View>
-                <View style={styles.modalTitle}>
-                    <ThemedText style={globalStyles.date}>{formatDate(date.toString())}</ThemedText>
+                <View style={globalStyles.modalTitle}>
+                    <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
                     <ThemedText type='title'>{currentChallenge?.challenge.title}</ThemedText>
                 </View>
                 <TextInput 
@@ -73,58 +73,10 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
                     value={notes.notes ?? ''}
                     placeholder="Add notes to this challenge (not required)"/>
-                <Pressable style={styles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
-                    <ThemedText style={styles.buttonMarkAsDoneText}>Mark as done</ThemedText>
+                <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                    <ThemedText>Mark as done</ThemedText>
                 </Pressable>
             </View>
         </Modal>
     )
-}
-
-const styles = StyleSheet.create({
-    buttonMarkAsDone: {
-        height: 32,
-        justifyContent: 'center',
-        padding: 8,
-        borderWidth: 1,
-        borderColor: '#000000ff',
-        borderRadius: 4,
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        backgroundColor: '#ffffffff',
-        alignSelf: 'flex-end'
-    },
-    buttonMarkAsDoneText: {
-        fontSize: 14,
-        color: '#000000ff',
-    },
-    modalContainer: {
-        position: 'absolute',
-        top: 120,
-        height: '100%',
-        width: '100%',
-        backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        gap: 30,
-        borderRadius: 8,
-        padding: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    modalHeader: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    modalTitle: {
-        gap: 6
-    }
-})
+};

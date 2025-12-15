@@ -68,7 +68,7 @@ export default function HomeScreen() {
           {currentChallenge && (
             <>
               <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
-              <Pressable style={styles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
+              <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
                 <ThemedText>Mark as done</ThemedText>
               </Pressable>
             </>
@@ -76,7 +76,7 @@ export default function HomeScreen() {
           {!currentChallenge && (
             <>
               <ThemedText type='challenge'>No active challenge</ThemedText>
-              <Pressable style={styles.buttonMarkAsDone} onPress={() => handleAssignRandomChallenge()}>
+              <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => handleAssignRandomChallenge()}>
                 <ThemedText>Get a challenge</ThemedText>
               </Pressable>
             </>
@@ -115,16 +115,15 @@ export default function HomeScreen() {
         <View style={globalStyles.card}>
             <FlatList
               data={recentChallenges}
-              contentContainerStyle={styles.ChallengeList}
               maxToRenderPerBatch={5}
               ItemSeparatorComponent={HorizontalRule}
               scrollEnabled={false}
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
-                                <ThemedText style={styles.previousChallengeTitleText}>{formatDate(item?.updatedAt ?? '')}</ThemedText>
+                                <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.updatedAt ?? '')}</ThemedText>
                                 <Pressable>
-                                  <ThemedText style={styles.previousChallengeTitleText}>View -&gt; </ThemedText>
+                                  <ThemedText>View -&gt; </ThemedText>
                                 </Pressable>
                               </View>
                               <ThemedText>{item?.challenge.title}</ThemedText>
@@ -139,21 +138,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttonMarkAsDone: {
-    height: 40,
-    justifyContent: 'center',
-    alignSelf: 'flex-end',
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#000000ff',
-    borderRadius: 4,
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    backgroundColor: '#9c3131ff',
-  },
-  buttonMarkAsDoneText: {
-    fontSize: 14,
-    color: '#000000ff',
-  },
   cardTitleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -183,10 +167,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  previousChallengeTitleText: {
-    fontSize: 14,
-    color: '#000000ff'
   },
   statsContainer: {
     flexDirection: 'column',

@@ -14,9 +14,11 @@ import ChallengesPageSkeleton from '@/components/skeleton/pages/ChallengesPageSk
 import { HorizontalRule } from '@/components/HorizontalRule';
 import type { UserChallenge } from '@/__generated__/graphql';
 import { formatDate } from '@/utils/formatDate';
+import { useThemeConfig } from '@/hooks/useThemeConfig';
 
 export default function Challenges() {
   const { user, loading, error } = useMe();
+  const { theme } = useThemeConfig();
   const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const { setContent, controller } = useContext(BottomSheetContext);
@@ -123,7 +125,7 @@ export default function Challenges() {
                                           <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                                           <MaterialIcons name="remove-circle-outline" size={24} color="red" />
                                         }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? '#444444ff' : 'black' }}>
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? '#5a5a5aff' : theme.colors.text  }}>
                                           {item?.challenge.title}
                                         </ThemedText>
                                     </View>         
@@ -132,7 +134,7 @@ export default function Challenges() {
                               </View>
                       }}
                       renderSectionHeader={({section: {title}}) => (
-                        <Text style={{paddingVertical: 14}}>{title}</Text>
+                        <ThemedText style={{paddingVertical: 14, fontFamily: 'PoppinsMedium'}}>{title}</ThemedText>
                       )}
           />
         </View>
