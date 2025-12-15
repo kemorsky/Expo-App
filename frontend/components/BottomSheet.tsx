@@ -3,6 +3,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolate, Extrapolation } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
 
 export type BottomSheetController = {
     open: () => void;
@@ -17,6 +18,8 @@ type BottomSheetProps = {
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
+    const { theme } = useThemeConfig();
+
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const context = useSharedValue({ y: 0 });
     const isSheetActive = useSharedValue(false);
@@ -96,7 +99,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
             </GestureDetector>
             {/* BottomSheet */}
             <GestureDetector gesture={gesture}>
-                <Animated.View style={[styles.bottomSheet, animatedStyle]}>
+                <Animated.View style={[styles.bottomSheet, { backgroundColor: theme.colors.card }, animatedStyle]}>
                     <View style={styles.handle} />
                     <View style={styles.content}>
                         {children}
@@ -122,13 +125,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        backgroundColor: '#e6a8a8ff',
         zIndex: 1000
     },
     content: {
         padding: 12,
         width: '100%',
-        backgroundColor: '#e6a8a8ff',
+        minHeight: 300,
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
