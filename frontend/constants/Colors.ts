@@ -10,21 +10,21 @@ export const Colors = {
   light: {
     text: '#11181C',
     background: '#fff',
-    card: '#b99a9aff',
+    card: '#CCD5AE',
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
-    wrapperBackground: '#c5c5c5'
+    wrapperBackground: '#E9EDC9' // #EEE5BF
   },
   dark: {
     text: 'rgba(255, 255, 255, 0.9)',
     background: '#212c31ff',
-    card: '#6d5353ff',
+    card: '#212934',
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
-    wrapperBackground: '#8a1010ff'
+    wrapperBackground: '#151F2B'
   },
 };

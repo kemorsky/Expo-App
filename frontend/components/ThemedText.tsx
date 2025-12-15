@@ -39,27 +39,27 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   challenge: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: 'PoppinsBold'
   },
   date: {
     color: '#808080',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'PoppinsSemiBold'
   },
   default: {
-    fontSize: 16,
+    fontSize: 14,
   },
   title: {
     fontSize: 28,
     fontFamily: 'MontserratBold'
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'PoppinsSemiBold'
   },
   option: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'PoppinsSemiBold'
   },
   link: {

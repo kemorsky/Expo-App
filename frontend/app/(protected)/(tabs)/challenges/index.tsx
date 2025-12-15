@@ -6,7 +6,7 @@ import { useMe } from '@/lib/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Feather from '@expo/vector-icons/Feather';
-import { BottomSheetContext } from './_layout';
+import { BottomSheetContext } from '../../_layout';
 import { Wrapper } from '@/components/Wrapper';
 import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
@@ -123,11 +123,11 @@ export default function Challenges() {
                                           <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                                           <MaterialIcons name="remove-circle-outline" size={24} color="red" />
                                         }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, fontSize: 16, color: item?.done === true ? '#444444ff' : 'black' }}>
+                                        <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? '#444444ff' : 'black' }}>
                                           {item?.challenge.title}
                                         </ThemedText>
-                                    </View>                               
-                                    <Feather name="arrow-right" size={16} color="black" />                                
+                                    </View>         
+                                    <Feather name="arrow-right" size={16} color="black" />
                                 </Pressable>
                               </View>
                       }}

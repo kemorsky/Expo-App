@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
-import { type MarkChallengeAsDoneMutationVariables, type AssignRandomChallengeMutationVariables, AssignRandomChallengeMutation, MarkChallengeAsDoneMutation, CreateChallengeMutation, CreateChallengeMutationVariables, UserChallenge, MeQuery } from '@/__generated__/graphql'
+import { type MarkChallengeAsDoneMutationVariables, type AssignRandomChallengeMutationVariables, AssignRandomChallengeMutation, 
+        MarkChallengeAsDoneMutation, CreateChallengeMutation, CreateChallengeMutationVariables, UserChallenge } from '@/__generated__/graphql'
 import { GET_USER } from '../user/userQueries'
 
 const ASSIGN_RANDOM_CHALLENGE = gql`
