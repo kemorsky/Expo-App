@@ -196,13 +196,9 @@ const resolvers: Resolvers = {
                 { $set: { currentChallenge: false } }
             )
 
-            const expirationDate = new Date(Date.now() + 24 + 60 * 60 * 1000);
-
             const assignedChallenge = await UserChallenge.findByIdAndUpdate(
                 randomChallenge._id,
-                { currentChallenge: true,
-                  currentChallengeExpiresAt: expirationDate
-                },
+                { currentChallenge: true },
                 { new: true, runValidators: true }
             ).populate("challenge");
 
@@ -222,7 +218,6 @@ const resolvers: Resolvers = {
                     isPredefined: challenge.isPredefined
                 },
                 currentChallenge: assignedChallenge.currentChallenge,
-                currentChallengeExpiresAt: assignedChallenge.currentChallengeExpiresAt,
                 done: assignedChallenge.done,
             }
         },
@@ -374,7 +369,6 @@ const resolvers: Resolvers = {
                         notes: ch.notes,
                         done: ch.done,
                         currentChallenge: ch.currentChallenge,
-                        currentChallengeExpiresAt: ch.currentChallengeExpiresAt,
                         createdAt: ch.createdAt,
                         updatedAt: ch.updatedAt,
                         completedAt: ch.completedAt

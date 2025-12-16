@@ -172,7 +172,6 @@ export type UserChallenge = {
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   currentChallenge: Scalars['Boolean']['output'];
-  currentChallengeExpiresAt?: Maybe<Scalars['String']['output']>;
   done: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
@@ -375,7 +374,6 @@ export type UserChallengeResolvers<ContextType = any, ParentType = ResolversPare
   completedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  currentChallengeExpiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   done?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

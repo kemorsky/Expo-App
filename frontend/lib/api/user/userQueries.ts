@@ -18,7 +18,6 @@ export const GET_USER = gql`
         }
         done
         currentChallenge
-        currentChallengeExpiresAt
         createdAt
         updatedAt
         completedAt
@@ -48,7 +47,6 @@ export const GET_USERS = gql`
         }
         done
         currentChallenge
-        currentChallengeExpiresAt
         createdAt
         updatedAt
     }

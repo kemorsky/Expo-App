@@ -16,7 +16,6 @@ const ASSIGN_RANDOM_CHALLENGE = gql`
             notes
             done
             currentChallenge
-            currentChallengeExpiresAt
             createdAt
             updatedAt
         }
@@ -35,7 +34,6 @@ const MARK_CHALLENGE_AS_DONE = gql`
             notes
             done
             currentChallenge
-            currentChallengeExpiresAt
             createdAt
             updatedAt
             completedAt
