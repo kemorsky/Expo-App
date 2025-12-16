@@ -46,6 +46,7 @@ const typeDefs = `#graphql
         done: Boolean!
         currentChallenge: Boolean!
         createdAt: String
+        assignedAt: DateTime
         updatedAt: String
         completedAt: DateTime
     }

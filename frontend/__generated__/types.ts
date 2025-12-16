@@ -33,11 +33,6 @@ export type Challenge = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
-export type ChallengeCurrentInput = {
-  currentChallenge: Scalars['Boolean']['input'];
-  currentChallengeExpiresAt: Scalars['String']['input'];
-};
-
 export type ChallengeDoneInput = {
   completedAt?: InputMaybe<Scalars['DateTime']['input']>;
   currentChallenge: Scalars['Boolean']['input'];
@@ -166,6 +161,7 @@ export type User = {
 
 export type UserChallenge = {
   __typename?: 'UserChallenge';
+  assignedAt?: Maybe<Scalars['DateTime']['output']>;
   challenge: Challenge;
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
@@ -191,7 +187,7 @@ export type UserLogin = {
 export type AssignRandomChallengeMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, createdAt?: string | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
+export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
 
 export type MarkChallengeAsDoneMutationVariables = Exact<{
   markChallengeAsDoneId: Scalars['ID']['input'];
@@ -239,7 +235,7 @@ export type UpdateUserSettingsMutation = { __typename?: 'Mutation', updateUserSe
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string, email: string, refreshToken?: string | null, challenges?: Array<{ __typename?: 'UserChallenge', id: string, done: boolean, currentChallenge: boolean, createdAt?: string | null, updatedAt?: string | null, completedAt?: any | null, notes?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } | null> | null, settings?: { __typename?: 'Settings', language?: string | null, numberOfChallengesPerDay?: number | null, theme?: string | null } | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string, email: string, refreshToken?: string | null, challenges?: Array<{ __typename?: 'UserChallenge', id: string, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, completedAt?: any | null, notes?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } | null> | null, settings?: { __typename?: 'Settings', language?: string | null, numberOfChallengesPerDay?: number | null, theme?: string | null } | null } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -163,6 +163,7 @@ export type User = {
 
 export type UserChallenge = {
   __typename?: 'UserChallenge';
+  assignedAt?: Maybe<Scalars['DateTime']['output']>;
   challenge: Challenge;
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
@@ -363,6 +364,7 @@ export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['
 };
 
 export type UserChallengeResolvers<ContextType = any, ParentType = ResolversParentTypes['UserChallenge']> = {
+  assignedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   challenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType>;
   completedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

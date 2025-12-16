@@ -19,6 +19,7 @@ export const GET_USER = gql`
         done
         currentChallenge
         createdAt
+        assignedAt
         updatedAt
         completedAt
         notes

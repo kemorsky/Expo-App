@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
                 if (!user) throw new Error("Not authenticated");
 
                 const now = new Date();
-                const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999); // 23:59:59 of today in local timezone
+                const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0 ,0); // 23:59:59 of today in local timezone
 
                 if (!user.challengeResetDate || user.challengeResetDate < challengeDeadline) { // If last reset is before today 00:00:00, run daily reset
 
@@ -181,28 +181,44 @@ const resolvers: Resolvers = {
             const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
+            const dailyLimit = user.settings?.numberOfChallengesPerDay || 1;
+
+            const todayAssignedCount = await UserChallenge.countDocuments({
+                user: user._id,
+                assignedAt: { $gte: user.challengeResetDate }
+            });
+
+            if (todayAssignedCount >= dailyLimit) {
+                throw new Error(`You can only assign ${user.settings?.numberOfChallengesPerDay || 1} challenge(s) per day.`);
+            };
+
             const challenges = await UserChallenge.find({ 
                 user: user._id, 
                 currentChallenge: false, 
-                done: false 
+                done: false,
+                $or: [
+                    { assignedAt: { $lt: user.challengeResetDate } },
+                    { assignedAt: null }
+                ]
             });
             
             if (challenges.length === 0) throw new Error ("No challenges available");
 
             const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
-            
+
             await UserChallenge.updateMany(
-                { user: user._id },
+                { user: user._id, currentChallenge: true },
                 { $set: { currentChallenge: false } }
-            )
+            );
 
             const assignedChallenge = await UserChallenge.findByIdAndUpdate(
                 randomChallenge._id,
-                { currentChallenge: true },
+                { currentChallenge: true, assignedAt: new Date() },
                 { new: true, runValidators: true }
             ).populate("challenge");
 
             if (!assignedChallenge) { throw new Error(`Challenge with id ${randomChallenge._id} not found`) }
+
             const challenge = assignedChallenge?.challenge as ChallengeDocument
 
             return {
@@ -219,6 +235,7 @@ const resolvers: Resolvers = {
                 },
                 currentChallenge: assignedChallenge.currentChallenge,
                 done: assignedChallenge.done,
+                assignedAt: assignedChallenge.assignedAt
             }
         },
         markChallengeAsDone: async (_, { id, input }, context) => {
@@ -231,7 +248,8 @@ const resolvers: Resolvers = {
                     { notes: input.notes,
                       done: input.done,
                       completedAt: new Date(),
-                      currentChallenge: input.currentChallenge
+                      currentChallenge: input.currentChallenge,
+                      assignedAt: null
                     },
                     { new: true, runValidators: true }
                 ).populate("challenge");
@@ -256,6 +274,7 @@ const resolvers: Resolvers = {
                     notes: doneChallenge.notes,
                     currentChallenge: doneChallenge.currentChallenge,
                     done: doneChallenge.done,
+                    assignedAt: doneChallenge.assignedAt,
                     createdAt: doneChallenge.createdAt,
                     updatedAt: doneChallenge.updatedAt,
                     completedAt: doneChallenge.completedAt
@@ -346,6 +365,7 @@ const resolvers: Resolvers = {
                         done: ch.done,
                         currentChallenge: ch.currentChallenge,
                         createdAt: ch.createdAt,
+                        assignedAt: ch.assignedAt,
                         updatedAt: ch.updatedAt,
                         completedAt: ch.completedAt
                     }

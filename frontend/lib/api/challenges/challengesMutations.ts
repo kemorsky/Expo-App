@@ -17,6 +17,7 @@ const ASSIGN_RANDOM_CHALLENGE = gql`
             done
             currentChallenge
             createdAt
+            assignedAt
             updatedAt
         }
     }

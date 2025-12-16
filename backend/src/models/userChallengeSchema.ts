@@ -8,6 +8,7 @@ export type UserChallengeDocument = Document & {
     notes: string;
     done: boolean;
     currentChallenge: boolean;
+    assignedAt: Date | null;
     createdAt: string;
     updatedAt: string;
     completedAt: Date | null
@@ -36,6 +37,10 @@ const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
         currentChallenge: {
             type: Boolean,
             default: false
+        },
+        assignedAt: {
+            type: Date,
+            default: null
         },
         completedAt: {
             type: Date,
