@@ -42,7 +42,6 @@ export default function HomeScreen() {
             title: data.challenge.title,
           },
           currentChallenge: data.currentChallenge,
-          curentChallengeExpiresAt: data.currentChallengeExpiresAt,
         }
       }
       console.log(data)

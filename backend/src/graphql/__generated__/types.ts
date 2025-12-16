@@ -35,11 +35,6 @@ export type Challenge = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
-export type ChallengeCurrentInput = {
-  currentChallenge: Scalars['Boolean']['input'];
-  currentChallengeExpiresAt: Scalars['String']['input'];
-};
-
 export type ChallengeDoneInput = {
   completedAt?: InputMaybe<Scalars['DateTime']['input']>;
   currentChallenge: Scalars['Boolean']['input'];
@@ -266,7 +261,6 @@ export type ResolversTypes = {
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Challenge: ResolverTypeWrapper<Challenge>;
-  ChallengeCurrentInput: ChallengeCurrentInput;
   ChallengeDoneInput: ChallengeDoneInput;
   ChallengeInput: ChallengeInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
@@ -289,7 +283,6 @@ export type ResolversParentTypes = {
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean']['output'];
   Challenge: Challenge;
-  ChallengeCurrentInput: ChallengeCurrentInput;
   ChallengeDoneInput: ChallengeDoneInput;
   ChallengeInput: ChallengeInput;
   DateTime: Scalars['DateTime']['output'];
