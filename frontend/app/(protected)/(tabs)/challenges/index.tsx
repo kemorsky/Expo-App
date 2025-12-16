@@ -47,7 +47,7 @@ export default function Challenges() {
           <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText type='date'>
-                {formatDate(activeChallenge.updatedAt ?? '')}
+                {formatDate(activeChallenge.completedAt ?? '')}
               </ThemedText>
               {activeChallenge.done && activeChallenge.done === true ? 
                   <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 

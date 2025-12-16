@@ -38,6 +38,7 @@ const MARK_CHALLENGE_AS_DONE = gql`
             currentChallengeExpiresAt
             createdAt
             updatedAt
+            completedAt
         }
     }
 `
@@ -118,6 +119,7 @@ export function useMarkChallengeAsDone() {
                 },
                 done: updated.done,
                 currentChallenge: updated.currentChallenge,
+                completedAt: updated.completedAt
             };
             
             const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({

@@ -1,3 +1,5 @@
+scalar DateTime
+
 type User {
   id: ID!
   name: String!
@@ -5,6 +7,7 @@ type User {
   password: String
   challenges: [UserChallenge]
   settings: Settings
+  challengeResetDate: DateTime
   refreshToken: String
 }
 
@@ -44,6 +47,7 @@ type UserChallenge {
   currentChallengeExpiresAt: String
   createdAt: String
   updatedAt: String
+  completedAt: DateTime
 }
 
 input ChallengeInput {
@@ -59,6 +63,7 @@ input ChallengeDoneInput {
   notes: String
   done: Boolean!
   currentChallenge: Boolean!
+  completedAt: DateTime
 }
 
 type Settings {

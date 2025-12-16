@@ -11,6 +11,7 @@ export type UserChallengeDocument = Document & {
     currentChallengeExpiresAt: string | null;
     createdAt: string;
     updatedAt: string;
+    completedAt: Date | null
 }
 
 const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
@@ -39,6 +40,10 @@ const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
         },
         currentChallengeExpiresAt: {
             type: String,
+            default: null
+        },
+        completedAt: {
+            type: Date,
             default: null
         }
     }, {

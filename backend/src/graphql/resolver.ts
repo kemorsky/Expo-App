@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from "graphql-scalars";
 import User from "./../models/userSchema.js";
 import Challenge, { ChallengeDocument } from "./../models/challengeSchema.js";
 import UserChallenge from "./../models/userChallengeSchema.js";
@@ -6,6 +7,7 @@ import type { Resolvers } from "./__generated__/types";
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 
 const resolvers: Resolvers = {
+    DateTime: GraphQLDateTime,
     Query: {
         user: async (_, { id }) => await User.findById(id),
         me: async (_, __, context) => {
@@ -19,11 +21,28 @@ const resolvers: Resolvers = {
 
                 if (!user) throw new Error("Not authenticated");
 
+                const now = new Date();
+                const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999); // 23:59:59 of today in local timezone
+
+                if (!user.challengeResetDate || user.challengeResetDate < challengeDeadline) { // If last reset is before today 00:00:00, run daily reset
+
+                // Reset currentChallenge flags
+                    await UserChallenge.updateMany(
+                        { user: user._id, currentChallenge: true },
+                        { $set: { currentChallenge: false } }
+                    );
+
+                    // Update the last reset timestamp to today's midnight
+                    user.challengeResetDate = challengeDeadline;
+                    await user.save();
+                }
+
                 return {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
-                    settings: user.settings
+                    settings: user.settings,
+                    challengeResetDate: user.challengeResetDate
                 }
 
             } catch (error) {
@@ -216,6 +235,7 @@ const resolvers: Resolvers = {
                     id,
                     { notes: input.notes,
                       done: input.done,
+                      completedAt: new Date(),
                       currentChallenge: input.currentChallenge
                     },
                     { new: true, runValidators: true }
@@ -242,7 +262,8 @@ const resolvers: Resolvers = {
                     currentChallenge: doneChallenge.currentChallenge,
                     done: doneChallenge.done,
                     createdAt: doneChallenge.createdAt,
-                    updatedAt: doneChallenge.updatedAt
+                    updatedAt: doneChallenge.updatedAt,
+                    completedAt: doneChallenge.completedAt
                 }
             } catch (error) {
                 throw new Error (`Error marking challenge as done: ${error}`)
@@ -355,7 +376,8 @@ const resolvers: Resolvers = {
                         currentChallenge: ch.currentChallenge,
                         currentChallengeExpiresAt: ch.currentChallengeExpiresAt,
                         createdAt: ch.createdAt,
-                        updatedAt: ch.updatedAt
+                        updatedAt: ch.updatedAt,
+                        completedAt: ch.completedAt
                     }
             });
         },

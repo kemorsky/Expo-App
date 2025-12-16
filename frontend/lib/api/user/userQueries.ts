@@ -21,6 +21,7 @@ export const GET_USER = gql`
         currentChallengeExpiresAt
         createdAt
         updatedAt
+        completedAt
         notes
       }
       settings {

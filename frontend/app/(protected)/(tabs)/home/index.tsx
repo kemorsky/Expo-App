@@ -121,7 +121,7 @@ export default function HomeScreen() {
               renderItem={({ item }) => {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
-                                <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.updatedAt ?? '')}</ThemedText>
+                                <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
                                 <Pressable>
                                   <ThemedText>View -&gt; </ThemedText>
                                 </Pressable>

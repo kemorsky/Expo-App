@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,6 +14,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
 };
 
 export type AuthPayload = {
@@ -40,6 +41,7 @@ export type ChallengeCurrentInput = {
 };
 
 export type ChallengeDoneInput = {
+  completedAt?: InputMaybe<Scalars['DateTime']['input']>;
   currentChallenge: Scalars['Boolean']['input'];
   done: Scalars['Boolean']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
@@ -154,6 +156,7 @@ export type SettingsInput = {
 
 export type User = {
   __typename?: 'User';
+  challengeResetDate?: Maybe<Scalars['DateTime']['output']>;
   challenges?: Maybe<Array<Maybe<UserChallenge>>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -166,6 +169,7 @@ export type User = {
 export type UserChallenge = {
   __typename?: 'UserChallenge';
   challenge: Challenge;
+  completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   currentChallenge: Scalars['Boolean']['output'];
   currentChallengeExpiresAt?: Maybe<Scalars['String']['output']>;
@@ -266,6 +270,7 @@ export type ResolversTypes = {
   ChallengeCurrentInput: ChallengeCurrentInput;
   ChallengeDoneInput: ChallengeDoneInput;
   ChallengeInput: ChallengeInput;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Me: ResolverTypeWrapper<Me>;
@@ -288,6 +293,7 @@ export type ResolversParentTypes = {
   ChallengeCurrentInput: ChallengeCurrentInput;
   ChallengeDoneInput: ChallengeDoneInput;
   ChallengeInput: ChallengeInput;
+  DateTime: Scalars['DateTime']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Me: Me;
@@ -317,6 +323,10 @@ export type ChallengeResolvers<ContextType = any, ParentType = ResolversParentTy
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
 
 export type MeResolvers<ContextType = any, ParentType = ResolversParentTypes['Me']> = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -350,6 +360,7 @@ export type SettingsResolvers<ContextType = any, ParentType = ResolversParentTyp
 };
 
 export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['User']> = {
+  challengeResetDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   challenges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserChallenge']>>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -361,6 +372,7 @@ export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['
 
 export type UserChallengeResolvers<ContextType = any, ParentType = ResolversParentTypes['UserChallenge']> = {
   challenge?: Resolver<ResolversTypes['Challenge'], ParentType, ContextType>;
+  completedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   currentChallengeExpiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -374,6 +386,7 @@ export type UserChallengeResolvers<ContextType = any, ParentType = ResolversPare
 export type Resolvers<ContextType = any> = {
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   Challenge?: ChallengeResolvers<ContextType>;
+  DateTime?: GraphQLScalarType;
   Me?: MeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

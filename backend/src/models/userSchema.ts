@@ -12,6 +12,7 @@ export type UserDocument = Document & {
     language?: string;
     theme?: string;
   };
+  challengeResetDate: Date | null;
   refreshToken: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 };
@@ -39,6 +40,10 @@ export const userSchema = new mongoose.Schema<UserDocument>(
         settings: {
             type: settingsSchema,
             default: () => ({})
+        },
+        challengeResetDate: {
+            type: Date,
+            default: null
         },
         refreshToken: {
             type: String

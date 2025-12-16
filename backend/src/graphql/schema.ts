@@ -1,4 +1,6 @@
 const typeDefs = `#graphql
+    scalar DateTime
+    
     type User {
         id: ID!
         name: String!
@@ -6,6 +8,7 @@ const typeDefs = `#graphql
         password: String
         challenges: [UserChallenge]
         settings: Settings
+        challengeResetDate: DateTime
         refreshToken: String
     }
 
@@ -45,6 +48,7 @@ const typeDefs = `#graphql
         currentChallengeExpiresAt: String
         createdAt: String
         updatedAt: String
+        completedAt: DateTime
     }
 
     input ChallengeInput {
@@ -60,6 +64,7 @@ const typeDefs = `#graphql
         notes: String
         done: Boolean!
         currentChallenge: Boolean!
+        completedAt: DateTime
     }
 
    type Settings {
