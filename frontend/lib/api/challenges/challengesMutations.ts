@@ -73,6 +73,7 @@ export function useAssignRandomChallenge() {
                 },
                 done: updated.done,
                 currentChallenge: updated.currentChallenge,
+                assignedAt: updated.assignedAt
             };
             
             const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
@@ -95,9 +96,12 @@ export function useAssignRandomChallenge() {
     });
     
     const assignRandomChallenge = async () => {
-        const response = await assignRandomChallengeMutation()
-
-        return response.data?.assignRandomChallenge
+        try {
+            const response = await assignRandomChallengeMutation();
+            return response.data?.assignRandomChallenge;
+        } catch (error: any) {
+            throw new Error(error.message || "Cannot assign challenge today");
+        }
     }
 
     return { assignRandomChallenge, data, loading, error}
