@@ -1,23 +1,23 @@
 export const slides = [
     {
         id: "1",
-        title: "Test1",
+        title: "Get a new challenge every day",
         description: 
-            "Onboarding Screen 1",
+            "You can accept the challenge, or decline it and try another one. Some days are harder than others, so pick whatever suits you best.",
         image: require("../assets/images/icon.png"),
     },
     {
         id: "2",
-        title: "Test2",
+        title: "Create your own challenges!",
         description: 
-            "Onboarding Screen 2",
+            "On top of default challenges provided with the app, you can create your own and customize them to your personal needs.",
         image: require("../assets/images/icon.png"),
     },
     {
         id: "3",
-        title: "Test3",
+        title: "Take up more challenges whenever you want to",
         description: 
-            "Onboarding Screen 3",
+            "BY default you can do 1 challenge per day, however you can up the number up to 3. Just head to your settings to change it.",
         image: require("../assets/images/icon.png"),
     },
 ]

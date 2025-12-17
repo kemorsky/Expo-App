@@ -10,7 +10,7 @@ export default function Paginator({ data, scrollX, scrollToNext, scrollToPreviou
     return (
         <View style={styles.paginator}>
             <PreviousButton scrollToPrevious={scrollToPrevious} />
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
                 {data.map((_, index) => {
                     return (
                         <PaginatorDot
@@ -32,5 +32,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-end",
+        paddingHorizontal: 12
     }
 })

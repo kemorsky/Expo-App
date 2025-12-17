@@ -45,6 +45,19 @@ export const useGlobalStyles = () => {
             fontSize: 16
         },
 
+        // onboarding
+
+        onboardingPage: {
+            flex: 1,
+            backgroundColor: theme.colors.background,
+        },
+        onboardingWrapper: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 24
+        },
+
         // home
 
         buttonMarkAsDone: {

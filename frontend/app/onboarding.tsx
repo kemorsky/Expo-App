@@ -6,6 +6,7 @@ import Animated, { useSharedValue, useAnimatedScrollHandler } from "react-native
 import OnboardingPage from "@/components/onboarding/OnboardingPage";
 import Paginator from "@/components/onboarding/Paginator";
 import { router } from "expo-router";
+import { useGlobalStyles } from "@/styles/globalStyles";
 
 type Slides = {
     id: string;
@@ -15,6 +16,7 @@ type Slides = {
 }
 
 export default function Onboarding() {
+    const globalStyles = useGlobalStyles();
     const [ currentIndex, setCurrentIndex ] = useState<number>(0);
     const scrollX = useSharedValue(0);
     const slideRef = useRef<FlatList<Slides>>(null)
@@ -47,11 +49,11 @@ export default function Onboarding() {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#d48585ff" }}>
-            <View style={{ flex: 1, padding: 12 }}>
+        <SafeAreaView style={globalStyles.onboardingPage}>
+            <View style={{ flex: 1, paddingVertical: 12 }}>
                 <Animated.FlatList 
-                        style={{ height: 600, flexGrow: 0, flexShrink: 0 }}
-                        contentContainerStyle={{ }}
+                        style={{ height: 700, flexGrow: 0, flexShrink: 0 }}
+                        contentContainerStyle={{alignItems: "center" }}
                         data={slides}
                         renderItem={({ item }) => { return <OnboardingPage item={ item }/> }}
                         horizontal
