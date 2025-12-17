@@ -1,6 +1,7 @@
 import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
+import { ThemedText } from '@/components/ThemedText';
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -20,7 +21,7 @@ export default function Login() {
         <SafeAreaView>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <View style={globalStyles.container}>
-                    <Text style={globalStyles.title}>Login</Text>
+                    <ThemedText type="title">Login</ThemedText>
                     <TextInput
                         placeholder="Email"
                         style={globalStyles.input}

@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
 import { saveToken, getRefreshToken, saveRefreshToken, deleteToken, deleteRefreshToken} from './token'
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState, useEffect, useCallback } from "react";
 import { useLogin, useRefreshToken } from "@/lib/api/user/userMutations";
 import type { AuthPayload } from "@/__generated__/graphql";
 import AuthState from './AuthContext'
+import { setAccessToken } from "./authToken";
 
 type AuthProviderProps = PropsWithChildren
 
@@ -42,12 +43,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function logOut() {
         await deleteToken();
         await deleteRefreshToken();
+        setAccessToken(null);
         setUser(null)
         setIsLoggedIn(false)
         router.replace("/Login");
     };
 
-    async function rehydrate() {
+    const rehydrate = useCallback(async () => {
         try {
             const storedRefreshToken = await getRefreshToken();
             if (!storedRefreshToken) return;
@@ -57,6 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             await saveToken(data.token ?? '');
             await saveRefreshToken(data.refreshToken ?? '');
+            setAccessToken(data.token ?? '');
             setUser({
                 id: data.id,
                 email: data.email,
@@ -71,10 +74,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } finally {
             setIsRehydrated(true);
         }
-    }
+    }, [refreshToken]);
+
+    
+    useEffect(() => {
+        rehydrate();
+    }, [rehydrate]);
 
     if (!isRehydrated) {
-        rehydrate();
         return null;
     }
 
