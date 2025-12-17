@@ -181,16 +181,26 @@ const resolvers: Resolvers = {
             const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
-            const dailyLimit = user.settings?.numberOfChallengesPerDay || 1;
+            if (!user.lastAssignmentDate || user.lastAssignmentDate < (user.challengeResetDate ?? new Date())) {
+                user.assignmentsToday = 0;
+                await user.save();
+            }
 
-            const todayAssignedCount = await UserChallenge.countDocuments({
-                user: user._id,
-                assignedAt: { $gte: user.challengeResetDate }
-            });
+            const updatedUser = await User.findOneAndUpdate(
+                {
+                    _id: user._id,
+                    assignmentsToday: { $lt: user.settings?.numberOfChallengesPerDay },
+                },
+                {
+                    $inc: { assignmentsToday: 1 },
+                    $set: { lastAssignmentDate: new Date() }
+                },
+                { new: true }
+             );
 
-            if (todayAssignedCount >= dailyLimit) {
-                throw new Error(`You can only assign ${user.settings?.numberOfChallengesPerDay || 1} challenge(s) per day.`);
-            };
+            if (!updatedUser) {
+                throw new Error(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`);
+            }
 
             const challenges = await UserChallenge.find({ 
                 user: user._id, 

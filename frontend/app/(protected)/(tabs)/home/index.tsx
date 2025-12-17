@@ -33,20 +33,19 @@ export default function HomeScreen() {
   const handleAssignRandomChallenge = async () => {
     try {
       const data = await assignRandomChallenge();
-      if (data) {
-        console.log(data)
-        return {
-          id: data.id,
-          challenge: {
-            id: data.challenge.id,
-            title: data.challenge.title,
-          },
-          currentChallenge: data.currentChallenge,
-        }
-      }
+      if (!data) return;
       console.log(data)
-    } catch (error) {
-      throw new Error (`Error marking challenge as done: ${error}`)
+      return {
+        id: data.id,
+        challenge: {
+          id: data.challenge.id,
+          title: data.challenge.title,
+        },
+        currentChallenge: data.currentChallenge,
+        assignedAt: data.assignedAt
+      }
+    } catch (error: any) {
+      throw new Error (`Error assigning random challenge: ${error}`)
     }
   }
 

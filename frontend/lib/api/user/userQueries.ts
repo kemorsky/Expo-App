@@ -29,6 +29,9 @@ export const GET_USER = gql`
         numberOfChallengesPerDay
         theme
       }
+      challengeResetDate
+      assignmentsToday
+      lastAssignmentDate
       refreshToken
     }
 }`

@@ -9,6 +9,8 @@ const typeDefs = `#graphql
         challenges: [UserChallenge]
         settings: Settings
         challengeResetDate: DateTime
+        assignmentsToday: Int
+        lastAssignmentDate: DateTime
         refreshToken: String
     }
 

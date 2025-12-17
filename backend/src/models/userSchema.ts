@@ -13,6 +13,8 @@ export type UserDocument = Document & {
     theme?: string;
   };
   challengeResetDate: Date | null;
+  assignmentsToday: number;
+  lastAssignmentDate: Date;
   refreshToken: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
 };
@@ -42,6 +44,14 @@ export const userSchema = new mongoose.Schema<UserDocument>(
             default: () => ({})
         },
         challengeResetDate: {
+            type: Date,
+            default: null
+        },
+        assignmentsToday: {
+            type: Number,
+            default: 0
+        },
+        lastAssignmentDate: {
             type: Date,
             default: null
         },
