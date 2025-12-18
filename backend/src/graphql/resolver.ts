@@ -42,7 +42,8 @@ const resolvers: Resolvers = {
                     name: user.name,
                     email: user.email,
                     settings: user.settings,
-                    challengeResetDate: user.challengeResetDate
+                    challengeResetDate: user.challengeResetDate,
+                    assignmentsToday: user.assignmentsToday
                 }
 
             } catch (error) {

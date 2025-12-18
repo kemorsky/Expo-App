@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { StyleSheet, View, FlatList, ViewToken, Platform} from "react-native";
+import { View, FlatList, ViewToken, Platform} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { slides } from "@/utils/slides";
 import Animated, { useSharedValue, useAnimatedScrollHandler } from "react-native-reanimated";
@@ -69,8 +69,4 @@ export default function Onboarding() {
             </View>
         </SafeAreaView>
     )
-}
-
-const styles = StyleSheet.create({
-    
-})
+};

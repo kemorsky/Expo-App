@@ -70,6 +70,19 @@ export const useGlobalStyles = () => {
             borderRadius: 4,
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
             backgroundColor: theme.colors.primary,
+            pointerEvents: "auto"
+        },
+        buttonDisabled: {
+            height: 40,
+            justifyContent: 'center',
+            alignSelf: 'flex-end',
+            padding: 8,
+            borderWidth: 1,
+            borderColor: '#000000ff',
+            borderRadius: 4,
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            backgroundColor: "#a33f3fff",
+            pointerEvents: "none"
         },
 
         // mark challenge as done modal

@@ -30,6 +30,8 @@ export default function HomeScreen() {
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
   const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.updatedAt) - Number(a?.updatedAt)).slice(0, 5)
 
+  const isDisabled = (user.assignmentsToday ?? 1) === (user.settings?.numberOfChallengesPerDay ?? 1);
+
   const handleAssignRandomChallenge = async () => {
     try {
       const data = await assignRandomChallenge();
@@ -63,19 +65,22 @@ export default function HomeScreen() {
         </View>
         
         <View style={globalStyles.card}>
-          {currentChallenge && (
+          {currentChallenge ? (
             <>
               <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
-              <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
+              <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => setOpenModal(true)}>
                 <ThemedText>Mark as done</ThemedText>
               </Pressable>
             </>
-          )}
-          {!currentChallenge && (
+          ) : (
             <>
               <ThemedText type='challenge'>No active challenge</ThemedText>
-              <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => handleAssignRandomChallenge()}>
-                <ThemedText>Get a challenge</ThemedText>
+              <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => handleAssignRandomChallenge()}>
+                {(user.assignmentsToday ?? 1) >= 1 ? (
+                  <ThemedText>Get another challenge</ThemedText>
+                ) : (
+                  <ThemedText>Get a challenge</ThemedText>
+                )}
               </Pressable>
             </>
           )}
