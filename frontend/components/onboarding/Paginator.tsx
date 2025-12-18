@@ -1,14 +1,16 @@
-import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import { type PaginationProps } from "@/utils/pagination";
 import PaginatorDot from "./PaginatorDot";
 import NextButton from "./NextButton";
 import PreviousButton from "./PreviousButton";
+import { useGlobalStyles } from "@/styles/globalStyles";
 
 export default function Paginator({ data, scrollX, scrollToNext, scrollToPrevious }: PaginationProps) {
     const { width } = useWindowDimensions();
+    const globalStyles = useGlobalStyles();
 
     return (
-        <View style={styles.paginator}>
+        <View style={globalStyles.paginator}>
             <PreviousButton scrollToPrevious={scrollToPrevious} />
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
                 {data.map((_, index) => {
@@ -25,13 +27,4 @@ export default function Paginator({ data, scrollX, scrollToNext, scrollToPreviou
             <NextButton scrollToNext={scrollToNext} />
         </View>
     )
-}
-
-const styles = StyleSheet.create({
-    paginator: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-end",
-        paddingHorizontal: 12
-    }
-})
+};

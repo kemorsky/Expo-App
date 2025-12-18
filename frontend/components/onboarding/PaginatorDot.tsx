@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
 import { type PaginationProps } from "@/utils/pagination";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { useGlobalStyles } from "@/styles/globalStyles";
 
 type PaginatorDotProps = {
     index: number;
@@ -9,6 +9,7 @@ type PaginatorDotProps = {
 }
 
 export default function PaginatorDot({ index, width, scrollX }: PaginatorDotProps) {
+    const globalStyles = useGlobalStyles();
 
     const animatedStyle = useAnimatedStyle(() => {
         const inputRange = [
@@ -26,16 +27,7 @@ export default function PaginatorDot({ index, width, scrollX }: PaginatorDotProp
     return (
         <Animated.View
             key={index}
-            style={[styles.dot, animatedStyle]}
+            style={[globalStyles.dot, animatedStyle]}
         />
     );
-}
-
-const styles = StyleSheet.create({
-    dot: {
-        height: 20,
-        width: 20,
-        borderRadius: 999,
-        backgroundColor: "#300808ff"
-    }
-})
+};

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { View, FlatList, ViewToken, Platform} from "react-native";
+import { View, FlatList, ViewToken, Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { slides } from "@/utils/slides";
 import Animated, { useSharedValue, useAnimatedScrollHandler } from "react-native-reanimated";
@@ -7,6 +7,7 @@ import OnboardingPage from "@/components/onboarding/OnboardingPage";
 import Paginator from "@/components/onboarding/Paginator";
 import { router } from "expo-router";
 import { useGlobalStyles } from "@/styles/globalStyles";
+import { ThemedText } from "@/components/ThemedText";
 
 type Slides = {
     id: string;
@@ -52,7 +53,7 @@ export default function Onboarding() {
         <SafeAreaView style={globalStyles.onboardingPage}>
             <View style={{ flex: 1, paddingVertical: 12 }}>
                 <Animated.FlatList 
-                        style={{ height: 700, flexGrow: 0, flexShrink: 0 }}
+                        style={{ height: 600, flexGrow: 0, flexShrink: 0 }}
                         contentContainerStyle={{alignItems: "center" }}
                         data={slides}
                         renderItem={({ item }) => { return <OnboardingPage item={ item }/> }}
@@ -66,6 +67,9 @@ export default function Onboarding() {
                         viewabilityConfig={viewConfig}
                         keyExtractor={item => item.id} />
                 <Paginator data={slides} scrollX={scrollX} scrollToNext={scrollToNext} scrollToPrevious={scrollToPrevious} />
+                <Pressable style={globalStyles.skipButton}>
+                    <ThemedText type="subtitle">Skip</ThemedText>
+                </Pressable>
             </View>
         </SafeAreaView>
     )

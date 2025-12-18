@@ -1,24 +1,17 @@
-import { StyleSheet, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { ThemedText } from "../ThemedText";
+import { useGlobalStyles } from "@/styles/globalStyles";
 
 type PreviousButtonProps = {
     scrollToPrevious: () => void;
 }
 
 export default function PreviousButton({ scrollToPrevious }: PreviousButtonProps) {
+    const globalStyles = useGlobalStyles();
+    
     return (
-        <Pressable accessibilityLabel="Previous Onboarding Slide Button" style={styles.previousButton} onPress={scrollToPrevious}>
-            <ThemedText>Previous</ThemedText>
+        <Pressable accessibilityLabel="Previous Onboarding Slide Button" style={globalStyles.cycleThroughButton} onPress={scrollToPrevious}>
+            <ThemedText type="subtitle">Previous</ThemedText>
         </Pressable>
     );
-}
-
-const styles = StyleSheet.create({
-    previousButton: {
-        backgroundColor: "#da7070ff",
-        alignSelf: "flex-end",
-        padding: 8,
-        borderRadius: 8,
-
-    }
-})
+};

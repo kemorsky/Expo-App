@@ -58,6 +58,38 @@ export const useGlobalStyles = () => {
             gap: 24
         },
 
+        // paginator
+        
+        paginator: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            paddingHorizontal: 12
+        },
+        dot: {
+            height: 20,
+            width: 20,
+            borderRadius: 999,
+            backgroundColor: "#300808ff"
+        },
+        cycleThroughButton: {
+            width: 90,
+            alignItems: "center",
+            backgroundColor: "#da7070ff",
+            alignSelf: "flex-end",
+            padding: 8,
+            borderRadius: 8,
+        },
+        skipButton: {
+            width: 200, 
+            backgroundColor: "#ac2222ff", 
+            alignItems: "center", 
+            alignSelf: "center", 
+            marginTop: 40, 
+            padding: 12, 
+            borderRadius: 8
+        },
+
         // home
 
         buttonMarkAsDone: {
