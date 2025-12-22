@@ -25,6 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const refreshToken = data?.refreshToken;
 
             await saveToken(accessToken ?? '');
+            setAccessToken(data.token ?? '');
             await saveRefreshToken(refreshToken ?? '');
             setUser({
                 id: data.id,

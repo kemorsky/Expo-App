@@ -1,4 +1,4 @@
-import { Button, View, Text, Pressable, Image } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import { useMe } from '@/lib/api/user/userQueries';
 import { useAuth } from '@/utils/AuthContext';
 import { useGlobalStyles } from '@/styles/globalStyles';
@@ -91,7 +91,7 @@ export default function Settings() {
                 </View>
             </Container>
             <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "blue", borderRadius: 8, }} onPress={logOut}>
-                <ThemedText>Log Out</ThemedText>
+                <ThemedText>Sign Out</ThemedText>
             </Pressable>
         </Wrapper>
     )

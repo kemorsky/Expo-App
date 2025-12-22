@@ -55,18 +55,18 @@ function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <StatusBar style="auto" />
-          <Stack>
+          <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
             <Stack.Screen
               name="Login"
               options={{
-                headerShown: false,
-                animation: "none"
+                title: "Login",
+                animation: "default"
             }} />
             <Stack.Screen
               name="SignUp"
               options={{
-                headerShown: false,
-                animation: "none"
+                title: "Sign Up",
+                animation: "default"
             }} />
             <Stack.Screen
               name="(protected)"

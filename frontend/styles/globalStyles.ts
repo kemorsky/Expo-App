@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { useThemeConfig } from '@/hooks/useThemeConfig';
+import { StyleSheet } from "react-native";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
 
 export const useGlobalStyles = () => {
     const { theme } = useThemeConfig();
     return StyleSheet.create({
         // global
         wrapper: {
-            width: '100%',
+            width: "100%",
             backgroundColor: theme.colors.background,
             flex: 1,
             minHeight: 752,
@@ -14,29 +14,29 @@ export const useGlobalStyles = () => {
         },
         card: {
             backgroundColor: theme.colors.card,
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
+            flexDirection: "column",
+            justifyContent: "flex-start",
             padding: 8,
             borderRadius: 8
         },
         headerImage: {
-            color: '#fafafa',
+            color: "#fafafa",
             bottom: -70,
             left: -25,
-            position: 'absolute'
+            position: "absolute"
         },
         container: {
             padding: 12,
-            width: '100%',
-            flexDirection: 'column',
+            width: "100%",
+            flexDirection: "column",
             gap: 12,
         },
         titleContainer: {
-            flexDirection: 'row',
+            flexDirection: "row",
             gap: 8
         },
         input: {
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
             height: 54,
             width: "100%",
             borderWidth: 1,
@@ -97,14 +97,14 @@ export const useGlobalStyles = () => {
             width: 170, 
             height: 80, 
             padding: 8, 
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
             borderRadius: 8, 
         },
 
         // home
 
         welcomeCard: {
-            flexDirection: 'column', 
+            flexDirection: "column", 
             gap: 40, 
             backgroundColor: theme.colors.card, 
             borderBottomRightRadius: 16, 
@@ -114,25 +114,25 @@ export const useGlobalStyles = () => {
         },
         buttonMarkAsDone: {
             height: 40,
-            justifyContent: 'center',
-            alignSelf: 'flex-end',
+            justifyContent: "center",
+            alignSelf: "flex-end",
             padding: 8,
             borderWidth: 1,
-            borderColor: '#000000ff',
+            borderColor: "#000000ff",
             borderRadius: 4,
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             backgroundColor: theme.colors.primary,
             pointerEvents: "auto"
         },
         buttonDisabled: {
             height: 40,
-            justifyContent: 'center',
-            alignSelf: 'flex-end',
+            justifyContent: "center",
+            alignSelf: "flex-end",
             padding: 8,
             borderWidth: 1,
-            borderColor: '#000000ff',
+            borderColor: "#000000ff",
             borderRadius: 4,
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             backgroundColor: "#a33f3fff",
             pointerEvents: "none"
         },
@@ -140,18 +140,18 @@ export const useGlobalStyles = () => {
         // mark challenge as done modal
 
         modalContainer: {
-            position: 'absolute',
+            position: "absolute",
             top: 120,
-            height: '100%',
-            width: '100%',
+            height: "100%",
+            width: "100%",
             backgroundColor: theme.colors.card,
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
             gap: 30,
             borderRadius: 8,
             padding: 12,
-            shadowColor: '#000',
+            shadowColor: "#000",
             shadowOffset: {
                 width: 0,
                 height: 2,
@@ -161,10 +161,10 @@ export const useGlobalStyles = () => {
             elevation: 5,
         },
         modalHeader: {
-            width: '100%',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
         },
         modalTitle: {
             gap: 6
@@ -175,40 +175,40 @@ export const useGlobalStyles = () => {
 
         createChallengeButton: {
             backgroundColor: theme.colors.primary,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
             gap: 4,
             padding: 8,
             borderRadius: 8
         },
         challengesContainer: {
-            width: '100%',
-            flexDirection: 'column',
+            width: "100%",
+            flexDirection: "column",
             gap: 8
         },
         challengeList: {
             backgroundColor: theme.colors.card,
             paddingHorizontal: 8,
-            flexDirection: 'column',
+            flexDirection: "column",
             borderRadius: 8,
         },
         challenge: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
             paddingVertical: 8,
         },
         challengeItem: {
-            flexDirection: 'row',
+            flexDirection: "row",
             gap: 8,
-            justifyContent: 'center',
-            alignItems: 'center'
+            justifyContent: "center",
+            alignItems: "center"
         },
         challengesSectionList: {
             backgroundColor: theme.colors.card,
             paddingHorizontal: 8,
-            flexDirection: 'column',
+            flexDirection: "column",
             borderRadius: 8,
         },
 
@@ -217,28 +217,29 @@ export const useGlobalStyles = () => {
         settingsList: {
             backgroundColor: theme.colors.card,
             paddingHorizontal: 8,
-            flexDirection: 'column',
+            flexDirection: "column",
             borderRadius: 8,
         },
         setting: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
             paddingVertical: 12,
         },
         userRundown: {
             backgroundColor: theme.colors.card,
             padding: 8,
-            flexDirection: 'column',
+            flexDirection: "column",
             gap: 8,
             borderRadius: 8,
         },
 
         buttonLogin: {
-            width: 180,
+            width: 300,
             height: 54,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
             paddingHorizontal: 6,
             paddingVertical: 4,
             backgroundColor: "#529c34ff",
@@ -247,10 +248,11 @@ export const useGlobalStyles = () => {
             borderRadius: 8,
         },
         buttonSignUp: {
-            width: 180,
+            width: 300,
             height: 54,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
             paddingHorizontal: 6,
             paddingVertical: 4,
             backgroundColor: "#134200ff",

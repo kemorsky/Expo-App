@@ -1,10 +1,11 @@
 import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
+import { Wrapper } from '@/components/Wrapper';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
 import { ThemedText } from '@/components/ThemedText';
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useRouter, Link } from 'expo-router';
 
 import { UserLogin } from "@/__generated__/graphql";
 
@@ -20,34 +21,42 @@ export default function Login() {
     return (
         <SafeAreaView>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
-                <View style={globalStyles.container}>
-                    <ThemedText type="title">Login</ThemedText>
-                    <TextInput
-                        placeholder="Email"
-                        style={globalStyles.input}
-                        value={user.email}
-                        autoCapitalize="none"
-                        keyboardType='email-address'
-                        onChangeText={handleEmailChange}
-                    />
-                    <TextInput 
-                        placeholder="Password"
-                        style={globalStyles.input}
-                        value={user.password}
-                        onChangeText={handlePasswordChange}
-                        secureTextEntry
-                    />
-                     <Pressable style={globalStyles.buttonLogin} onPress={() => logIn(user.email, user.password)}>
+                <Wrapper>
+                    <View style={[globalStyles.container, {marginTop: 80, }]}>
+                        <ThemedText type="title">Sign In</ThemedText>
+                        <View style={[globalStyles.container, {padding: 0, marginBottom: 20}]}>
+                            <TextInput
+                                aria-label='E-mail login input field'
+                                placeholder="Email"
+                                style={globalStyles.input}
+                                value={user.email}
+                                autoCapitalize="none"
+                                keyboardType='email-address'
+                                onChangeText={handleEmailChange}
+                            />
+                            <TextInput 
+                                aria-label='Password login input field'
+                                placeholder="Password"
+                                style={globalStyles.input}
+                                value={user.password}
+                                onChangeText={handlePasswordChange}
+                                secureTextEntry
+                            />
+                        </View>
+                        <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(user.email, user.password)}>
                             <Text style={globalStyles.buttonText}>Login</Text>
                         </Pressable>
-                    <View>
-                        <Text>Not a user yet?</Text>
-                        <Pressable onPress={() => router.replace("/SignUp")}>
-                            <Text style={globalStyles.buttonText}>Create an account</Text>
-                        </Pressable>
+                        <View style={{flexDirection: "column", alignItems: "center", gap: 12, marginTop: 40}}>
+                            <ThemedText>Not a user yet?</ThemedText>
+                            <Link href="/SignUp" push asChild>
+                                <Pressable aria-label='Sign Up button'>
+                                    <Text style={globalStyles.buttonText}>Create an account</Text>
+                                </Pressable>
+                            </Link>
+                        </View>
+                        
                     </View>
-                    
-                </View>
+                </Wrapper>
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
