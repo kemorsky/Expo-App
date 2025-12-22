@@ -39,11 +39,11 @@ export default function Challenges() {
       title: t('tabs.challenges.headers.default'),
       data: defaultChallenges ?? []
     }
-  ]
+  ];
 
-  const openChallenge = (activeChallenge: UserChallenge) => {
+  const openChallenge = (activeChallenge: UserChallenge) => { // Selected challenge opened in a bottom sheet
       setContent(
-        <View style={{width: '100%', flexDirection: 'column', gap: 20}}>
+        <View style={{width: '100%', flexDirection: 'column', gap: 28}}>
           <View style={{flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText type='date'>
@@ -60,7 +60,7 @@ export default function Challenges() {
               </ThemedText>
             </View>
           </View>
-          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
+          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 20}}>
               <ThemedText type='subtitle'>
                 Notes
               </ThemedText>
@@ -95,14 +95,14 @@ export default function Challenges() {
               </Pressable>
             </Link>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
+          <View style={{flexDirection: 'column', alignItems: 'flex-start', alignSelf: "flex-end", gap: 8}}>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
-              <MaterialIcons name="check-circle-outline" size={24} color="green" />
-              <ThemedText>Completed</ThemedText>
+              <MaterialIcons name="check-circle-outline" size={22} color="green" />
+              <ThemedText style={{fontSize: 12}}>Completed</ThemedText>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
-              <MaterialIcons name="remove-circle-outline" size={24} color="red" />
-              <ThemedText>Not Completed</ThemedText>
+              <MaterialIcons name="remove-circle-outline" size={22} color="red" />
+              <ThemedText style={{fontSize: 12}}>Not Completed</ThemedText>
             </View>
           </View>
           <SectionList 
@@ -116,17 +116,21 @@ export default function Challenges() {
                           return null; // fallback check in case item is null or something unintended
                         }
                         return <View>
-                                <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); openChallenge(item) }}>
-                                    <View style={globalStyles.challengeItem}>
-                                      {item?.done === true ? 
-                                          <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
-                                          <MaterialIcons name="remove-circle-outline" size={24} color="red" />
-                                        }
-                                        <ThemedText type='subtitle' style={{maxWidth: 275, color: item?.done === true ? '#5a5a5aff' : theme.colors.text  }}>
-                                          {item?.challenge.title}
-                                        </ThemedText>
-                                    </View>         
-                                    <Feather name="arrow-right" size={16} color="black" />
+                                <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); if (item.done  === true) {
+                                    openChallenge(item);
+                                  } 
+                                }}>
+                                  <View style={globalStyles.challengeItem}>
+                                    {item?.done === true ? 
+                                        <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
+                                        <MaterialIcons name="remove-circle-outline" size={24} color="red" />
+                                      }
+                                      <ThemedText type='challengeTitle' style={{color: item?.done === false ? '#5a5a5aff' : theme.colors.text }}>
+                                        {item?.challenge.title}
+                                      </ThemedText>
+                                  </View>  
+                                  {item?.done === true ?       
+                                    <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null }
                                 </Pressable>
                               </View>
                       }}

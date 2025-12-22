@@ -6,7 +6,7 @@ import { useThemeConfig } from "@/hooks/useThemeConfig";
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'option' | 'optionValue' | 'statTitle' | 'statValue' | 'link';
+  type?: 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'challengeTitle' | 'option' | 'optionValue' | 'statTitle' | 'statValue' | 'link';
 };
 
 export function ThemedText({
@@ -28,6 +28,7 @@ export function ThemedText({
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
+        type === 'challengeTitle' ? styles.challengeTitle : undefined,
         type === 'option' ? styles.option : undefined,
         type === 'optionValue' ? styles.option : undefined,
         type === 'statTitle' ? styles.statTitle : undefined,
@@ -61,6 +62,11 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontFamily: 'PoppinsSemiBold'
+  },
+  challengeTitle: {
+    maxWidth: 275,
+    fontSize: 16,
+    fontFamily: 'PoppinsMedium'
   },
   option: {
     fontSize: 14,

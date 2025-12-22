@@ -93,8 +93,8 @@ export const useGlobalStyles = () => {
         // statsCard
 
         statsCard: {
-            backgroundColor: theme.colors.background,
-            width: 160, 
+            backgroundColor: theme.colors.card,
+            width: 170, 
             height: 80, 
             padding: 8, 
             justifyContent: 'space-between',
@@ -103,6 +103,15 @@ export const useGlobalStyles = () => {
 
         // home
 
+        welcomeCard: {
+            flexDirection: 'column', 
+            gap: 40, 
+            backgroundColor: theme.colors.card, 
+            borderBottomRightRadius: 16, 
+            borderBottomLeftRadius: 16, 
+            borderBottomWidth: 1, 
+            borderBottomColor: theme.colors.border,
+        },
         buttonMarkAsDone: {
             height: 40,
             justifyContent: 'center',

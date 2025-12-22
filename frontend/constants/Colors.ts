@@ -17,6 +17,7 @@ export const Colors = {
     tabIconSelected: tintColorLight,
     wrapperBackground: '#E9EDC9', // #EEE5BF
     buttonBackground: '',
+    border: '#687076'
   },
   dark: {
     text: 'rgba(255, 255, 255, 0.9)',
@@ -27,6 +28,7 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     wrapperBackground: '#151F2B',
-    buttonBackground: '#9088ffff'
+    buttonBackground: '#9088ffff',
+    border: '#9BA1A6'
   },
 };

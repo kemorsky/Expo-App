@@ -1,4 +1,4 @@
-import { Button, View, Text, Pressable } from 'react-native';
+import { Button, View, Text, Pressable, Image } from 'react-native';
 import { useMe } from '@/lib/api/user/userQueries';
 import { useAuth } from '@/utils/AuthContext';
 import { useGlobalStyles } from '@/styles/globalStyles';
@@ -9,9 +9,11 @@ import { Container } from '@/components/Container';
 import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router';
 import SettingsPageSkeleton from '@/components/skeleton/pages/SettingsPageSkeleton';
+import { useThemeConfig } from '@/hooks/useThemeConfig';
 
 export default function Settings() {
     const { user, loading, error } = useMe();
+    const { theme } = useThemeConfig();
     const  { logOut } = useAuth();
     const globalStyles = useGlobalStyles();
 
@@ -22,8 +24,15 @@ export default function Settings() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.userRundown}>
-                    <ThemedText>Username: {user?.name}</ThemedText>
-                    <ThemedText>E-mail: {user?.email}</ThemedText>
+                    <View style={{width: 80, height: 80, borderRadius: 999, backgroundColor: "blue", alignSelf: "center", overflow: "hidden"}}>
+                        <Image style={{width: 80, height: 80, objectFit: "cover"}} source={require('../../../../assets/images/splash-icon.jpg')}/>
+                    </View>
+                    <ThemedText type='option'>Username: 
+                        <ThemedText> {user?.name}</ThemedText>
+                    </ThemedText>
+                    <ThemedText type='option'>E-mail: 
+                        <ThemedText> {user?.email}</ThemedText>
+                    </ThemedText>
                 </View>
             </Container>
             <Container>
@@ -32,18 +41,18 @@ export default function Settings() {
                     <Link href='/settings/manage-account' push asChild>
                         <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>Manage Account</ThemedText>
-                            <Feather name="arrow-right" size={16} color="black" />
+                            <Feather name="arrow-right" size={16} color={theme.colors.text} />
                         </Pressable>
                     </Link>
                     <HorizontalRule />
                     <Pressable style={globalStyles.setting}>
                         <ThemedText type='option'>Password & Security</ThemedText>
-                        <Feather name="arrow-right" size={16} color="black" />
+                        <Feather name="arrow-right" size={16} color={theme.colors.text} />
                     </Pressable>
                     <HorizontalRule />
                     <Pressable style={globalStyles.setting}>
                         <ThemedText type='option'>Notifications</ThemedText>
-                        <Feather name="arrow-right" size={16} color="black" />
+                        <Feather name="arrow-right" size={16} color={theme.colors.text} />
                     </Pressable>
                 </View>
             </Container>
@@ -55,7 +64,7 @@ export default function Settings() {
                             <ThemedText type='option'>Language</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.language}</ThemedText>
-                                <Feather name="arrow-right" size={16} color="black" />
+                                <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
                     </Link>
@@ -65,7 +74,7 @@ export default function Settings() {
                             <ThemedText type='option'>Theme</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.theme}</ThemedText>
-                                <Feather name="arrow-right" size={16} color="black" />
+                                <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
                     </Link>
@@ -75,13 +84,15 @@ export default function Settings() {
                             <ThemedText type='option'>Max Challenges Per Day</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
-                                <Feather name="arrow-right" size={16} color="black" />
+                                <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
                     </Link>
                 </View>
             </Container>
-            <Button title="Log Out" onPress={logOut} />
+            <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "blue", borderRadius: 8, }} onPress={logOut}>
+                <ThemedText>Log Out</ThemedText>
+            </Pressable>
         </Wrapper>
     )
 };

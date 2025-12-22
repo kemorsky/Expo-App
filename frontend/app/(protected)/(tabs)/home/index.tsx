@@ -57,7 +57,7 @@ export default function HomeScreen() {
   return (
     <Wrapper>
       <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
-      <View style={{flexDirection: 'column', gap: 40, backgroundColor: "#212934", borderBottomRightRadius: 16, borderBottomLeftRadius: 16, borderBottomWidth: 1, borderBottomColor: "yellow", }}>
+      <View style={globalStyles.welcomeCard}>
         <Container>
           <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
           {/* <Link href="/Onboarding">Go to onboarding</Link> */}
@@ -94,9 +94,9 @@ export default function HomeScreen() {
       </View>
       <Container>
         <ThemedText type='subtitle'>Stats</ThemedText>
-        <View style={globalStyles.card}>
+        
           <View style={styles.statsContainer}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
               <StatsCard>
                 <ThemedText type="statTitle">Challenges completed</ThemedText>
                 <ThemedText type="statValue">{completedChallenges}</ThemedText>
@@ -106,7 +106,7 @@ export default function HomeScreen() {
                 <ThemedText type="statValue">{createdChallenges}</ThemedText>
               </StatsCard>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
               <StatsCard>
                 <ThemedText type="statTitle">Current streak</ThemedText>
                 <ThemedText type="statValue">{completedChallenges}</ThemedText>
@@ -117,7 +117,7 @@ export default function HomeScreen() {
               </StatsCard>
             </View>
           </View>
-        </View>
+        
       </Container>
       <Container>
         <ThemedText type='subtitle'>Your previous challenges</ThemedText>
@@ -181,12 +181,4 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 8,
   },
-  stats: {
-    width: 160, 
-    height: 80, 
-    padding: 8, 
-    justifyContent: 'space-between',
-    borderRadius: 8, 
-    backgroundColor: 'red'
-  }
 });
