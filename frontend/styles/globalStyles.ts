@@ -90,6 +90,17 @@ export const useGlobalStyles = () => {
             borderRadius: 8
         },
 
+        // statsCard
+
+        statsCard: {
+            backgroundColor: theme.colors.background,
+            width: 160, 
+            height: 80, 
+            padding: 8, 
+            justifyContent: 'space-between',
+            borderRadius: 8, 
+        },
+
         // home
 
         buttonMarkAsDone: {

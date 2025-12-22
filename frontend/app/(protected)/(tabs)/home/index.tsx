@@ -7,6 +7,7 @@ import { useGlobalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/Container';
+import { StatsCard } from '@/components/home/StatsCard';
 import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 import { HorizontalRule } from '@/components/HorizontalRule';
@@ -51,64 +52,69 @@ export default function HomeScreen() {
     }
   }
 
+  console.log(user.assignmentsToday);
+
   return (
     <Wrapper>
       <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
-      <Container>
-        <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
-        <Link href="/Onboarding">Go to onboarding</Link>
-      </Container>
-      <Container>
-        <View style={styles.cardTitleContainer}>
-            <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
-            <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
-        </View>
-        
-        <View style={globalStyles.card}>
-          {currentChallenge ? (
-            <>
-              <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
-              <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => setOpenModal(true)}>
-                <ThemedText>Mark as done</ThemedText>
-              </Pressable>
-            </>
-          ) : (
-            <>
-              <ThemedText type='challenge'>No active challenge</ThemedText>
-              <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => handleAssignRandomChallenge()}>
-                {(user.assignmentsToday ?? 1) >= 1 ? (
-                  <ThemedText>Get another challenge</ThemedText>
-                ) : (
-                  <ThemedText>Get a challenge</ThemedText>
-                )}
-              </Pressable>
-            </>
-          )}
-        </View>
-      </Container>
+      <View style={{flexDirection: 'column', gap: 40, backgroundColor: "#212934", borderBottomRightRadius: 16, borderBottomLeftRadius: 16, borderBottomWidth: 1, borderBottomColor: "yellow", }}>
+        <Container>
+          <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
+          {/* <Link href="/Onboarding">Go to onboarding</Link> */}
+        </Container>
+      
+        <Container>
+          <View style={styles.cardTitleContainer}>
+              <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
+              <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
+          </View>
+          
+          <View style={[globalStyles.card, {gap: 20, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
+            {currentChallenge ? (
+              <>
+                <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
+                <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => setOpenModal(true)}>
+                  <ThemedText>Mark as done</ThemedText>
+                </Pressable>
+              </>
+            ) : (
+              <>
+                <ThemedText type='challenge'>No active challenge</ThemedText>
+                <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => handleAssignRandomChallenge()}>
+                  {(user.assignmentsToday ?? 1) >= 1 ? (
+                    <ThemedText>Get another challenge</ThemedText>
+                  ) : (
+                    <ThemedText>Get a challenge</ThemedText>
+                  )}
+                </Pressable>
+              </>
+            )}
+          </View>
+        </Container>
+      </View>
       <Container>
         <ThemedText type='subtitle'>Stats</ThemedText>
         <View style={globalStyles.card}>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
-              <View style={styles.stats}>
-                <ThemedText style={{fontSize: 14,}}>Challenges completed</ThemedText>
-                <ThemedText type='title'>{completedChallenges}</ThemedText>
-              </View>
-              <View style={styles.stats}>
-                <ThemedText type='subtitle'>Challenges created</ThemedText>
-                <ThemedText type='title'>{createdChallenges}</ThemedText>
-              </View>
+              <StatsCard>
+                <ThemedText type="statTitle">Challenges completed</ThemedText>
+                <ThemedText type="statValue">{completedChallenges}</ThemedText>
+              </StatsCard>
+              <StatsCard>
+                <ThemedText type="statTitle">Challenges created</ThemedText>
+                <ThemedText type="statValue">{createdChallenges}</ThemedText>
+              </StatsCard>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center', gap: 12}}>
-              <View style={styles.stats}>
-                <ThemedText style={{fontSize: 12,}}>Current streak</ThemedText>
-                <ThemedText type='title'>{completedChallenges}</ThemedText>
-              </View>
-              <View style={styles.stats}>
-                <ThemedText type='subtitle'>Highest streak</ThemedText>
-                <ThemedText type='title'>{createdChallenges}</ThemedText>
-              </View>
+              <StatsCard>
+                <ThemedText type="statTitle">Current streak</ThemedText>
+                <ThemedText type="statValue">{completedChallenges}</ThemedText>
+              </StatsCard>
+              <StatsCard>
+                <ThemedText type="statTitle">Highest streak</ThemedText>
+                <ThemedText type="statValue">{createdChallenges}</ThemedText>
+              </StatsCard>
             </View>
           </View>
         </View>
@@ -116,24 +122,24 @@ export default function HomeScreen() {
       <Container>
         <ThemedText type='subtitle'>Your previous challenges</ThemedText>
         <View style={globalStyles.card}>
-            <FlatList
-              data={recentChallenges}
-              maxToRenderPerBatch={5}
-              ItemSeparatorComponent={HorizontalRule}
-              scrollEnabled={false}
-              renderItem={({ item }) => {
-                  return <View style={styles.previousChallenge}>
-                              <View style={styles.previousChallengeTitle}>
-                                <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
-                                <Pressable>
-                                  <ThemedText>View -&gt; </ThemedText>
-                                </Pressable>
-                              </View>
-                              <ThemedText>{item?.challenge.title}</ThemedText>
-                          </View>
-              }}
-              keyExtractor={item => item?.id ?? ''}
-            />
+          <FlatList
+            data={recentChallenges}
+            maxToRenderPerBatch={5}
+            ItemSeparatorComponent={HorizontalRule}
+            scrollEnabled={false}
+            renderItem={({ item }) => {
+                return <View style={styles.previousChallenge}>
+                            <View style={styles.previousChallengeTitle}>
+                              <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
+                              <Pressable>
+                                <ThemedText>View -&gt; </ThemedText>
+                              </Pressable>
+                            </View>
+                            <ThemedText>{item?.challenge.title}</ThemedText>
+                        </View>
+            }}
+            keyExtractor={item => item?.id ?? ''}
+          />
         </View>
       </Container>
     </Wrapper>

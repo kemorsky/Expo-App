@@ -43,21 +43,18 @@ export default function Challenges() {
 
   const openChallenge = (activeChallenge: UserChallenge) => {
       setContent(
-        <View style={{flexDirection: 'column', gap: 20}}>
-          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
+        <View style={{width: '100%', flexDirection: 'column', gap: 20}}>
+          <View style={{flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText type='date'>
-                {formatDate(activeChallenge.completedAt ?? '')}
+                Completed At: {formatDate(activeChallenge.completedAt ?? '')}
               </ThemedText>
               {activeChallenge.done && activeChallenge.done === true ? 
                   <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
                   <MaterialIcons name="remove-circle-outline" size={24} color="red" />
               }
-              <Pressable onPress={controller?.close}>
-                <ThemedText>Close BottomSheet (debug)</ThemedText>
-              </Pressable>
             </View>
-            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText style={{ fontSize: 22 }} type='subtitle'>
                 {activeChallenge.challenge.title}
               </ThemedText>
