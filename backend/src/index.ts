@@ -45,6 +45,23 @@ const server = new ApolloServer({
 
 await server.start();
 
+type CachedUser = { user: any, expires: number };
+const tokenCache = new Map<string, CachedUser>();
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour in milliseconds
+
+function getCachedUser(token: string) {
+  const cached = tokenCache.get(token);
+  if (cached && cached.expires > Date.now()) {
+    return cached.user;
+  }
+
+  return null;
+}
+
+function cacheUser(token: string, user: any) {
+  tokenCache.set(token, { user, expires: Date.now() + CACHE_TTL });
+}
+
 app.use("/graphql", 
     express.json(),
     expressMiddleware(server, {
@@ -54,13 +71,19 @@ app.use("/graphql",
 
         let user = null;
         if (token) {
-          try {
-            user = verifyToken(token);
-            console.log("Decoded user:", user);
-          } catch (error) {
-            console.error("Invalid token", error);
-          }
+            user = getCachedUser(token);
+            console.log("Context user keys:", user ? Object.keys(user) : null);
+            if (!user) {
+                try {
+                    user = verifyToken(token);
+                    cacheUser(token, user);
+                    console.log("Decoded user:", user);
+                } catch (error) {
+                    console.error("Invalid token", error);
+                }
+            }
         }
+
         return { user };
       }
     })
