@@ -96,17 +96,12 @@ const resolvers: Resolvers = {
 
             const isMatch = await user.comparePassword(password);
             
-            if (!user.email) {
-                throw new Error (`Invalid email`)
-            } else if (!isMatch) {
-                throw new Error (`Invalid password`)
-            }
-
+            if (!user.email || !isMatch) {
+                throw new Error (`Invalid email or password`)
+            };
+            
             const accessToken = generateToken({ _id: user._id.toString() });
             const refreshToken = generateRefreshToken({ _id: user._id.toString() });
-
-            console.log(accessToken);
-            console.log(refreshToken);
 
             return {
                 id: user._id.toString(),
