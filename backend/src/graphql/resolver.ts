@@ -16,13 +16,11 @@ const resolvers: Resolvers = {
             };
             try {
                 const user = await User.findById(context.user._id || context.user.id)
-                .populate("challenges")
-                .populate("settings");
 
                 if (!user) throw new Error("Not authenticated");
 
                 const now = new Date();
-                const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0 ,0); // 23:59:59 of today in local timezone
+                const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59 ,0); // 23:59:59 of today in local timezone
 
                 if (!user.challengeResetDate || user.challengeResetDate < challengeDeadline) { // If last reset is before today 00:00:00, run daily reset
 
@@ -31,6 +29,8 @@ const resolvers: Resolvers = {
                         { user: user._id, currentChallenge: true },
                         { $set: { currentChallenge: false } }
                     );
+
+                    user.assignmentsToday = 0;
 
                     // Update the last reset timestamp to today's midnight
                     user.challengeResetDate = challengeDeadline;
@@ -43,7 +43,8 @@ const resolvers: Resolvers = {
                     email: user.email,
                     settings: user.settings,
                     challengeResetDate: user.challengeResetDate,
-                    assignmentsToday: user.assignmentsToday
+                    assignmentsToday: user.assignmentsToday,
+                    lastAssignmentDate: user.lastAssignmentDate
                 }
 
             } catch (error) {
@@ -84,6 +85,8 @@ const resolvers: Resolvers = {
                 id: user._id.toString(),
                 name: user.name,
                 email: user.email,
+                assignmentsToday: user.assignmentsToday,
+                challengeResetDate: user.challengeResetDate
             }
         },
         login: async (_, { input }) => {
@@ -163,7 +166,9 @@ const resolvers: Resolvers = {
                     user: {
                             id: user._id.toString(),
                             name: user.name,
-                            email: user.email
+                            email: user.email,
+                            assignmentsToday: user.assignmentsToday,
+                            challengeResetDate: user.challengeResetDate
                         },
                     challenge: {
                         id: challenge._id.toString(),
@@ -181,11 +186,6 @@ const resolvers: Resolvers = {
         assignRandomChallenge: async (_, __, context) => {
             const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
-
-            if (!user.lastAssignmentDate || user.lastAssignmentDate < (user.challengeResetDate ?? new Date())) {
-                user.assignmentsToday = 0;
-                await user.save();
-            }
 
             const updatedUser = await User.findOneAndUpdate(
                 {
@@ -237,7 +237,10 @@ const resolvers: Resolvers = {
                 user: {
                         id: user._id.toString(),
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        assignmentsToday: user.assignmentsToday,
+                        challengeResetDate: user.challengeResetDate,
+                        lastAssignmentDate: user.lastAssignmentDate
                     },
                 challenge: {
                     id: challenge._id.toString(),
@@ -275,7 +278,9 @@ const resolvers: Resolvers = {
                     user: {
                             id: user._id.toString(),
                             name: user.name,
-                            email: user.email
+                            email: user.email,
+                            assignmentsToday: user.assignmentsToday,
+                            challengeResetDate: user.challengeResetDate
                         },
                     challenge: {
                         id: challenge._id.toString(),
@@ -314,7 +319,9 @@ const resolvers: Resolvers = {
                     user: {
                             id: user._id.toString(),
                             name: user.name,
-                            email: user.email
+                            email: user.email,
+                            assignmentsToday: user.assignmentsToday,
+                            challengeResetDate: user.challengeResetDate
                         },
                     title: challenge.title,
                     challenge: {
@@ -365,7 +372,9 @@ const resolvers: Resolvers = {
                         user: {
                                 id: parent.id,
                                 name: parent.name,
-                                email: parent.email
+                                email: parent.email,
+                                assignmentsToday: parent.assignmentsToday,
+                                challengeResetDate: parent.challengeResetDate
                             },
                         challenge: {
                             id: challenge._id.toString(),

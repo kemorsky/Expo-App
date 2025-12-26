@@ -5,11 +5,10 @@ const typeDefs = `#graphql
         id: ID!
         name: String!
         email: String!
-        password: String
         challenges: [UserChallenge]
         settings: Settings
-        challengeResetDate: DateTime
-        assignmentsToday: Int
+        challengeResetDate: DateTime!
+        assignmentsToday: Int!
         lastAssignmentDate: DateTime
         refreshToken: String
     }

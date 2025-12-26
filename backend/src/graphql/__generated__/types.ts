@@ -151,14 +151,13 @@ export type SettingsInput = {
 
 export type User = {
   __typename?: 'User';
-  assignmentsToday?: Maybe<Scalars['Int']['output']>;
-  challengeResetDate?: Maybe<Scalars['DateTime']['output']>;
+  assignmentsToday: Scalars['Int']['output'];
+  challengeResetDate: Scalars['DateTime']['output'];
   challenges?: Maybe<Array<Maybe<UserChallenge>>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastAssignmentDate?: Maybe<Scalars['DateTime']['output']>;
   name: Scalars['String']['output'];
-  password?: Maybe<Scalars['String']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   settings?: Maybe<Settings>;
 };
@@ -355,14 +354,13 @@ export type SettingsResolvers<ContextType = any, ParentType = ResolversParentTyp
 };
 
 export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['User']> = {
-  assignmentsToday?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  challengeResetDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  assignmentsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  challengeResetDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   challenges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserChallenge']>>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastAssignmentDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['Settings']>, ParentType, ContextType>;
 };
