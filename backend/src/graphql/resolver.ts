@@ -2,7 +2,7 @@ import { GraphQLDateTime } from "graphql-scalars";
 import User from "./../models/userSchema.js";
 import Challenge, { ChallengeDocument } from "./../models/challengeSchema.js";
 import UserChallenge from "./../models/userChallengeSchema.js";
-import type { Resolvers } from "./__generated__/types";
+import type { Resolvers, Settings } from "./__generated__/types";
 
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 
@@ -86,7 +86,7 @@ const resolvers: Resolvers = {
                 name: user.name,
                 email: user.email,
                 assignmentsToday: user.assignmentsToday,
-                challengeResetDate: user.challengeResetDate
+                challengeResetDate: user.challengeResetDate,
             }
         },
         login: async (_, { input }) => {
@@ -112,6 +112,8 @@ const resolvers: Resolvers = {
                 id: user._id.toString(),
                 name: user.name,
                 email: user.email,
+                assignmentsToday: user.assignmentsToday,
+                challengeResetDate: user.challengeResetDate,
                 token: accessToken,
                 refreshToken: refreshToken
             }
@@ -133,6 +135,8 @@ const resolvers: Resolvers = {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
+                    assignmentsToday: user.assignmentsToday,
+                    challengeResetDate: user.challengeResetDate,
                     token: newAccessToken,
                     refreshToken: newRefreshToken
                 } 
@@ -346,7 +350,10 @@ const resolvers: Resolvers = {
             try {
                 const updateSettings = await User.findByIdAndUpdate(
                     user._id, 
-                    { settings: input },
+                    { $set: Object.fromEntries( // determines which fields to update based on the input rather than update/replace the entire settings object
+                            Object.entries(input).map(([k, v]) => [`settings.${k}`, v])
+                        )
+                    },
                     { new: true, runValidators: true }
                 );
                 if (!updateSettings) {
@@ -356,7 +363,7 @@ const resolvers: Resolvers = {
                     numberOfChallengesPerDay: updateSettings.settings?.numberOfChallengesPerDay,
                     language: updateSettings.settings?.language,
                     theme: updateSettings.settings?.theme
-                }
+                };
             } catch (error) {
                 throw new Error (`Error updating user settings: ${error}`)
             }
