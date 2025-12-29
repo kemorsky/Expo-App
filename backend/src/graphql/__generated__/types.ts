@@ -152,7 +152,7 @@ export type SettingsInput = {
 export type User = {
   __typename?: 'User';
   assignmentsToday: Scalars['Int']['output'];
-  challengeResetDate: Scalars['DateTime']['output'];
+  challengeResetDate?: Maybe<Scalars['DateTime']['output']>;
   challenges?: Maybe<Array<Maybe<UserChallenge>>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -355,7 +355,7 @@ export type SettingsResolvers<ContextType = any, ParentType = ResolversParentTyp
 
 export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['User']> = {
   assignmentsToday?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  challengeResetDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  challengeResetDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   challenges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserChallenge']>>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;

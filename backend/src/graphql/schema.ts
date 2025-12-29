@@ -7,7 +7,7 @@ const typeDefs = `#graphql
         email: String!
         challenges: [UserChallenge]
         settings: Settings
-        challengeResetDate: DateTime!
+        challengeResetDate: DateTime
         assignmentsToday: Int!
         lastAssignmentDate: DateTime
         refreshToken: String

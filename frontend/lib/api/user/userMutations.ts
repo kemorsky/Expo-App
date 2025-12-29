@@ -24,7 +24,7 @@ const CREATE_USER = gql`
       id
       email
       name
-      password
+      assignmentsToday
     }
   }
 `;

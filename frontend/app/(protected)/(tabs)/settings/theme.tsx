@@ -25,7 +25,6 @@ export default function Theme() {
         try {
             const data = await updateUserSettings({theme});
             if (data) {
-                console.log(data)
                 setNewTheme({ theme: data.theme })
             }
         } catch (error) {

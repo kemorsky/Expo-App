@@ -66,7 +66,7 @@ const resolvers: Resolvers = {
     Mutation: {
         createUser: async (_, { input }) => {
             const existingUser = await User.findOne({email: input!.email})
-            if (existingUser) { throw new Error ("User already exists. Sign in or recover your password.") }
+            if (existingUser) { throw new Error ("Email already in use. Sign in or recover your password.") }
             const user = new User(input)
             await user.save();
 
@@ -85,14 +85,13 @@ const resolvers: Resolvers = {
                 id: user._id.toString(),
                 name: user.name,
                 email: user.email,
-                assignmentsToday: user.assignmentsToday,
-                challengeResetDate: user.challengeResetDate,
+                assignmentsToday: user.assignmentsToday
             }
         },
         login: async (_, { input }) => {
             const { email, password } = input;
             const user = await User.findOne({ email })
-            if (!user) throw new Error(`User not found`);
+            if (!user) throw new Error(`Invalid email or password`);
 
             const isMatch = await user.comparePassword(password);
             
@@ -366,7 +365,9 @@ const resolvers: Resolvers = {
     },
     User: {
         challenges: async (parent) => {
-            const userChallenges = await UserChallenge.find({ user: parent.id }).populate("challenge");
+            const userChallenges = await UserChallenge.find({ user: parent.id })
+                .sort({ done: -1 }) // .sort handles sorting of the array items (done: true has priority)
+                .populate("challenge");
             return userChallenges.map((ch) => {
                 const challenge = ch.challenge as ChallengeDocument;
                     return {
@@ -394,18 +395,6 @@ const resolvers: Resolvers = {
             });
         },
     },
-    // Challenge: {
-    //     author: async (parent) => {
-    //         const user = await User.findById(parent.author);
-    //         if (!user) throw new Error("User not found - challenges");
-
-    //         return {
-    //             id: user._id.toString(),
-    //             name: user.name,
-    //             email: user.email
-    //         }
-    //     }
-    // },
 }
 
 export default resolvers

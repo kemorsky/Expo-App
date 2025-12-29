@@ -16,8 +16,12 @@ export default function Language() {
     if (!user || loading) return <ActivityIndicator />;
     if (error) return <Text>Error: {error.message}</Text>;
 
-    const handleUpdateSetting = async (theme: string) => {
-        await updateUserSettings({ theme });
+    const handleUpdateSetting = async (language: string) => {
+        try {
+            await updateUserSettings({ language });
+        } catch (error) {
+             throw new Error (`Error updating user settings: ${error}`)
+        }
     }
     
     return (
@@ -25,12 +29,12 @@ export default function Language() {
             <Container>
                 <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={globalStyles.settingsList}>
-                    <Pressable style={globalStyles.setting}>
+                    <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting("English")}>
                         <ThemedText>English</ThemedText>
                         {user.settings?.language === "English" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                     <HorizontalRule />
-                    <Pressable style={globalStyles.setting}>
+                    <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting("Swedish")}>
                         <ThemedText>Swedish</ThemedText>
                         {user.settings?.language === "Swedish" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>

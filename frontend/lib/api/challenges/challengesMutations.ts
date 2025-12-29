@@ -76,14 +76,14 @@ export function useAssignRandomChallenge() {
                 assignedAt: updated.assignedAt
             };
             
-            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[], assignmentsToday: number } }>({
                 query: GET_USER,
             });
             
             if (!existing?.me?.id) return;
     
             cache.modify({
-                id: cache.identify({ __typename: "User", id: existing?.me.id }),
+                id: cache.identify({ __typename: "User", id: existing?.me.id, assignmentsToday: existing?.me.assignmentsToday }),
                 fields: {
                     challenges: (existingChallenges = []) => {
                         return existingChallenges.map((ch: UserChallenge) =>
@@ -125,14 +125,14 @@ export function useMarkChallengeAsDone() {
                 completedAt: updated.completedAt
             };
             
-            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[], assignmentsToday: number } }>({
                 query: GET_USER,
             });
             
             if (!existing?.me?.id) return;
     
             cache.modify({
-                id: cache.identify({ __typename: "User", id: existing?.me.id }),
+                id: cache.identify({ __typename: "User", id: existing?.me.id, assignmentsToday: existing?.me.assignmentsToday }),
                 fields: {
                     challenges: (existingChallenges = []) => {
                         return existingChallenges.map((ch: UserChallenge) =>

@@ -149,14 +149,13 @@ export type SettingsInput = {
 
 export type User = {
   __typename?: 'User';
-  assignmentsToday?: Maybe<Scalars['Int']['output']>;
+  assignmentsToday: Scalars['Int']['output'];
   challengeResetDate?: Maybe<Scalars['DateTime']['output']>;
   challenges?: Maybe<Array<Maybe<UserChallenge>>>;
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   lastAssignmentDate?: Maybe<Scalars['DateTime']['output']>;
   name: Scalars['String']['output'];
-  password?: Maybe<Scalars['String']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   settings?: Maybe<Settings>;
 };
@@ -218,7 +217,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, name: string, password?: string | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, name: string, assignmentsToday: number } };
 
 export type RefreshTokenMutationVariables = Exact<{
   refreshToken: Scalars['String']['input'];
@@ -237,7 +236,7 @@ export type UpdateUserSettingsMutation = { __typename?: 'Mutation', updateUserSe
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string, email: string, challengeResetDate?: any | null, assignmentsToday?: number | null, lastAssignmentDate?: any | null, refreshToken?: string | null, challenges?: Array<{ __typename?: 'UserChallenge', id: string, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, completedAt?: any | null, notes?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } | null> | null, settings?: { __typename?: 'Settings', language?: string | null, numberOfChallengesPerDay?: number | null, theme?: string | null } | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, name: string, email: string, challengeResetDate?: any | null, assignmentsToday: number, lastAssignmentDate?: any | null, refreshToken?: string | null, challenges?: Array<{ __typename?: 'UserChallenge', id: string, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, completedAt?: any | null, notes?: string | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } | null> | null, settings?: { __typename?: 'Settings', language?: string | null, numberOfChallengesPerDay?: number | null, theme?: string | null } | null } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 

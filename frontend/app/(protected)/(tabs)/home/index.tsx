@@ -29,9 +29,9 @@ export default function HomeScreen() {
   const completedChallenges = user.challenges?.filter((challenge) => challenge?.done === true).length || 0;
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
-  const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.updatedAt) - Number(a?.updatedAt)).slice(0, 5)
+  const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.completedAt) - Number(a?.completedAt)).slice(0, 5)
 
-  const isDisabled = (user.assignmentsToday ?? 1) === (user.settings?.numberOfChallengesPerDay ?? 1);
+  const isDisabled = user.assignmentsToday >= (user.settings?.numberOfChallengesPerDay ?? 1);
 
   const handleAssignRandomChallenge = async () => {
     try {
@@ -50,9 +50,7 @@ export default function HomeScreen() {
     } catch (error: any) {
       throw new Error (`Error assigning random challenge: ${error}`)
     }
-  }
-
-  console.log(user.assignmentsToday);
+  };
 
   return (
     <Wrapper>
