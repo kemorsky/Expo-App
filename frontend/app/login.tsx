@@ -5,14 +5,13 @@ import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from
 import { ThemedText } from '@/components/ThemedText';
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter, Link } from 'expo-router';
+import { Link } from 'expo-router';
 
 import { UserLogin } from "@/__generated__/graphql";
 
 export default function Login() {
     const { logIn } = useAuth();
     const [ user, setUser ] = useState<UserLogin>({email: '', password: ''})
-    const router = useRouter();
     const globalStyles = useGlobalStyles();
 
     const handleEmailChange = (email: string) => setUser((prev) => ({ ...prev, email }));
@@ -28,6 +27,7 @@ export default function Login() {
                             <TextInput
                                 aria-label='E-mail login input field'
                                 placeholder="Email"
+                                placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
                                 value={user.email}
                                 autoCapitalize="none"
@@ -37,6 +37,7 @@ export default function Login() {
                             <TextInput 
                                 aria-label='Password login input field'
                                 placeholder="Password"
+                                placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
                                 value={user.password}
                                 onChangeText={handlePasswordChange}

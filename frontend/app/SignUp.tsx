@@ -46,31 +46,39 @@ export default function SignIn() {
         <SafeAreaView>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
-                    <View style={[globalStyles.container, {marginTop: 80, }]}>
+                    <View style={[globalStyles.container, { }]}>
                         <ThemedText type="title">Sign Up</ThemedText>
                         <TextInput 
+                            aria-label='Username sign up input field'
                             placeholder="Username"
+                            placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             value={newUser.name}
                             onChangeText={(name: string) => setNewUser((prev) => ({...prev, name}))}
                             autoCapitalize="none"
                         />
                         <TextInput 
+                            aria-label='Email sign up input field'
                             placeholder="Email"
+                            placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             value={newUser.email}
                             onChangeText={(email: string) => setNewUser((prev) => ({...prev, email}))}
                             autoCapitalize="none"
                         />
                         <TextInput 
+                            aria-label='Password sign up input field'
                             placeholder="Password"
+                            placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             value={newUser.password}
                             onChangeText={(password: string) => setNewUser((prev) => ({...prev, password}))}
                             secureTextEntry
                         />
                         <TextInput 
+                            aria-label='Confirm sign up input field'
                             placeholder="Confirm Password"
+                            placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             value={confirmPassword}
                             onChangeText={setConfirmPassword}
