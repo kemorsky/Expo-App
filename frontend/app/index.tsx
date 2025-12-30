@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 
 export default function IndexRedirect() {
+    // ========== This logic will eventually land in SplashScreen when its time comes ==========
     const { user, loading } = useMe();
 
     useEffect(() => {
