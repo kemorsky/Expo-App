@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 refreshToken: data.refreshToken
             })
             setIsLoggedIn(true)
-            router.replace("/home");
+            router.replace("/");
         } catch (error) {
             throw new Error (`Login failed: ${error}`);
         }

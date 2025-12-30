@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql, NetworkStatus } from '@apollo/client'
 import { useQuery } from "@apollo/client/react";
 import type { MeQuery } from '@/__generated__/graphql';
 import { MeDocument } from '@/__generated__/graphql';
@@ -25,7 +25,7 @@ export const GET_USER = gql`
         notes
       }
       settings {
-        language
+        language  
         numberOfChallengesPerDay
         theme
       }
@@ -33,6 +33,7 @@ export const GET_USER = gql`
       assignmentsToday
       lastAssignmentDate
       refreshToken
+      onboarded
     }
 }`
 
@@ -58,11 +59,15 @@ export const GET_USERS = gql`
 }`
 
 export function useMe() {
-  const { data, loading, error, refetch } = useQuery<MeQuery>(MeDocument);
+  const { data, loading, error, refetch, networkStatus } = useQuery<MeQuery>(MeDocument, {
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const isInitialLoad = loading && networkStatus === NetworkStatus.loading;
 
   return {
     user: data?.me,
-    loading,
+    loading: isInitialLoad,
     error,
     refetch
   }

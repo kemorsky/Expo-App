@@ -1,3 +1,4 @@
+import { useSaveOnboarding } from '@/lib/api/user/userMutations';
 import { useState, useRef } from "react";
 import { View, FlatList, ViewToken, Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,10 +18,20 @@ type Slides = {
 }
 
 export default function Onboarding() {
+    const { saveOnboarding } = useSaveOnboarding();
     const globalStyles = useGlobalStyles();
     const [ currentIndex, setCurrentIndex ] = useState<number>(0);
     const scrollX = useSharedValue(0);
     const slideRef = useRef<FlatList<Slides>>(null)
+
+    const handleOnboarding = async (onboarded: boolean) => {
+        try {
+            await saveOnboarding(onboarded)
+            router.replace("/home");
+        } catch (error) {
+            throw new Error (`Error saving onboarding status: ${error}`)
+        }
+    };
 
     const itemChanges = useRef(
         ({ viewableItems }: {viewableItems: ViewToken[]}) => {
@@ -39,7 +50,7 @@ export default function Onboarding() {
         if (currentIndex < slides.length - 1) {
             slideRef.current?.scrollToIndex({ index: currentIndex + 1})
         } else {
-            router.push("/home")
+            handleOnboarding(true);
         }
     }
 
@@ -48,6 +59,10 @@ export default function Onboarding() {
             slideRef.current?.scrollToIndex({ index: currentIndex - 1})
         }
     }
+
+    const skipOnboarding = () => {
+        handleOnboarding(true);
+    };
 
     return (
         <SafeAreaView style={globalStyles.onboardingPage}>
@@ -67,7 +82,7 @@ export default function Onboarding() {
                         viewabilityConfig={viewConfig}
                         keyExtractor={item => item.id} />
                 <Paginator data={slides} scrollX={scrollX} scrollToNext={scrollToNext} scrollToPrevious={scrollToPrevious} />
-                <Pressable style={globalStyles.skipButton}>
+                <Pressable style={globalStyles.skipButton} onPress={skipOnboarding}>
                     <ThemedText type="subtitle">Skip</ThemedText>
                 </Pressable>
             </View>

@@ -2,7 +2,7 @@ import { GraphQLDateTime } from "graphql-scalars";
 import User from "./../models/userSchema.js";
 import Challenge, { ChallengeDocument } from "./../models/challengeSchema.js";
 import UserChallenge from "./../models/userChallengeSchema.js";
-import type { Resolvers, Settings } from "./__generated__/types";
+import type { Resolvers } from "./__generated__/types";
 
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 
@@ -44,7 +44,8 @@ const resolvers: Resolvers = {
                     settings: user.settings,
                     challengeResetDate: user.challengeResetDate,
                     assignmentsToday: user.assignmentsToday,
-                    lastAssignmentDate: user.lastAssignmentDate
+                    lastAssignmentDate: user.lastAssignmentDate,
+                    onboarded: user.onboarded
                 }
 
             } catch (error) {
@@ -85,7 +86,8 @@ const resolvers: Resolvers = {
                 id: user._id.toString(),
                 name: user.name,
                 email: user.email,
-                assignmentsToday: user.assignmentsToday
+                password: user.password,
+                assignmentsToday: user.assignmentsToday,
             }
         },
         login: async (_, { input }) => {
@@ -109,7 +111,33 @@ const resolvers: Resolvers = {
                 assignmentsToday: user.assignmentsToday,
                 challengeResetDate: user.challengeResetDate,
                 token: accessToken,
-                refreshToken: refreshToken
+                refreshToken: refreshToken,
+            }
+        },
+        saveOnboarding: async (_, { input }, context) => {
+            const user = await User.findById(context.user.id);
+            if (!user) throw new Error("Not authenticated");
+
+            try {
+                const updatedUser = await User.findByIdAndUpdate(
+                    user._id,
+                   { $set: { onboarded: input.onboarded } },
+                   { new: true, runValidators: true }
+                );
+
+                if (!updatedUser) {
+                    throw new Error(`User with id ${user._id} not found`);
+                }
+
+                return {
+                    id: updatedUser._id.toString(),
+                    name: updatedUser.name,
+                    email: updatedUser.email,
+                    assignmentsToday: updatedUser.assignmentsToday,
+                    onboarded: updatedUser.onboarded
+                }
+            } catch (error) {
+                throw new Error (`Error updating onboarding value for user: ${error}`)
             }
         },
         refreshToken: async (_, { refreshToken }) => {

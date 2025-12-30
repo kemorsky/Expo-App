@@ -60,6 +60,7 @@ export type Mutation = {
   login: AuthPayload;
   markChallengeAsDone: UserChallenge;
   refreshToken: AuthPayload;
+  saveOnboarding: User;
   updateChallenge: UserChallenge;
   updateUserSettings: Settings;
 };
@@ -96,6 +97,11 @@ export type MutationRefreshTokenArgs = {
 };
 
 
+export type MutationSaveOnboardingArgs = {
+  input: OnboardingInput;
+};
+
+
 export type MutationUpdateChallengeArgs = {
   id: Scalars['ID']['input'];
   input: ChallengeInput;
@@ -104,6 +110,10 @@ export type MutationUpdateChallengeArgs = {
 
 export type MutationUpdateUserSettingsArgs = {
   input: SettingsInput;
+};
+
+export type OnboardingInput = {
+  onboarded: Scalars['Boolean']['input'];
 };
 
 export type Query = {
@@ -158,6 +168,8 @@ export type User = {
   id: Scalars['ID']['output'];
   lastAssignmentDate?: Maybe<Scalars['DateTime']['output']>;
   name: Scalars['String']['output'];
+  onboarded?: Maybe<Scalars['Boolean']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   settings?: Maybe<Settings>;
 };
@@ -270,6 +282,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Me: ResolverTypeWrapper<Me>;
   Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  OnboardingInput: OnboardingInput;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   Settings: ResolverTypeWrapper<Settings>;
   SettingsInput: SettingsInput;
@@ -292,6 +305,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Me: Me;
   Mutation: Record<PropertyKey, never>;
+  OnboardingInput: OnboardingInput;
   Query: Record<PropertyKey, never>;
   Settings: Settings;
   SettingsInput: SettingsInput;
@@ -334,6 +348,7 @@ export type MutationResolvers<ContextType = any, ParentType = ResolversParentTyp
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   markChallengeAsDone?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
   refreshToken?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
+  saveOnboarding?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSaveOnboardingArgs, 'input'>>;
   updateChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationUpdateChallengeArgs, 'id' | 'input'>>;
   updateUserSettings?: Resolver<ResolversTypes['Settings'], ParentType, ContextType, RequireFields<MutationUpdateUserSettingsArgs, 'input'>>;
 };
@@ -361,6 +376,8 @@ export type UserResolvers<ContextType = any, ParentType = ResolversParentTypes['
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastAssignmentDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  onboarded?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   settings?: Resolver<Maybe<ResolversTypes['Settings']>, ParentType, ContextType>;
 };

@@ -3,7 +3,9 @@ import { useMutation } from '@apollo/client/react'
 import { CreateUserMutation, CreateUserMutationVariables, RefreshTokenMutation, 
   type RefreshTokenMutationVariables, type LoginMutation, type LoginMutationVariables,
   UpdateUserSettingsMutation, SettingsInput, 
-  UpdateUserSettingsMutationVariables, Settings} from "@/__generated__/graphql";
+  UpdateUserSettingsMutationVariables, Settings,
+  SaveOnboardingMutation,
+  SaveOnboardingMutationVariables} from "@/__generated__/graphql";
   import { GET_USER } from './userQueries';
 
 const LOGIN = gql`
@@ -24,6 +26,7 @@ const CREATE_USER = gql`
       id
       email
       name
+      password
       assignmentsToday
     }
   }
@@ -47,6 +50,15 @@ const UPDATE_USER_SETTINGS = gql`
       language
       numberOfChallengesPerDay
       theme
+    }
+  }
+`
+
+const SAVE_ONBOARDING = gql`
+  mutation SaveOnboarding($input: OnboardingInput!) {
+    saveOnboarding(input: $input) {
+      id
+      onboarded
     }
   }
 `
@@ -134,4 +146,20 @@ export function useUpdateUserSettings() {
   }
   
   return { updateUserSettings, data, error, loading }
+}
+
+export function useSaveOnboarding() {
+  const [saveOnboardingMutation, { data, error, loading }] = useMutation<SaveOnboardingMutation, SaveOnboardingMutationVariables>(SAVE_ONBOARDING)
+
+  const saveOnboarding = async (onboarded: boolean) => {
+    const response = await saveOnboardingMutation({
+      variables: {
+        input: { onboarded }
+      }
+    })
+
+    return response.data?.saveOnboarding
+  }
+
+  return { saveOnboarding, data, error, loading }
 }

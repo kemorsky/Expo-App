@@ -8,6 +8,10 @@ const ASSIGN_RANDOM_CHALLENGE = gql`
     mutation AssignRandomChallenge {
         assignRandomChallenge {
             id
+            user {
+                id
+                assignmentsToday
+            }
             challenge {
                 id
                 title
@@ -64,7 +68,7 @@ export function useAssignRandomChallenge() {
             const updated = data?.assignRandomChallenge;
             if (!updated) return;
 
-            const normalizedChallenge: Partial<UserChallenge> = {
+            const normalizedChallenge = {
                 ...updated,
                 __typename: "UserChallenge",
                 challenge: {
@@ -76,15 +80,23 @@ export function useAssignRandomChallenge() {
                 assignedAt: updated.assignedAt
             };
             
-            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[], assignmentsToday: number } }>({
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
                 query: GET_USER,
             });
             
             if (!existing?.me?.id) return;
     
             cache.modify({
-                id: cache.identify({ __typename: "User", id: existing?.me.id, assignmentsToday: existing?.me.assignmentsToday }),
+                id: cache.identify({ __typename: "User", id: existing?.me.id }),
                 fields: {
+                    // me(existing = {}) {
+                    //     if (updated.user?.assignmentsToday === null) { return existing };
+
+                    //     return {
+                    //     ...existing,
+                    //     assignmentsToday: updated.user?.assignmentsToday,
+                    //     };
+                    // },
                     challenges: (existingChallenges = []) => {
                         return existingChallenges.map((ch: UserChallenge) =>
                             ch.currentChallenge  ? normalizedChallenge : ch
@@ -98,6 +110,7 @@ export function useAssignRandomChallenge() {
     const assignRandomChallenge = async () => {
         try {
             const response = await assignRandomChallengeMutation();
+            console.log(response?.data?.assignRandomChallenge.user?.assignmentsToday);
             return response.data?.assignRandomChallenge;
         } catch (error: any) {
             throw new Error(error.message || "Cannot assign challenge today");
@@ -108,12 +121,13 @@ export function useAssignRandomChallenge() {
 }
 
 export function useMarkChallengeAsDone() {
-    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE, {
+    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE
+        , {
         update(cache, { data }) {
             const updated = data?.markChallengeAsDone;
             if (!updated) return;
 
-            const normalizedChallenge: Partial<UserChallenge> = {
+            const normalizedChallenge = {
                 ...updated,
                 __typename: "UserChallenge",
                 challenge: {
@@ -125,15 +139,23 @@ export function useMarkChallengeAsDone() {
                 completedAt: updated.completedAt
             };
             
-            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[], assignmentsToday: number } }>({
+            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
                 query: GET_USER,
             });
             
             if (!existing?.me?.id) return;
     
             cache.modify({
-                id: cache.identify({ __typename: "User", id: existing?.me.id, assignmentsToday: existing?.me.assignmentsToday }),
+                id: cache.identify({ __typename: "User", id: existing?.me.id }),
                 fields: {
+                    // me(existingMe = {}) {
+                    //     if (updated.user?.assignmentsToday === null) { return existingMe };
+
+                    //     return {
+                    //     ...existingMe,
+                    //     assignmentsToday: updated.user?.assignmentsToday,
+                    //     };
+                    // },
                     challenges: (existingChallenges = []) => {
                         return existingChallenges.map((ch: UserChallenge) =>
                             ch.currentChallenge && ch.done ? normalizedChallenge : ch

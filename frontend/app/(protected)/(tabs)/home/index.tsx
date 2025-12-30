@@ -12,7 +12,6 @@ import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 import { HorizontalRule } from '@/components/HorizontalRule';
 import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
-import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
@@ -21,7 +20,7 @@ export default function HomeScreen() {
   const { assignRandomChallenge } = useAssignRandomChallenge();
   const { t } = useTranslation();
 
-  if (!user ||loading) return <HomePageSkeleton />;
+  if (!user || loading) return <HomePageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
 
   const date = new Date();
@@ -31,7 +30,11 @@ export default function HomeScreen() {
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
   const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.completedAt) - Number(a?.completedAt)).slice(0, 5)
 
-  const isDisabled = user.assignmentsToday >= (user.settings?.numberOfChallengesPerDay ?? 1);
+  if (!user.settings?.numberOfChallengesPerDay) return;
+
+  console.log(user.assignmentsToday)
+
+  const isDisabled = user.assignmentsToday >= user.settings?.numberOfChallengesPerDay;
 
   const handleAssignRandomChallenge = async () => {
     try {
@@ -58,7 +61,6 @@ export default function HomeScreen() {
       <View style={globalStyles.welcomeCard}>
         <Container>
           <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
-          {/* <Link href="/Onboarding">Go to onboarding</Link> */}
         </Container>
       
         <Container>
@@ -104,7 +106,7 @@ export default function HomeScreen() {
                 <ThemedText type="statValue">{createdChallenges}</ThemedText>
               </StatsCard>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
+            {/* <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
               <StatsCard>
                 <ThemedText type="statTitle">Current streak</ThemedText>
                 <ThemedText type="statValue">{completedChallenges}</ThemedText>
@@ -113,31 +115,35 @@ export default function HomeScreen() {
                 <ThemedText type="statTitle">Highest streak</ThemedText>
                 <ThemedText type="statValue">{createdChallenges}</ThemedText>
               </StatsCard>
-            </View>
+            </View> */}
           </View>
         
       </Container>
       <Container>
-        <ThemedText type='subtitle'>Your previous challenges</ThemedText>
-        <View style={globalStyles.card}>
-          <FlatList
-            data={recentChallenges}
-            maxToRenderPerBatch={5}
-            ItemSeparatorComponent={HorizontalRule}
-            scrollEnabled={false}
-            renderItem={({ item }) => {
-                return <View style={styles.previousChallenge}>
-                            <View style={styles.previousChallengeTitle}>
-                              <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
-                              <Pressable>
-                                <ThemedText>View -&gt; </ThemedText>
-                              </Pressable>
-                            </View>
-                            <ThemedText>{item?.challenge.title}</ThemedText>
-                        </View>
-            }}
-            keyExtractor={item => item?.id ?? ''}
-          />
+        <ThemedText type='subtitle'>Your latest challenges</ThemedText>
+        <View style={[globalStyles.card, {minHeight: 180}]}>
+          {completedChallenges > 0 ? (
+            <FlatList
+              data={recentChallenges}
+              maxToRenderPerBatch={5}
+              ItemSeparatorComponent={HorizontalRule}
+              scrollEnabled={false}
+              renderItem={({ item }) => {
+                  return <View style={styles.previousChallenge}>
+                              <View style={styles.previousChallengeTitle}>
+                                <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
+                                <Pressable>
+                                  <ThemedText>View -&gt; </ThemedText>
+                                </Pressable>
+                              </View>
+                              <ThemedText>{item?.challenge.title}</ThemedText>
+                          </View>
+              }}
+              keyExtractor={item => item?.id ?? ''}
+            />
+            ) : (
+              <ThemedText>You haven&apos;t completed any challenges yet.</ThemedText>
+            )}
         </View>
       </Container>
     </Wrapper>

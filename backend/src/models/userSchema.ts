@@ -16,6 +16,7 @@ export type UserDocument = Document & {
   assignmentsToday: number;
   lastAssignmentDate: Date;
   refreshToken: string;
+  onboarded: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 };
 
@@ -57,6 +58,10 @@ export const userSchema = new mongoose.Schema<UserDocument>(
         },
         refreshToken: {
             type: String
+        },
+        onboarded: {
+            type: Boolean,
+            default: false
         }
     }, {
             timestamps: true,

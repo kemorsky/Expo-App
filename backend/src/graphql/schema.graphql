@@ -4,12 +4,14 @@ type User {
   id: ID!
   name: String!
   email: String!
+  password: String
   challenges: [UserChallenge]
   settings: Settings
   challengeResetDate: DateTime
   assignmentsToday: Int!
   lastAssignmentDate: DateTime
   refreshToken: String
+  onboarded: Boolean
 }
 
 type Me {
@@ -28,6 +30,10 @@ input UserInput {
   name: String!
   password: String!
   email: String!
+}
+
+input OnboardingInput {
+  onboarded: Boolean!
 }
 
 type Challenge {
@@ -98,4 +104,5 @@ type Mutation {
   updateChallenge(id: ID!, input: ChallengeInput!): UserChallenge!
   deleteChallenge(id: ID!): Boolean!
   updateUserSettings(input: SettingsInput!): Settings!
+  saveOnboarding(input: OnboardingInput!): User!
 }

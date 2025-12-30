@@ -5,12 +5,14 @@ const typeDefs = `#graphql
         id: ID!
         name: String!
         email: String!
+        password: String
         challenges: [UserChallenge]
         settings: Settings
         challengeResetDate: DateTime
         assignmentsToday: Int!
         lastAssignmentDate: DateTime
         refreshToken: String
+        onboarded: Boolean
     }
 
     type Me {
@@ -29,6 +31,10 @@ const typeDefs = `#graphql
         name: String!
         password: String!
         email: String!
+    }
+
+    input OnboardingInput {
+        onboarded: Boolean!
     }
 
     type Challenge {
@@ -99,6 +105,7 @@ const typeDefs = `#graphql
         updateChallenge(id: ID!, input: ChallengeInput!): UserChallenge!
         deleteChallenge(id: ID!): Boolean!
         updateUserSettings(input: SettingsInput!): Settings!
+        saveOnboarding(input: OnboardingInput!): User!
     }
 `;
 
