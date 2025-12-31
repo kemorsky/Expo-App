@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Container } from "@/components/Container";
-import { HorizontalRule } from "@/components/HorizontalRule";
+import { Container } from "@/components/shared/Container";
+import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
-import { Wrapper } from "@/components/Wrapper";
+import { Wrapper } from "@/components/shared/Wrapper";
 import { useMe } from '@/lib/api/user/userQueries';
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { useUpdateUserSettings } from "@/lib/api/user/userMutations";

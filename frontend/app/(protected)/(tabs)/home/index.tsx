@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';
 import { useGlobalStyles } from '@/styles/globalStyles';
-import { Wrapper } from '@/components/Wrapper';
+import { Wrapper } from '@/components/shared/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
-import { Container } from '@/components/Container';
+import { Container } from '@/components/shared/Container';
 import { StatsCard } from '@/components/home/StatsCard';
 import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
-import { HorizontalRule } from '@/components/HorizontalRule';
+import { HorizontalRule } from '@/components/shared/HorizontalRule';
 import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
 
 export default function HomeScreen() {

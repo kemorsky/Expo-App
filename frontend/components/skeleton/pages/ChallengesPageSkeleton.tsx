@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
-import { Wrapper } from '@/components/Wrapper';
-import { Container } from '@/components/Container';
+import { Wrapper } from '@/components/shared/Wrapper';
+import { Container } from '@/components/shared/Container';
 import { ChallengeSkeleton } from '@/components/skeleton/blocks/ChallengesSkeleton';
 import { SkeletonText } from "../blocks/SkeletonText";
 

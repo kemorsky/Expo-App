@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ThemedText } from "@/components/ThemedText";
-import { Wrapper } from '@/components/Wrapper';
+import { Wrapper } from '@/components/shared/Wrapper';
 import { View, TextInput, KeyboardAvoidingView, Platform, Text, Pressable } from "react-native";
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';

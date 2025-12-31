@@ -1,8 +1,8 @@
-import { Wrapper } from '@/components/Wrapper';
-import { Container } from '@/components/Container';
+import { Wrapper } from '@/components/shared/Wrapper';
+import { Container } from '@/components/shared/Container';
 import { SkeletonText } from "../blocks/SkeletonText";
 import { View, StyleSheet, Pressable } from 'react-native';
-import { HorizontalRule } from '@/components/HorizontalRule';
+import { HorizontalRule } from '@/components/shared/HorizontalRule';
 
 export default function SettingsPageSkeleton() {
 

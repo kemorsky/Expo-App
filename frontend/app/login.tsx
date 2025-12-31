@@ -1,6 +1,6 @@
 import { useAuth } from '@/utils/AuthContext';
 import { useState } from 'react';
-import { Wrapper } from '@/components/Wrapper';
+import { Wrapper } from '@/components/shared/Wrapper';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
 import { ThemedText } from '@/components/ThemedText';
 import { useGlobalStyles } from "@/styles/globalStyles";

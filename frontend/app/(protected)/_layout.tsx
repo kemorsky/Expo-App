@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useAuth } from '@/utils/AuthContext';
 import { useThemeConfig } from '@/hooks/useThemeConfig';
-import { BottomSheet, BottomSheetController } from '@/components/BottomSheet';
+import { BottomSheet, BottomSheetController } from '@/components/shared/BottomSheet';
 
 export const BottomSheetContext = createContext({ // determines the content of the bottom sheet
     setContent: (_: React.ReactNode) => {},

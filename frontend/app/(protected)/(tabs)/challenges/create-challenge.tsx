@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Pressable, ActivityIndicator, TextInput } from "react-native";
-import { Wrapper } from "@/components/Wrapper";
-import { Container } from "@/components/Container";
+import { Wrapper } from "@/components/shared/Wrapper";
+import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/ThemedText";
 import { useCreateChallenge } from "@/lib/api/challenges/challengesMutations";
 import { useMe } from '@/lib/api/user/userQueries';
