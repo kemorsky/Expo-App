@@ -27,12 +27,17 @@ export default function Settings() {
                     <View style={{width: 80, height: 80, borderRadius: 999, backgroundColor: "blue", alignSelf: "center", overflow: "hidden"}}>
                         <Image style={{width: 80, height: 80, objectFit: "cover"}} source={require('../../../../assets/images/splash-icon.jpg')}/>
                     </View>
-                    <ThemedText type='option'>Username: 
-                        <ThemedText> {user?.name}</ThemedText>
-                    </ThemedText>
-                    <ThemedText type='option'>E-mail: 
-                        <ThemedText> {user?.email}</ThemedText>
-                    </ThemedText>
+                    <View style={{flexDirection: "column", gap: 8}}>
+                        <ThemedText type='option'>Username: 
+                            <ThemedText> {user?.name}</ThemedText>
+                        </ThemedText>
+                        <ThemedText type='option'>E-mail: 
+                            <ThemedText> {user?.email}</ThemedText>
+                        </ThemedText>
+                    </View>
+                    <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "blue", borderRadius: 8, }} onPress={logOut}>
+                        <ThemedText>Sign Out</ThemedText>
+                    </Pressable>
                 </View>
             </Container>
             <Container>
@@ -90,9 +95,6 @@ export default function Settings() {
                     </Link>
                 </View>
             </Container>
-            <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "blue", borderRadius: 8, }} onPress={logOut}>
-                <ThemedText>Sign Out</ThemedText>
-            </Pressable>
         </Wrapper>
     )
 };

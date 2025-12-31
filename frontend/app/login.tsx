@@ -22,7 +22,8 @@ export default function Login() {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
                     <View style={[globalStyles.container, {marginTop: 80, }]}>
-                        <ThemedText type="title">Sign In</ThemedText>
+                        <ThemedText type="title">Welcome back!</ThemedText>
+                        <ThemedText type="title">Sign in to proceed to your account</ThemedText>
                         <View style={[globalStyles.container, {padding: 0, marginBottom: 20}]}>
                             <TextInput
                                 aria-label='E-mail login input field'
@@ -47,7 +48,7 @@ export default function Login() {
                         <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(user.email, user.password)}>
                             <Text style={globalStyles.buttonText}>Login</Text>
                         </Pressable>
-                        <View style={{flexDirection: "column", alignItems: "center", gap: 12, marginTop: 40}}>
+                        <View style={{flexDirection: "column", alignItems: "center", gap: 12, marginTop: 16}}>
                             <ThemedText>Not a user yet?</ThemedText>
                             <Link href="/SignUp" push asChild>
                                 <Pressable aria-label='Sign Up button'>

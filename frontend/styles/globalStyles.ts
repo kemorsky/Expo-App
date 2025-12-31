@@ -230,7 +230,7 @@ export const useGlobalStyles = () => {
             backgroundColor: theme.colors.card,
             padding: 8,
             flexDirection: "column",
-            gap: 8,
+            gap: 12,
             borderRadius: 8,
         },
 
