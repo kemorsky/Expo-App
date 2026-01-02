@@ -100,7 +100,8 @@ const typeDefs = `#graphql
         login(input: UserLogin!): AuthPayload!
         refreshToken(refreshToken: String!): AuthPayload!
         createChallenge(input: ChallengeInput!): UserChallenge!
-        assignRandomChallenge: UserChallenge!
+        previewChallenge: UserChallenge
+        acceptChallenge(id: ID!): UserChallenge!
         markChallengeAsDone(id: ID!, input: ChallengeDoneInput!): UserChallenge!
         updateChallenge(id: ID!, input: ChallengeInput!): UserChallenge!
         deleteChallenge(id: ID!): Boolean!

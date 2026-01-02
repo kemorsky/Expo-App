@@ -209,7 +209,38 @@ const resolvers: Resolvers = {
                 throw new Error (`Error creating new challenge: ${error}`)
             }
         },
-        assignRandomChallenge: async (_, __, context) => {
+        previewChallenge: async (_, __, context) => {
+            const user = await User.findById(context.user.id).populate("challenges");
+            if (!user) throw new Error("Not authenticated");
+
+            const challenges = await UserChallenge.find({ 
+                user: user._id, 
+                currentChallenge: false, 
+                done: false,
+                $or: [
+                    { assignedAt: { $lt: user.challengeResetDate } },
+                    { assignedAt: null }
+                ]
+            }).populate("challenge");
+            
+            if (challenges.length === 0) throw new Error ("No challenges available");
+
+            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
+
+            const challenge = randomChallenge?.challenge as ChallengeDocument
+
+            return {
+                id: randomChallenge._id.toString(),
+                challenge: {
+                    id: challenge._id.toString(),
+                    title: challenge.title,
+                    isPredefined: challenge.isPredefined
+                },
+                currentChallenge: randomChallenge.currentChallenge,
+                done: randomChallenge.done
+            }
+        },
+        acceptChallenge: async (_, { id }, context) => {
             const user = await User.findById(context.user.id).populate("challenges");
             if (!user) throw new Error("Not authenticated");
 
@@ -229,32 +260,18 @@ const resolvers: Resolvers = {
                 throw new Error(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`);
             }
 
-            const challenges = await UserChallenge.find({ 
-                user: user._id, 
-                currentChallenge: false, 
-                done: false,
-                $or: [
-                    { assignedAt: { $lt: user.challengeResetDate } },
-                    { assignedAt: null }
-                ]
-            });
-            
-            if (challenges.length === 0) throw new Error ("No challenges available");
-
-            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
-
             await UserChallenge.updateMany(
                 { user: user._id, currentChallenge: true },
                 { $set: { currentChallenge: false } }
             );
 
             const assignedChallenge = await UserChallenge.findByIdAndUpdate(
-                randomChallenge._id,
+                id,
                 { currentChallenge: true, assignedAt: new Date() },
                 { new: true, runValidators: true }
             ).populate("challenge");
 
-            if (!assignedChallenge) { throw new Error(`Challenge with id ${randomChallenge._id} not found`) }
+            if (!assignedChallenge) { throw new Error(`Challenge with id ${id} not found`) }
 
             const challenge = assignedChallenge?.challenge as ChallengeDocument
 

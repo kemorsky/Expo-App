@@ -51,16 +51,22 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  assignRandomChallenge: UserChallenge;
+  acceptChallenge: UserChallenge;
   createChallenge: UserChallenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
   login: AuthPayload;
   markChallengeAsDone: UserChallenge;
+  previewChallenge?: Maybe<UserChallenge>;
   refreshToken: AuthPayload;
   saveOnboarding: User;
   updateChallenge: UserChallenge;
   updateUserSettings: Settings;
+};
+
+
+export type MutationAcceptChallengeArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -197,10 +203,17 @@ export type UserLogin = {
   password: Scalars['String']['input'];
 };
 
-export type AssignRandomChallengeMutationVariables = Exact<{ [key: string]: never; }>;
+export type PreviewChallengeMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AssignRandomChallengeMutation = { __typename?: 'Mutation', assignRandomChallenge: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, user?: { __typename?: 'User', id: string, assignmentsToday: number } | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
+export type PreviewChallengeMutation = { __typename?: 'Mutation', previewChallenge?: { __typename?: 'UserChallenge', id: string, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } | null };
+
+export type AcceptChallengeMutationVariables = Exact<{
+  acceptChallengeId: Scalars['ID']['input'];
+}>;
+
+
+export type AcceptChallengeMutation = { __typename?: 'Mutation', acceptChallenge: { __typename?: 'UserChallenge', id: string, notes?: string | null, done: boolean, currentChallenge: boolean, createdAt?: string | null, assignedAt?: any | null, updatedAt?: string | null, user?: { __typename?: 'User', id: string, assignmentsToday: number } | null, challenge: { __typename?: 'Challenge', id: string, title: string, isPredefined: boolean } } };
 
 export type MarkChallengeAsDoneMutationVariables = Exact<{
   markChallengeAsDoneId: Scalars['ID']['input'];

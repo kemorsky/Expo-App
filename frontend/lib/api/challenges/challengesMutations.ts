@@ -1,12 +1,28 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
-import { type MarkChallengeAsDoneMutationVariables, type AssignRandomChallengeMutationVariables, AssignRandomChallengeMutation, 
-        MarkChallengeAsDoneMutation, CreateChallengeMutation, CreateChallengeMutationVariables, UserChallenge } from '@/__generated__/graphql'
+import { MarkChallengeAsDoneMutationVariables, MarkChallengeAsDoneMutation, 
+        CreateChallengeMutation, CreateChallengeMutationVariables, 
+        UserChallenge, 
+        PreviewChallengeMutation, PreviewChallengeMutationVariables,
+        AcceptChallengeMutation, AcceptChallengeMutationVariables} from '@/__generated__/graphql'
 import { GET_USER } from '../user/userQueries'
 
-const ASSIGN_RANDOM_CHALLENGE = gql`
-    mutation AssignRandomChallenge {
-        assignRandomChallenge {
+const PREVIEW_CHALLENGE = gql`
+    mutation PreviewChallenge {
+        previewChallenge {
+            id
+            challenge {
+                id
+                title
+                isPredefined
+            }
+        }
+    }
+`
+
+const ACCEPT_CHALLENGE = gql`
+    mutation AcceptChallenge($acceptChallengeId: ID!) {
+        acceptChallenge(id: $acceptChallengeId) {
             id
             user {
                 id
@@ -62,62 +78,40 @@ const CREATE_CHALLENGE = gql`
     }
 `
 
-export function useAssignRandomChallenge() {
-    const [assignRandomChallengeMutation, { data, loading, error }] = useMutation<AssignRandomChallengeMutation, AssignRandomChallengeMutationVariables>(ASSIGN_RANDOM_CHALLENGE, {
-        update(cache, { data }) {
-            const updated = data?.assignRandomChallenge;
-            if (!updated) return;
+export function usePreviewChallenge() {
+    const [previewChallengeMutation, { data, loading, error}] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE)
 
-            const normalizedChallenge = {
-                ...updated,
-                __typename: "UserChallenge",
-                challenge: {
-                    ...updated.challenge,
-                    __typename: "Challenge",
-                },
-                done: updated.done,
-                currentChallenge: updated.currentChallenge,
-                assignedAt: updated.assignedAt
-            };
-            
-            const existing = cache.readQuery<{ me: { id: string, challenges: UserChallenge[] } }>({
-                query: GET_USER,
-            });
-            
-            if (!existing?.me?.id) return;
-    
-            cache.modify({
-                id: cache.identify({ __typename: "User", id: existing?.me.id }),
-                fields: {
-                    // me(existing = {}) {
-                    //     if (updated.user?.assignmentsToday === null) { return existing };
-
-                    //     return {
-                    //     ...existing,
-                    //     assignmentsToday: updated.user?.assignmentsToday,
-                    //     };
-                    // },
-                    challenges: (existingChallenges = []) => {
-                        return existingChallenges.map((ch: UserChallenge) =>
-                            ch.currentChallenge  ? normalizedChallenge : ch
-                        );
-                    },
-                },
-            });
-        }
-    });
-    
-    const assignRandomChallenge = async () => {
+    const previewChallenge = async () => {
         try {
-            const response = await assignRandomChallengeMutation();
-            console.log(response?.data?.assignRandomChallenge.user?.assignmentsToday);
-            return response.data?.assignRandomChallenge;
+            const response = await previewChallengeMutation();
+            return response.data?.previewChallenge;
+        } catch (error: any) {
+            throw new Error(error.message || "Cannot preview challenge");
+        }
+    } 
+
+    return { previewChallenge, data, loading, error}
+    
+}
+
+export function useAcceptChallenge() {
+    const [acceptChallengeMutation, { data, loading, error }] = useMutation<AcceptChallengeMutation, AcceptChallengeMutationVariables>(ACCEPT_CHALLENGE);
+    
+    const acceptChallenge = async (id: string) => {
+        try {
+            const response = await acceptChallengeMutation({
+                variables: {
+                    acceptChallengeId: id
+                }
+            });
+            console.log(response?.data?.acceptChallenge.user?.assignmentsToday);
+            return response.data?.acceptChallenge;
         } catch (error: any) {
             throw new Error(error.message || "Cannot assign challenge today");
         }
     }
 
-    return { assignRandomChallenge, data, loading, error}
+    return { acceptChallenge, data, loading, error}
 }
 
 export function useMarkChallengeAsDone() {

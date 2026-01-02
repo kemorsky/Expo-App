@@ -53,16 +53,22 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  assignRandomChallenge: UserChallenge;
+  acceptChallenge: UserChallenge;
   createChallenge: UserChallenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
   login: AuthPayload;
   markChallengeAsDone: UserChallenge;
+  previewChallenge?: Maybe<UserChallenge>;
   refreshToken: AuthPayload;
   saveOnboarding: User;
   updateChallenge: UserChallenge;
   updateUserSettings: Settings;
+};
+
+
+export type MutationAcceptChallengeArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -341,12 +347,13 @@ export type MeResolvers<ContextType = any, ParentType = ResolversParentTypes['Me
 };
 
 export type MutationResolvers<ContextType = any, ParentType = ResolversParentTypes['Mutation']> = {
-  assignRandomChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType>;
+  acceptChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationAcceptChallengeArgs, 'id'>>;
   createChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationCreateChallengeArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChallengeArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   markChallengeAsDone?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
+  previewChallenge?: Resolver<Maybe<ResolversTypes['UserChallenge']>, ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
   saveOnboarding?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSaveOnboardingArgs, 'input'>>;
   updateChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationUpdateChallengeArgs, 'id' | 'input'>>;

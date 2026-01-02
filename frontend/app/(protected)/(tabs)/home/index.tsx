@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { useMe } from '@/lib/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
-import { useAssignRandomChallenge } from '@/lib/api/challenges/challengesMutations';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { Wrapper } from '@/components/shared/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
@@ -12,12 +11,12 @@ import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 import { HorizontalRule } from '@/components/shared/HorizontalRule';
 import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
+import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
   const { user, loading, error } = useMe();
   const globalStyles = useGlobalStyles();
-  const { assignRandomChallenge } = useAssignRandomChallenge();
   const { t } = useTranslation();
 
   if (!user || loading) return <HomePageSkeleton />;
@@ -35,25 +34,6 @@ export default function HomeScreen() {
   console.log(user.assignmentsToday)
 
   const isDisabled = user.assignmentsToday >= user.settings?.numberOfChallengesPerDay;
-
-  const handleAssignRandomChallenge = async () => {
-    try {
-      const data = await assignRandomChallenge();
-      if (!data) return;
-      console.log(data)
-      return {
-        id: data.id,
-        challenge: {
-          id: data.challenge.id,
-          title: data.challenge.title,
-        },
-        currentChallenge: data.currentChallenge,
-        assignedAt: data.assignedAt
-      }
-    } catch (error: any) {
-      throw new Error (`Error assigning random challenge: ${error}`)
-    }
-  };
 
   return (
     <Wrapper>
@@ -80,13 +60,18 @@ export default function HomeScreen() {
             ) : (
               <>
                 <ThemedText type='challenge'>No active challenge</ThemedText>
-                <Pressable style={[globalStyles.buttonMarkAsDone, isDisabled && globalStyles.buttonDisabled]} onPress={() => handleAssignRandomChallenge()}>
-                  {(user.assignmentsToday ?? 1) >= 1 ? (
-                    <ThemedText>Get another challenge</ThemedText>
-                  ) : (
-                    <ThemedText>Get a challenge</ThemedText>
-                  )}
-                </Pressable>
+                <Link href="/home/accept-challenge" push asChild>
+                  <Pressable style={{
+                    ...globalStyles.buttonMarkAsDone,
+                    ...(isDisabled ? globalStyles.buttonDisabled : {}),
+                  }}>
+                    {(user.assignmentsToday ?? 1) >= 1 ? (
+                      <ThemedText>Get another challenge</ThemedText>
+                    ) : (
+                      <ThemedText>Get a challenge</ThemedText>
+                    )}
+                  </Pressable>
+                </Link>
               </>
             )}
           </View>
