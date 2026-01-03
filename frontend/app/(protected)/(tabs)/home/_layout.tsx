@@ -15,6 +15,7 @@ export default function HomeLayout() {
     <SafeAreaProvider>
       <Stack>
         <Stack.Screen name="index" options={{ title: 'Home' }} />
+        <Stack.Screen name="accept-challenge" options={{ title: 'Accept Challenge' }} />
       </Stack>
       <StatusBar style="auto" />
     </SafeAreaProvider>

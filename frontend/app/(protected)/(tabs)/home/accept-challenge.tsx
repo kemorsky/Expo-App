@@ -13,6 +13,8 @@ export default function AcceptChallenge() {
     const { previewChallenge } = usePreviewChallenge();
     const [ previewedChallenge, setPreviewedChallenge ] = useState<Partial<UserChallenge | null>>(null);
 
+    const globalStyles = useGlobalStyles();
+
     useEffect(() => {
         handlePreviewChallenge()
     }, [])
@@ -44,17 +46,17 @@ export default function AcceptChallenge() {
             <Container>
                 <ThemedText>Choose your challenge!</ThemedText>
                 <View style={{width: '100%', flexDirection: 'column', gap: 28}}>
-                    <View style={{flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                        <ThemedText style={{ fontSize: 22 }} type='subtitle'>
-                            {previewedChallenge?.challenge?.title}
-                        </ThemedText>
-                    </View>
-                    <View>
-                        <Pressable onPress={() => handlePreviewChallenge()}>
+                    <View style={{flexDirection: 'column', alignItems: 'center', gap: 8}}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                            <ThemedText style={{ fontSize: 22 }} type='subtitle'>
+                                {previewedChallenge?.challenge?.title}
+                            </ThemedText>
+                        </View>
+                    <View style={styles.buttonsContainer}>
+                        <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "red", width: 120, alignItems: "center"}]} onPress={() => handlePreviewChallenge()}>
                             <Text>Roll again</Text>
                         </Pressable>
-                        <Pressable onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                        <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "green", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
                             <Text>Accept</Text>
                         </Pressable>
                     </View>
@@ -64,3 +66,13 @@ export default function AcceptChallenge() {
         </Wrapper>
     )
 }
+
+const styles = StyleSheet.create({
+    buttonsContainer: {
+        width: 270,
+        flexDirection: "row",
+        alignSelf: "center",
+        justifyContent: "space-between",
+    },
+
+})
