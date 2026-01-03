@@ -40,7 +40,16 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  includeStacktraceInErrorResponses: false,
+  formatError: (formattedError) => {
+    return {
+      message: formattedError.message,
+      extensions: {
+        code: formattedError.extensions?.code,
+      },
+    };
+  },
 });
 
 await server.start();

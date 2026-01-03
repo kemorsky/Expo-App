@@ -1,10 +1,12 @@
 import { GraphQLDateTime } from "graphql-scalars";
+import gqlError from "./errors.js";
 import User from "./../models/userSchema.js";
 import Challenge, { ChallengeDocument } from "./../models/challengeSchema.js";
 import UserChallenge from "./../models/userChallengeSchema.js";
 import type { Resolvers } from "./__generated__/types";
 
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
+import { GraphQLError } from "graphql";
 
 const resolvers: Resolvers = {
     DateTime: GraphQLDateTime,
@@ -12,12 +14,12 @@ const resolvers: Resolvers = {
         user: async (_, { id }) => await User.findById(id),
         me: async (_, __, context) => {
             if (!context.user) {
-                throw new Error("context is not present");
+                throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
             };
             try {
                 const user = await User.findById(context.user._id || context.user.id)
 
-                if (!user) throw new Error("Not authenticated");
+                if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
                 const now = new Date();
                 const challengeDeadline = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59 ,0); // 23:59:59 of today in local timezone
@@ -50,14 +52,14 @@ const resolvers: Resolvers = {
 
             } catch (error) {
                 console.log(error)
-                throw new Error (`Error getting user: ${error}`)
+                throw gqlError("Failed to fetch user data", "INTERNAL_SERVER_ERROR", 500);
             }
             
         },
         challenge: async (_, { id } ) => await Challenge.findById(id),
         getChallenges: async (_, { isPredefined }, context ) => {
             const user = await User.findById(context.user.id).populate("challenges");
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             return UserChallenge.find({ author: user._id.toString(), isPredefined: false });
         },
@@ -67,7 +69,7 @@ const resolvers: Resolvers = {
     Mutation: {
         createUser: async (_, { input }) => {
             const existingUser = await User.findOne({email: input!.email})
-            if (existingUser) { throw new Error ("Email already in use. Sign in or recover your password.") }
+            if (existingUser) { throw gqlError("Email already in use. Sign in or recover your password.", "BAD_REQUEST", 400); }
             const user = new User(input)
             await user.save();
 
@@ -93,12 +95,12 @@ const resolvers: Resolvers = {
         login: async (_, { input }) => {
             const { email, password } = input;
             const user = await User.findOne({ email })
-            if (!user) throw new Error(`Invalid email or password`);
+            if (!user) throw gqlError("Invalid email or password", "UNAUTHENTICATED", 401);
 
             const isMatch = await user.comparePassword(password);
             
             if (!user.email || !isMatch) {
-                throw new Error (`Invalid email or password`)
+                throw gqlError("Invalid email or password", "UNAUTHENTICATED", 401);
             };
             
             const accessToken = generateToken({ _id: user._id.toString() });
@@ -116,7 +118,7 @@ const resolvers: Resolvers = {
         },
         saveOnboarding: async (_, { input }, context) => {
             const user = await User.findById(context.user.id);
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             try {
                 const updatedUser = await User.findByIdAndUpdate(
@@ -126,7 +128,7 @@ const resolvers: Resolvers = {
                 );
 
                 if (!updatedUser) {
-                    throw new Error(`User with id ${user._id} not found`);
+                    throw gqlError(`User with id ${user._id} not found`, "NOT_FOUND", 404);
                 }
 
                 return {
@@ -137,16 +139,16 @@ const resolvers: Resolvers = {
                     onboarded: updatedUser.onboarded
                 }
             } catch (error) {
-                throw new Error (`Error updating onboarding value for user: ${error}`)
+                throw gqlError("Error updating onboarding value for user", "BAD_REQUEST", 400);
             }
         },
         refreshToken: async (_, { refreshToken }) => {
             try {
                 const decoded = verifyRefreshToken(refreshToken);
-                if (typeof decoded === "string" || !decoded.id) throw new Error("Invalid refresh token");
+                if (typeof decoded === "string" || !decoded.id) throw gqlError("Invalid refresh token", "BAD_REQUEST", 400);
 
                 const user = await User.findById(decoded.id);
-                if (!user) throw new Error ("User not found");
+                if (!user) throw gqlError("User not found", "UNAUTHENTICATED", 401);
 
                 const newAccessToken = generateToken({ _id: user._id.toString() });
                 const newRefreshToken = generateRefreshToken({ _id: user._id.toString() });
@@ -163,13 +165,14 @@ const resolvers: Resolvers = {
                     refreshToken: newRefreshToken
                 } 
             } catch (error) {
-                throw new Error (`Error refreshing token: ${error}`)
+                if (error instanceof GraphQLError) throw error;
+                throw gqlError("Error refreshing token", "BAD_REQUEST", 400);
             }
         },
         createChallenge: async (_, { input }, context) => {
             console.log(context.user)
             const user = await User.findById(context.user.id);
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             try {
                 const challenge = new Challenge({
@@ -206,12 +209,13 @@ const resolvers: Resolvers = {
                     createdAt: userChallenge.createdAt
                 }
             } catch (error) {
-                throw new Error (`Error creating new challenge: ${error}`)
+                if (error instanceof GraphQLError) throw error;
+                throw gqlError("Error creating new challenge", "BAD_REQUEST", 400);
             }
         },
         previewChallenge: async (_, __, context) => {
             const user = await User.findById(context.user.id).populate("challenges");
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             const challenges = await UserChallenge.find({ 
                 user: user._id, 
@@ -223,7 +227,7 @@ const resolvers: Resolvers = {
                 ]
             }).populate("challenge");
             
-            if (challenges.length === 0) throw new Error ("No challenges available");
+            if (challenges.length === 0) throw gqlError("No challenges available", "NOT_FOUND", 404);
 
             const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)]
 
@@ -242,7 +246,7 @@ const resolvers: Resolvers = {
         },
         acceptChallenge: async (_, { id }, context) => {
             const user = await User.findById(context.user.id).populate("challenges");
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             const updatedUser = await User.findOneAndUpdate(
                 {
@@ -257,7 +261,7 @@ const resolvers: Resolvers = {
              );
 
             if (!updatedUser) {
-                throw new Error(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`);
+                throw gqlError(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`, "FORBIDDEN", 403);
             }
 
             await UserChallenge.updateMany(
@@ -271,7 +275,7 @@ const resolvers: Resolvers = {
                 { new: true, runValidators: true }
             ).populate("challenge");
 
-            if (!assignedChallenge) { throw new Error(`Challenge with id ${id} not found`) }
+            if (!assignedChallenge) { throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404); }
 
             const challenge = assignedChallenge?.challenge as ChallengeDocument
 
@@ -297,7 +301,7 @@ const resolvers: Resolvers = {
         },
         markChallengeAsDone: async (_, { id, input }, context) => {
             const user = await User.findById(context.user.id || context.user_id)
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             try {
                 const doneChallenge = await UserChallenge.findByIdAndUpdate(
@@ -313,7 +317,7 @@ const resolvers: Resolvers = {
                 
                 console.log(doneChallenge)
                 if (!doneChallenge) {
-                    throw new Error(`Challenge with id ${id} not found`);
+                    throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
                 }
                 const challenge = doneChallenge.challenge as ChallengeDocument
                 return {
@@ -339,12 +343,13 @@ const resolvers: Resolvers = {
                     completedAt: doneChallenge.completedAt
                 }
             } catch (error) {
-                throw new Error (`Error marking challenge as done: ${error}`)
+                if (error instanceof GraphQLError) throw error;
+                throw gqlError("Error marking challenge as done", "BAD_REQUEST", 400);
             }
         },
         updateChallenge: async (_, { id, input }, context) => {
             const user = await User.findById(context.user.id);
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             try {
                 const updatedChallenge = await UserChallenge.findByIdAndUpdate(
@@ -355,7 +360,7 @@ const resolvers: Resolvers = {
                 const challenge = updatedChallenge?.challenge as ChallengeDocument;
                 console.log(updatedChallenge)
                 if (!updatedChallenge) {
-                    throw new Error(`Challenge with id ${id} not found`);
+                    throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
                 }
                 return {
                     id: updatedChallenge._id.toString(),
@@ -378,13 +383,14 @@ const resolvers: Resolvers = {
                     updatedAt: updatedChallenge.updatedAt
                 }
             } catch (error) {
-                throw new Error (`Error updating challenge: ${error}`)
+                if (error instanceof GraphQLError) throw error;
+                throw gqlError("Error updating challenge", "BAD_REQUEST", 400);
             }
         },
         deleteChallenge: async (_, { id }) => { await UserChallenge.findByIdAndDelete(id); return true },
         updateUserSettings: async (_, { input }, context) => {
             const user = await User.findById(context.user.id);
-            if (!user) throw new Error("Not authenticated");
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
             try {
                 const updateSettings = await User.findByIdAndUpdate(
@@ -396,7 +402,7 @@ const resolvers: Resolvers = {
                     { new: true, runValidators: true }
                 );
                 if (!updateSettings) {
-                    throw new Error(`User with id ${user.id} not found`);
+                    throw gqlError(`User with id ${user._id} not found`, "NOT_FOUND", 404);
                 }
                 return {
                     numberOfChallengesPerDay: updateSettings.settings?.numberOfChallengesPerDay,
@@ -404,7 +410,7 @@ const resolvers: Resolvers = {
                     theme: updateSettings.settings?.theme
                 };
             } catch (error) {
-                throw new Error (`Error updating user settings: ${error}`)
+                throw gqlError("Error updating user settings", "BAD_REQUEST", 400);
             }
         },
     },

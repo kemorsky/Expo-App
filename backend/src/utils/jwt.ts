@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import gqlError from "../../src/graphql/errors.js";
 
 type User = {
     _id: string
@@ -25,7 +26,7 @@ export const verifyToken = (token: string) => {
     return jwt.verify(token, process.env.JWT_SECRET || '');
   } catch (error) {
     console.error("JWT verification failed:", error);
-    throw new Error("Invalid token");
+    throw gqlError("Invalid token", "UNAUTHENTICATED", 401);
   }
 };
 
@@ -34,7 +35,7 @@ export const verifyRefreshToken = (refreshToken: string) => {
     return jwt.verify(refreshToken, process.env.REFRESH_SECRET || '');
   } catch (error) {
     console.error("JWT verification failed:", error);
-    throw new Error("Invalid token");
+    throw gqlError("Invalid token", "UNAUTHENTICATED", 401);
   }
 }
 
