@@ -25,7 +25,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
 
     const date = new Date();
 
-    const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
+    const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true);
 
     const handleMarkChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
         try {
@@ -67,12 +67,14 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     <ThemedText type='title'>{currentChallenge?.challenge.title}</ThemedText>
                 </View>
                 <TextInput 
+                    aria-label="Challenge notes input field"
                     style={[globalStyles.input, {height: 150, }]}
                     multiline
                     editable
                     onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
                     value={notes.notes ?? ''}
-                    placeholder="Add notes to this challenge (not required)"/>
+                    placeholder="Add notes to this challenge (not required)"
+                    placeholderTextColor={"#8b8b8bff"}/>
                 <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
                     <ThemedText>Mark as done</ThemedText>
                 </Pressable>

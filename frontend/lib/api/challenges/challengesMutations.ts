@@ -79,7 +79,7 @@ const CREATE_CHALLENGE = gql`
 `
 
 export function usePreviewChallenge() {
-    const [previewChallengeMutation, { data, loading, error}] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE)
+    const [previewChallengeMutation, { data, loading, error }] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE)
 
     const previewChallenge = async () => {
         try {

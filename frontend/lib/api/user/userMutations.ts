@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { ApolloErrorMessageHandler } from '@apollo/client/utilities/invariant';
 import { useMutation } from '@apollo/client/react'
 import { CreateUserMutation, CreateUserMutationVariables, RefreshTokenMutation, 
   type RefreshTokenMutationVariables, type LoginMutation, type LoginMutationVariables,
@@ -79,22 +80,26 @@ export function useRefreshToken() {
 }
 
 export function useLogin() {
-    const [loginMutation, { data, error, loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN)
-        const login = async (email: string, password: string) => {
-            const response = await loginMutation({
-                variables: {
-                    input: {email, password}
-                }
-            })
-
-            return response.data?.login
+  const [loginMutation, { data, error, loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN, {
+  errorPolicy: "all",
+})
+  const login = async (email: string, password: string) => {
+    const response = await loginMutation({
+        variables: {
+            input: {email, password}
         }
+    })
 
-        return { login, data, error, loading }
+    return response.data?.login
+  }
+
+  return { login, data, error, loading }
 }
 
 export function useSignIn() {
-  const [signInMutation, { data, error, loading }] = useMutation<CreateUserMutation, CreateUserMutationVariables>(CREATE_USER)
+  const [signInMutation, { data, error, loading }] = useMutation<CreateUserMutation, CreateUserMutationVariables>(CREATE_USER, {
+    errorPolicy: "all",
+  });;
 
   const createUser = async (email: string, name: string, password: string) => {
     const response = await signInMutation({

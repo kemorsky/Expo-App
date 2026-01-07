@@ -1,29 +1,29 @@
 {
   "language": "Språk",
   "login": {
-    "title": "Login",
-    "email": "Email",
-    "password": "Password",
-    "button": "Login"
+    "title": "Logga In",
+    "email": "E-post",
+    "password": "Lösenord",
+    "button": "Logga In"
   },
   "signUp": {
-    "title": "Sign Up",
-    "name": "Name",
-    "email": "Email",
-    "password": "Password",
-    "button": "Sign Up"
+    "title": "Skapa Konto",
+    "name": "Användarnamn",
+    "email": "E-post",
+    "password": "Lösenord",
+    "button": "Skapa Konto"
   },
   "home": {
     "title": "Home",
     "welcome": "Välkommen",
     "subtitles": {
-        "challenge": "Dagens Utmanning",
+        "challenge": "Dagens Utmaning",
         "stats": "Statistiker",
         "previousChallenges": "Tidigare Utmaningar"
     },
     "stats": {
-        "completedChallenges": "Completed Challenges",
-        "createdChallenges": "Created Challenges",
+        "completedChallenges": "Klarade Utmaningar",
+        "createdChallenges": "Skapade Utmaningar",
         "currentStreak": "Current Streak",
         "bestStreak": "Best Streak"
     },
@@ -38,12 +38,12 @@
       "button": "Submit"
     },
     "settings": {
-      "title": "Settings",
+      "title": "Inställningar",
       "manageAccount": "Manage Account",
-      "theme": "Theme",
-      "maxChallenges": "Max Challenges Per Day",
-      "language": "Language",
-      "button": "Logout"
+      "theme": "Tema",
+      "maxChallenges": "Max. Antal Utmaningar Per Dag",
+      "language": "Språk",
+      "button": "Logga Ut"
     }
   }
 }
