@@ -57,9 +57,9 @@ function RootLayout() {
           <StatusBar style="auto" />
           <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
             <Stack.Screen
-              name="Login"
+              name="SignIn"
               options={{
-                title: "Login",
+                title: "Sign In",
                 animation: "default"
             }} />
             <Stack.Screen

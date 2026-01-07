@@ -9,6 +9,7 @@ export default function IndexRedirect() {
     useEffect(() => {
         const checkOnboarding = () => {
             if (!user || loading) return null;
+            if (!user) { router.replace('/SignIn') }
             if (user.onboarded) {
                 router.replace('/home')
             } else {
@@ -17,5 +18,5 @@ export default function IndexRedirect() {
         }
 
         checkOnboarding();
-    }, [user, loading]);
+    }, []);
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CombinedGraphQLErrors } from "@apollo/client";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from '@/components/shared/Wrapper';
 import { View, TextInput, KeyboardAvoidingView, Platform, Text, Pressable } from "react-native";
@@ -7,36 +8,40 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserInput } from '@/__generated__/graphql';
 import { useSignIn } from '@/lib/api/user/userMutations';
 import { useRouter } from 'expo-router';
+import { useGraphQLErrors} from '@/lib/graphql/errors';
 
 export default function SignIn() {
-    const { createUser } = useSignIn();
+    const { createUser, error } = useSignIn();
     const [ newUser, setNewUser ] = useState<UserInput>({email: '', name: '', password: '',});
+    const [uiError, setUiError] = useState<string>('');
     const [ confirmPassword, setConfirmPassword ] = useState<string>('');
     const router = useRouter();
     const globalStyles = useGlobalStyles();
+    const errors = useGraphQLErrors(error);
+
+    if (errors.length > 0) {
+        errors.forEach((err) => {
+            console.log(err.message);
+            console.log(err.code);
+        });
+    }
 
     const signIn = async (email: string, name: string, password: string) => {
-        try {
-            const data = await createUser(email, name, password);
-            if (data) {
-                setNewUser({
-                    email: data.email ?? '',
-                    name: data.name ?? '',
-                    password: data.password ?? ''
-                })
-                console.log("Signup successful" + newUser);
-                router.replace("/home");
-            } else {
-                console.error("Signup failed: no data returned");
-            }
-        } catch (error) {
-            throw new Error (`Signup failed: ${error}`);
+        const data = await createUser(email, name, password);
+        if (data) {
+            setNewUser({
+                email: data.email ?? '',
+                name: data.name ?? '',
+                password: data.password ?? ''
+            })
+            console.log("Signup successful" + newUser);
+            router.replace("/home");
         }
     }
 
     const handleSignIn = async () => {
         if (newUser.password !== confirmPassword) {
-            console.log("Passwords do not match");
+            setUiError("Passwords must match");
             return;
         }
         await signIn(newUser.email, newUser.name, newUser.password);
@@ -48,6 +53,7 @@ export default function SignIn() {
                 <Wrapper>
                     <View style={[globalStyles.container, { }]}>
                         <ThemedText type="title">Sign Up</ThemedText>
+                        {error && <ThemedText>{error.message}</ThemedText>}
                         <TextInput 
                             aria-label='Username sign up input field'
                             placeholder="Username"

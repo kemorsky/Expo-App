@@ -20,14 +20,10 @@ export default function AcceptChallenge() {
     }, [])
 
     const handlePreviewChallenge = async () => {
-        try {
             const data = await previewChallenge();
             if (data) {
                 setPreviewedChallenge(data)
             }
-        } catch (error) {
-            throw new Error (`Error previewing random challenge: ${error}`)
-        }
         }
 
     const handleAcceptChallenge = async (id: string) => {
