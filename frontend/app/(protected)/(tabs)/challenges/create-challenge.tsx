@@ -17,7 +17,7 @@ export default function CreateChallenge() {
 
     const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
 
-    if (!user ||loading) return <ActivityIndicator />;
+    if (!user || loading) return <ActivityIndicator />;
     if (error) return <Text>Error: {error.message}</Text>;
 
     const handleCreateChallenge = async (title: string) => {
