@@ -1,12 +1,15 @@
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import type { Resolvers } from "./__generated__/types";
 import { GraphQLDateTime } from "graphql-scalars";
+import { GraphQLError } from "graphql";
 import gqlError from "./errors.js";
 import User from "./../models/userSchema.js";
 import Challenge, { ChallengeDocument } from "./../models/challengeSchema.js";
 import UserChallenge from "./../models/userChallengeSchema.js";
-import type { Resolvers } from "./__generated__/types";
-
+import PasswordResetToken from "./../models/passwordResetToken.js";
+import { sendMail } from "../utils/mailer.js";
 import { generateToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
-import { GraphQLError } from "graphql";
 
 const resolvers: Resolvers = {
     DateTime: GraphQLDateTime,
@@ -115,6 +118,71 @@ const resolvers: Resolvers = {
                 token: accessToken,
                 refreshToken: refreshToken,
             }
+        },
+        requestPasswordReset: async (_, { email } ) => {
+            const user = await User.findOne({ email });
+            if (!user) { return true; }
+
+            const token = crypto.randomBytes(32).toString("hex");
+            const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+            await PasswordResetToken.create({
+                user: user._id,
+                token: hashedToken,
+                expiresAt: new Date(Date.now() + 1000 * 60 * 30), // 30 min
+            });
+
+            const resetLink = `${process.env.APP_BASE_URL}/reset-password?token=${token}`;
+
+            await sendMail({
+                to: user.email,
+                subject: "Reset your password",
+                html: `
+                <p>You requested a password reset.</p>
+                <p>
+                    <a href="${resetLink}">Reset password</a>
+                </p>
+                <p>This link will expire in 30 minutes.</p>
+                `,
+            });
+
+            return true;
+
+        },
+        resetPassword: async (_, { token, newPassword }) => {
+            const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+            const record = await PasswordResetToken.findOne({ 
+                token: hashedToken,
+                expiresAt: { $gt: new Date() },
+             });
+
+            if (!record) {
+                throw gqlError("Invalid or expired token", "BAD_REQUEST", 400);
+            };
+
+            const user = await User.findById(record.user);
+            if (!user) {
+                throw gqlError("Invalid token", "BAD_REQUEST", 400);
+            }
+
+            if (newPassword.length < 5) {
+                throw gqlError("Password must be at least 5 characters", "BAD_REQUEST", 400);
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+            const success = await User.findByIdAndUpdate(user._id, {
+                password: hashedPassword,
+            });
+
+            if (!success) { 
+                throw gqlError("Error resetting password", "INTERNAL_SERVER_ERROR", 500);
+            }
+
+            await PasswordResetToken.deleteMany({ user: user._id });
+
+            return true;
         },
         saveOnboarding: async (_, { input }, context) => {
             const user = await User.findById(context.user.id);

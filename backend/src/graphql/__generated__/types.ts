@@ -61,6 +61,8 @@ export type Mutation = {
   markChallengeAsDone: UserChallenge;
   previewChallenge?: Maybe<UserChallenge>;
   refreshToken: AuthPayload;
+  requestPasswordReset: Scalars['Boolean']['output'];
+  resetPassword: Scalars['Boolean']['output'];
   saveOnboarding: User;
   updateChallenge: UserChallenge;
   updateUserSettings: Settings;
@@ -100,6 +102,17 @@ export type MutationMarkChallengeAsDoneArgs = {
 
 export type MutationRefreshTokenArgs = {
   refreshToken: Scalars['String']['input'];
+};
+
+
+export type MutationRequestPasswordResetArgs = {
+  email: Scalars['String']['input'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 
@@ -355,6 +368,8 @@ export type MutationResolvers<ContextType = any, ParentType = ResolversParentTyp
   markChallengeAsDone?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
   previewChallenge?: Resolver<Maybe<ResolversTypes['UserChallenge']>, ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
+  requestPasswordReset?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRequestPasswordResetArgs, 'email'>>;
+  resetPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'newPassword' | 'token'>>;
   saveOnboarding?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSaveOnboardingArgs, 'input'>>;
   updateChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationUpdateChallengeArgs, 'id' | 'input'>>;
   updateUserSettings?: Resolver<ResolversTypes['Settings'], ParentType, ContextType, RequireFields<MutationUpdateUserSettingsArgs, 'input'>>;

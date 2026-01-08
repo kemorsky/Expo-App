@@ -2,6 +2,8 @@
 // import serverless from 'serverless-http';
 
 // export default serverless(app);
+import { config } from "dotenv";
+config();
 
 import dotenv from "dotenv";
 import path from "path";

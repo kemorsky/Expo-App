@@ -107,6 +107,8 @@ const typeDefs = `#graphql
         deleteChallenge(id: ID!): Boolean!
         updateUserSettings(input: SettingsInput!): Settings!
         saveOnboarding(input: OnboardingInput!): User!
+        requestPasswordReset(email: String!): Boolean!
+        resetPassword(token: String!, newPassword: String!): Boolean!
     }
 `;
 
