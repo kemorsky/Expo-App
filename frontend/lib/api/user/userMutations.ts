@@ -6,7 +6,11 @@ import { CreateUserMutation, CreateUserMutationVariables, RefreshTokenMutation,
   UpdateUserSettingsMutation, SettingsInput, 
   UpdateUserSettingsMutationVariables, Settings,
   SaveOnboardingMutation,
-  SaveOnboardingMutationVariables} from "@/__generated__/graphql";
+  SaveOnboardingMutationVariables,
+  RequestPasswordResetMutation,
+  RequestPasswordResetMutationVariables,
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables} from "@/__generated__/graphql";
   import { GET_USER } from './userQueries';
 
 const LOGIN = gql`
@@ -33,6 +37,18 @@ const CREATE_USER = gql`
   }
 `;
 
+const REQUEST_PASSWORD_RESET = gql`
+  mutation RequestPasswordReset($email: String!) {
+    requestPasswordReset(email: $email)
+  }
+`;
+
+const RESET_PASSWORD = gql`
+  mutation ResetPassword($token: String!, $newPassword: String!) {
+    resetPassword(token: $token, newPassword: $newPassword)
+  }
+`;
+
 const REFRESH_TOKEN = gql`
   mutation RefreshToken($refreshToken: String!) {
     refreshToken(refreshToken: $refreshToken) {
@@ -43,7 +59,7 @@ const REFRESH_TOKEN = gql`
       refreshToken
     }
   }
-`
+`;
 
 const UPDATE_USER_SETTINGS = gql`
   mutation UpdateUserSettings($input: SettingsInput!) {
@@ -53,7 +69,7 @@ const UPDATE_USER_SETTINGS = gql`
       theme
     }
   }
-`
+`;
 
 const SAVE_ONBOARDING = gql`
   mutation SaveOnboarding($input: OnboardingInput!) {
@@ -62,7 +78,7 @@ const SAVE_ONBOARDING = gql`
       onboarded
     }
   }
-`
+`;
 
 export function useRefreshToken() {
   const [refreshTokenMutation, { data, error, loading }] = useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(REFRESH_TOKEN)
@@ -113,6 +129,43 @@ export function useSignIn() {
 
   return { createUser, data, error, loading }
 }
+
+export function useRequestPasswordReset() {
+  const [requestPasswordResetMutation, { data, error, loading }] = useMutation<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(REQUEST_PASSWORD_RESET, {
+    errorPolicy: "all",
+  });
+
+  const requestPasswordReset = async (email: string) => {
+    const response = await requestPasswordResetMutation({
+      variables: {
+        email
+      }
+    })
+
+    return response.data?.requestPasswordReset
+  }
+
+  return { requestPasswordReset, data, error, loading }
+};
+
+export function useResetPassword() {
+  const [resetPasswordMutation, { data, error, loading }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(RESET_PASSWORD, {
+    errorPolicy: "all",
+  });
+
+  const resetPassword = async (token: string, newPassword: string) => {
+    const response = await resetPasswordMutation({
+      variables: {
+        token,
+        newPassword
+      }
+    })
+
+    return response.data?.resetPassword
+  }
+
+  return { resetPassword, data, error, loading }
+};
 
 export function useUpdateUserSettings() {
   const [updateUserSettingsMutation, { data, error, loading }] = useMutation<UpdateUserSettingsMutation, UpdateUserSettingsMutationVariables>(UPDATE_USER_SETTINGS, {

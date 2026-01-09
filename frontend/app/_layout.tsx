@@ -60,13 +60,27 @@ function RootLayout() {
               name="SignIn"
               options={{
                 title: "Sign In",
-                animation: "default"
+                animation: "default",
+                headerShown: false,
             }} />
             <Stack.Screen
               name="SignUp"
               options={{
                 title: "Sign Up",
                 animation: "default"
+            }} />
+            <Stack.Screen
+              name="ForgottenPassword"
+              options={{
+                title: "Forgotten Password",
+                animation: "default"
+            }} />
+            <Stack.Screen
+              name="reset-password"
+              options={{
+                title: "Reset Password",
+                animation: "default",
+                headerShown: false,
             }} />
             <Stack.Screen
               name="(protected)"

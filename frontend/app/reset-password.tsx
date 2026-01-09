@@ -1,0 +1,74 @@
+import { useRef, useEffect, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useResetPassword } from '@/lib/api/user/userMutations';
+import { Wrapper } from '@/components/shared/Wrapper';
+import { Container } from '@/components/shared/Container';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useGlobalStyles } from '@/styles/globalStyles';
+import { ThemedText } from '@/components/ThemedText';
+import { Pressable, TextInput, View } from 'react-native';
+
+export default function ResetPassword() {
+    const { resetPassword, error } = useResetPassword();
+    const globalStyles = useGlobalStyles();
+    const [uiError, setUiError] = useState<string | null>(null);
+    const { token } = useLocalSearchParams<{ token: string }>();
+    const inputRef = useRef({
+        newPassword: '',
+        confirmNewPassword: ''
+    });
+
+    const handleResetPassword = async () => {
+        const { newPassword, confirmNewPassword } = inputRef.current;
+
+        if (newPassword !== confirmNewPassword) {
+            setUiError("Passwords must match");
+            return;
+        }
+
+        const data = await resetPassword(token, newPassword);
+        if (!data) {
+            console.error("Could not reset password");
+            return;
+        }
+
+        router.replace("/SignIn");
+    }
+    
+    return (
+        <SafeAreaView>
+            <Wrapper>
+                <View style={[globalStyles.container, { }]}>
+                    <ThemedText type="title">Forgotten Password</ThemedText>
+                    {uiError && <ThemedText>{uiError}</ThemedText>}
+                    {error && <ThemedText>{error.message}</ThemedText>}
+                    <TextInput
+                        aria-label='New Password input field'
+                        placeholder="New Password"
+                        placeholderTextColor={"#8b8b8bff"}
+                        style={globalStyles.input}
+                        onChangeText={(newPassword) => {
+                            inputRef.current.newPassword = newPassword;
+                        }}
+                        autoCapitalize="none"
+                        secureTextEntry
+                    />
+                    <TextInput
+                        aria-label='Confirm New Password input field'
+                        placeholder="Confirm New Password"
+                        placeholderTextColor={"#8b8b8bff"}
+                        style={globalStyles.input}
+                        onChangeText={(confirmNewPassword) => {
+                            inputRef.current.confirmNewPassword = confirmNewPassword;
+                        }}
+                        autoCapitalize="none"
+                        secureTextEntry
+                    />
+                    <Pressable onPress={handleResetPassword}>
+                        <ThemedText>Update Password</ThemedText>
+                    </Pressable>
+                </View>
+            </Wrapper>
+        </SafeAreaView>
+    )
+}

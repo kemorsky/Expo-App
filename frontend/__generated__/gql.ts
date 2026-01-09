@@ -20,6 +20,8 @@ type Documents = {
     "\n    mutation CreateChallenge($input: ChallengeInput!) {\n        createChallenge(input: $input) {\n            id\n            challenge {\n                id\n                title\n                isPredefined\n            }\n            done\n            createdAt\n            updatedAt\n        }\n    }\n": typeof types.CreateChallengeDocument,
     "\n  mutation Login($input: UserLogin!) {\n    login(input: $input) {\n      id\n      email\n      name\n      token\n      refreshToken\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n      assignmentsToday\n    }\n  }\n": typeof types.CreateUserDocument,
+    "\n  mutation RequestPasswordReset($email: String!) {\n    requestPasswordReset(email: $email)\n  }\n": typeof types.RequestPasswordResetDocument,
+    "\n  mutation ResetPassword($token: String!, $newPassword: String!) {\n    resetPassword(token: $token, newPassword: $newPassword)\n  }\n": typeof types.ResetPasswordDocument,
     "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      id\n      name\n      email\n      token\n      refreshToken\n    }\n  }\n": typeof types.RefreshTokenDocument,
     "\n  mutation UpdateUserSettings($input: SettingsInput!) {\n    updateUserSettings(input: $input) {\n      language\n      numberOfChallengesPerDay\n      theme\n    }\n  }\n": typeof types.UpdateUserSettingsDocument,
     "\n  mutation SaveOnboarding($input: OnboardingInput!) {\n    saveOnboarding(input: $input) {\n      id\n      onboarded\n    }\n  }\n": typeof types.SaveOnboardingDocument,
@@ -33,6 +35,8 @@ const documents: Documents = {
     "\n    mutation CreateChallenge($input: ChallengeInput!) {\n        createChallenge(input: $input) {\n            id\n            challenge {\n                id\n                title\n                isPredefined\n            }\n            done\n            createdAt\n            updatedAt\n        }\n    }\n": types.CreateChallengeDocument,
     "\n  mutation Login($input: UserLogin!) {\n    login(input: $input) {\n      id\n      email\n      name\n      token\n      refreshToken\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n      assignmentsToday\n    }\n  }\n": types.CreateUserDocument,
+    "\n  mutation RequestPasswordReset($email: String!) {\n    requestPasswordReset(email: $email)\n  }\n": types.RequestPasswordResetDocument,
+    "\n  mutation ResetPassword($token: String!, $newPassword: String!) {\n    resetPassword(token: $token, newPassword: $newPassword)\n  }\n": types.ResetPasswordDocument,
     "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      id\n      name\n      email\n      token\n      refreshToken\n    }\n  }\n": types.RefreshTokenDocument,
     "\n  mutation UpdateUserSettings($input: SettingsInput!) {\n    updateUserSettings(input: $input) {\n      language\n      numberOfChallengesPerDay\n      theme\n    }\n  }\n": types.UpdateUserSettingsDocument,
     "\n  mutation SaveOnboarding($input: OnboardingInput!) {\n    saveOnboarding(input: $input) {\n      id\n      onboarded\n    }\n  }\n": types.SaveOnboardingDocument,
@@ -78,6 +82,14 @@ export function gql(source: "\n  mutation Login($input: UserLogin!) {\n    login
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n      assignmentsToday\n    }\n  }\n"): (typeof documents)["\n  mutation CreateUser($input: UserInput!) {\n    createUser(input: $input) {\n      id\n      email\n      name\n      password\n      assignmentsToday\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation RequestPasswordReset($email: String!) {\n    requestPasswordReset(email: $email)\n  }\n"): (typeof documents)["\n  mutation RequestPasswordReset($email: String!) {\n    requestPasswordReset(email: $email)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation ResetPassword($token: String!, $newPassword: String!) {\n    resetPassword(token: $token, newPassword: $newPassword)\n  }\n"): (typeof documents)["\n  mutation ResetPassword($token: String!, $newPassword: String!) {\n    resetPassword(token: $token, newPassword: $newPassword)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

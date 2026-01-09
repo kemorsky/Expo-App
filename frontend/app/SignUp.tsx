@@ -22,8 +22,6 @@ export default function SignIn() {
         confirmPassword: ''
     });
 
-    console.log(error)
-
     if (errors.length > 0) {
         errors.forEach((err) => {
             console.log(err.message);

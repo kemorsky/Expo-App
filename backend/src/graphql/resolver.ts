@@ -72,7 +72,8 @@ const resolvers: Resolvers = {
     Mutation: {
         createUser: async (_, { input }) => {
             const existingUser = await User.findOne({email: input!.email})
-            if (existingUser) { throw gqlError("Email already in use. Sign in or recover your password.", "BAD_REQUEST", 400); }
+            if (existingUser) throw gqlError("E-mail already in use. Sign in or recover your password.", "BAD_REQUEST", 400);
+
             const user = new User(input)
             await user.save();
 
@@ -102,9 +103,7 @@ const resolvers: Resolvers = {
 
             const isMatch = await user.comparePassword(password);
             
-            if (!user.email || !isMatch) {
-                throw gqlError("Invalid email or password", "UNAUTHENTICATED", 401);
-            };
+            if (!user.email || !isMatch) throw gqlError("Invalid email or password", "UNAUTHENTICATED", 401);
             
             const accessToken = generateToken({ _id: user._id.toString() });
             const refreshToken = generateRefreshToken({ _id: user._id.toString() });
@@ -123,6 +122,14 @@ const resolvers: Resolvers = {
             const user = await User.findOne({ email });
             if (!user) { return true; }
 
+            const existing = await PasswordResetToken.findOne({ user: user._id }); // check for existing tokens in the database
+
+            if (existing) throw gqlError(
+                            "You have already requested a password reset. Please check your e-mail or wait and try again later.",
+                            "BAD_REQUEST",
+                            400
+                        );
+            
             const token = crypto.randomBytes(32).toString("hex");
             const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
@@ -130,6 +137,7 @@ const resolvers: Resolvers = {
                 user: user._id,
                 token: hashedToken,
                 expiresAt: new Date(Date.now() + 1000 * 60 * 30), // 30 min
+                createdAt: new Date(),
             });
 
             const resetLink = `${process.env.APP_BASE_URL}/reset-password?token=${token}`;
@@ -139,8 +147,9 @@ const resolvers: Resolvers = {
                 subject: "Reset your password",
                 html: `
                 <p>You requested a password reset.</p>
-                <p>
-                    <a href="${resetLink}">Reset password</a>
+                <p>Click
+                    <a href="${resetLink}">this link</a>
+                    to reset your password.
                 </p>
                 <p>This link will expire in 30 minutes.</p>
                 `,
@@ -152,35 +161,24 @@ const resolvers: Resolvers = {
         resetPassword: async (_, { token, newPassword }) => {
             const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-            const record = await PasswordResetToken.findOne({ 
+            const record = await PasswordResetToken.findOne({
                 token: hashedToken,
                 expiresAt: { $gt: new Date() },
              });
 
-            if (!record) {
-                throw gqlError("Invalid or expired token", "BAD_REQUEST", 400);
-            };
+            if (!record) throw gqlError("Invalid or expired token", "BAD_REQUEST", 400);
 
-            const user = await User.findById(record.user);
-            if (!user) {
-                throw gqlError("Invalid token", "BAD_REQUEST", 400);
-            }
-
-            if (newPassword.length < 5) {
-                throw gqlError("Password must be at least 5 characters", "BAD_REQUEST", 400);
-            }
+            if (newPassword.length < 5) throw gqlError("Password must be at least 5 characters", "BAD_REQUEST", 400);
 
             const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-            const success = await User.findByIdAndUpdate(user._id, {
+            const success = await User.findByIdAndUpdate(record.user._id, {
                 password: hashedPassword,
             });
 
-            if (!success) { 
-                throw gqlError("Error resetting password", "INTERNAL_SERVER_ERROR", 500);
-            }
-
-            await PasswordResetToken.deleteMany({ user: user._id });
+            if (!success) throw gqlError("Error resetting password", "INTERNAL_SERVER_ERROR", 500);
+            
+            await PasswordResetToken.deleteMany({ user: record.user._id }); // delete all tokens for the user upon success
 
             return true;
         },

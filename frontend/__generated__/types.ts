@@ -59,6 +59,8 @@ export type Mutation = {
   markChallengeAsDone: UserChallenge;
   previewChallenge?: Maybe<UserChallenge>;
   refreshToken: AuthPayload;
+  requestPasswordReset: Scalars['Boolean']['output'];
+  resetPassword: Scalars['Boolean']['output'];
   saveOnboarding: User;
   updateChallenge: UserChallenge;
   updateUserSettings: Settings;
@@ -98,6 +100,17 @@ export type MutationMarkChallengeAsDoneArgs = {
 
 export type MutationRefreshTokenArgs = {
   refreshToken: Scalars['String']['input'];
+};
+
+
+export type MutationRequestPasswordResetArgs = {
+  email: Scalars['String']['input'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 
@@ -243,6 +256,21 @@ export type CreateUserMutationVariables = Exact<{
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, name: string, password?: string | null, assignmentsToday: number } };
+
+export type RequestPasswordResetMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type RequestPasswordResetMutation = { __typename?: 'Mutation', requestPasswordReset: boolean };
+
+export type ResetPasswordMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
 export type RefreshTokenMutationVariables = Exact<{
   refreshToken: Scalars['String']['input'];

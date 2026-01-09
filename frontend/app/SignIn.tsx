@@ -27,7 +27,7 @@ export default function Login() {
                         <View style={[globalStyles.container, {padding: 0, marginBottom: 20}]}>
                             <TextInput
                                 aria-label='E-mail login input field'
-                                placeholder="Email"
+                                placeholder="E-mail"
                                 placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
                                 autoCapitalize="none"
@@ -46,6 +46,11 @@ export default function Login() {
                                 }}
                                 secureTextEntry
                             />
+                            <Link href="/ForgottenPassword" push asChild>
+                                <Pressable style={{alignSelf: "flex-end"}} aria-label='Forgot Password button'>
+                                    <ThemedText>Forgot Password?</ThemedText>
+                                </Pressable>
+                            </Link>
                         </View>
                         <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
                             <Text style={globalStyles.buttonText}>Login</Text>
