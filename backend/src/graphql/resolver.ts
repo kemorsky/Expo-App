@@ -326,9 +326,7 @@ const resolvers: Resolvers = {
                 { new: true }
              );
 
-            if (!updatedUser) {
-                throw gqlError(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`, "FORBIDDEN", 403);
-            }
+            if (!updatedUser) throw gqlError(`You can only assign ${user.settings?.numberOfChallengesPerDay} challenge(s) per day.`, "FORBIDDEN", 403);
 
             await UserChallenge.updateMany(
                 { user: user._id, currentChallenge: true },
@@ -341,7 +339,7 @@ const resolvers: Resolvers = {
                 { new: true, runValidators: true }
             ).populate("challenge");
 
-            if (!assignedChallenge) { throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404); }
+            if (!assignedChallenge) throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
 
             const challenge = assignedChallenge?.challenge as ChallengeDocument
 
