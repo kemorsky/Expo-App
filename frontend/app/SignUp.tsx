@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { CombinedGraphQLErrors } from "@apollo/client";
+import { useState, useRef } from 'react';
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from '@/components/shared/Wrapper';
 import { View, TextInput, KeyboardAvoidingView, Platform, Text, Pressable } from "react-native";
@@ -12,12 +11,18 @@ import { useGraphQLErrors} from '@/lib/graphql/errors';
 
 export default function SignIn() {
     const { createUser, error } = useSignIn();
-    const [ newUser, setNewUser ] = useState<UserInput>({email: '', name: '', password: '',});
     const [uiError, setUiError] = useState<string>('');
-    const [ confirmPassword, setConfirmPassword ] = useState<string>('');
     const router = useRouter();
     const globalStyles = useGlobalStyles();
     const errors = useGraphQLErrors(error);
+    const formRef = useRef<UserInput & { confirmPassword: string }>({
+        email: '', 
+        name: '', 
+        password: '',
+        confirmPassword: ''
+    });
+
+    console.log(error)
 
     if (errors.length > 0) {
         errors.forEach((err) => {
@@ -26,25 +31,19 @@ export default function SignIn() {
         });
     }
 
-    const signIn = async (email: string, name: string, password: string) => {
-        const data = await createUser(email, name, password);
-        if (data) {
-            setNewUser({
-                email: data.email ?? '',
-                name: data.name ?? '',
-                password: data.password ?? ''
-            })
-            console.log("Signup successful" + newUser);
-            router.replace("/home");
-        }
-    }
-
     const handleSignIn = async () => {
-        if (newUser.password !== confirmPassword) {
+        const { email, name, password, confirmPassword } = formRef.current;
+
+        if (password !== confirmPassword) {
             setUiError("Passwords must match");
             return;
         }
-        await signIn(newUser.email, newUser.name, newUser.password);
+
+        const data = await createUser(email, name, password);
+
+        if (data) {
+            router.replace("/SignIn");
+        }
     }
 
     return (
@@ -54,13 +53,14 @@ export default function SignIn() {
                     <View style={[globalStyles.container, { }]}>
                         <ThemedText type="title">Sign Up</ThemedText>
                         {error && <ThemedText>{error.message}</ThemedText>}
-                        <TextInput 
+                        <TextInput
                             aria-label='Username sign up input field'
                             placeholder="Username"
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
-                            value={newUser.name}
-                            onChangeText={(name: string) => setNewUser((prev) => ({...prev, name}))}
+                            onChangeText={(name) => {
+                                formRef.current.name = name;
+                            }}
                             autoCapitalize="none"
                         />
                         <TextInput 
@@ -68,8 +68,9 @@ export default function SignIn() {
                             placeholder="Email"
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
-                            value={newUser.email}
-                            onChangeText={(email: string) => setNewUser((prev) => ({...prev, email}))}
+                            onChangeText={(email) => {
+                                formRef.current.email = email;
+                            }}
                             autoCapitalize="none"
                         />
                         <TextInput 
@@ -77,8 +78,9 @@ export default function SignIn() {
                             placeholder="Password"
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
-                            value={newUser.password}
-                            onChangeText={(password: string) => setNewUser((prev) => ({...prev, password}))}
+                            onChangeText={(password) => {
+                                formRef.current.password = password;
+                            }}
                             secureTextEntry
                         />
                         <TextInput 
@@ -86,8 +88,9 @@ export default function SignIn() {
                             placeholder="Confirm Password"
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
-                            value={confirmPassword}
-                            onChangeText={setConfirmPassword}
+                            onChangeText={(confirmPassword) => {
+                                formRef.current.confirmPassword = confirmPassword;
+                            }}
                             secureTextEntry
                         />
                         <Pressable style={globalStyles.buttonSignUp} onPress={() => handleSignIn()}>

@@ -1,5 +1,5 @@
 import { useAuth } from '@/utils/AuthContext';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { Wrapper } from '@/components/shared/Wrapper';
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable, Text } from "react-native";
 import { ThemedText } from '@/components/ThemedText';
@@ -11,11 +11,11 @@ import { UserLogin } from "@/__generated__/graphql";
 
 export default function Login() {
     const { logIn } = useAuth();
-    const [ user, setUser ] = useState<UserLogin>({email: '', password: ''})
     const globalStyles = useGlobalStyles();
-
-    const handleEmailChange = (email: string) => setUser((prev) => ({ ...prev, email }));
-    const handlePasswordChange = (password: string) => setUser((prev) => ({ ...prev, password }));
+    const formRef = useRef<UserLogin>({
+        email: '',
+        password: ''
+    })
 
     return (
         <SafeAreaView>
@@ -30,22 +30,24 @@ export default function Login() {
                                 placeholder="Email"
                                 placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
-                                value={user.email}
                                 autoCapitalize="none"
                                 keyboardType='email-address'
-                                onChangeText={handleEmailChange}
+                                onChangeText={(email) => {
+                                    formRef.current.email = email
+                                }}
                             />
                             <TextInput 
                                 aria-label='Password login input field'
                                 placeholder="Password"
                                 placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
-                                value={user.password}
-                                onChangeText={handlePasswordChange}
+                                onChangeText={(password) => {
+                                    formRef.current.password = password
+                                }}
                                 secureTextEntry
                             />
                         </View>
-                        <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(user.email, user.password)}>
+                        <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
                             <Text style={globalStyles.buttonText}>Login</Text>
                         </Pressable>
                         <View style={{flexDirection: "column", alignItems: "center", gap: 12, marginTop: 16}}>
