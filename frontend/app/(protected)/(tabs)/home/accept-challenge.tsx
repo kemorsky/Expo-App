@@ -59,10 +59,10 @@ export default function AcceptChallenge() {
     return (
         <Wrapper>
             <Container>
-                <ThemedText>Choose your challenge!</ThemedText>
-                <View style={{width: '100%', flexDirection: 'column', gap: 28}}>
-                    <View style={{flexDirection: 'column', alignItems: 'center', gap: 8}}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                <ThemedText type="title">Choose your challenge!</ThemedText>
+                <View style={{width: '100%', height: 500, flexDirection: 'column', gap: 28, justifyContent: "center", alignItems: "center"}}>
+                    <View style={{flexDirection: 'column', alignItems: 'center', gap: 16}}>
+                        <View>
                             <Animated.Text style={animatedStyle}>
                                 <ThemedText style={{ fontSize: 22 }} type='subtitle'>
                                     {previewedChallenge?.challenge?.title}
