@@ -38,7 +38,7 @@ export default function HomeScreen() {
       <ChallengeDoneModal openModal={openModal} setOpenModal={setOpenModal}/>
       <View style={globalStyles.welcomeCard}>
         <Container>
-          <ThemedText type='title'>{t('home.welcome')}, {user.name}</ThemedText>
+          <ThemedText style={{alignSelf: "center"}} type='title'>{t('home.welcome')}, {user.name}!</ThemedText>
         </Container>
       
         <Container>
