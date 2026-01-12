@@ -31,8 +31,6 @@ export default function HomeScreen() {
 
   if (!user.settings?.numberOfChallengesPerDay) return;
 
-  console.log(user.assignmentsToday)
-
   const isDisabled = user.assignmentsToday >= user.settings?.numberOfChallengesPerDay;
 
   return (

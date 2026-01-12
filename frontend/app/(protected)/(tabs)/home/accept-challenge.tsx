@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { usePreviewChallenge, useAcceptChallenge } from '@/lib/api/challenges/challengesMutations';
 import { useGlobalStyles } from '@/styles/globalStyles';
+import { formatDate } from '@/utils/formatDate';
 import { Wrapper } from '@/components/shared/Wrapper';
 import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/shared/Container';
@@ -59,37 +60,52 @@ export default function AcceptChallenge() {
     return (
         <Wrapper>
             <Container>
-                <ThemedText type="title">Choose your challenge!</ThemedText>
-                <View style={{width: '100%', height: 500, flexDirection: 'column', gap: 28, justifyContent: "center", alignItems: "center"}}>
-                    <View style={{flexDirection: 'column', alignItems: 'center', gap: 16}}>
+                <ThemedText type='date'>{formatDate(new Date().toString())}</ThemedText>
+                <View style={styles.challengeWrapper}>
+                    <View style={styles.challengeContainer}>
                         <View>
-                            <Animated.Text style={animatedStyle}>
-                                <ThemedText style={{ fontSize: 22 }} type='subtitle'>
+                            <Animated.Text style={[animatedStyle, {textAlign: "center" }]}>
+                                <ThemedText style={{ fontSize: 18}} type='subtitle'>
                                     {previewedChallenge?.challenge?.title}
                                 </ThemedText>
                             </Animated.Text>
                         </View>
-                    <View style={styles.buttonsContainer}>
-                        <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "red", width: 120, alignItems: "center"}]} onPress={() => handlePreviewChallenge()}>
-                            <Text>Roll again</Text>
-                        </Pressable>
-                        <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "green", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
-                            <Text>Accept</Text>
-                        </Pressable>
+                        <View style={styles.buttonsContainer}>
+                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "red", width: 120, alignItems: "center"}]} onPress={() => handlePreviewChallenge()}>
+                                <Text>Not today</Text>
+                            </Pressable>
+                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "green", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                                <Text>Accept</Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
-            </View>
             </Container>
         </Wrapper>
     )
 }
 
 const styles = StyleSheet.create({
+     challengeWrapper: {
+        width: '100%', 
+        height: 650, 
+        flexDirection: 'column', 
+        gap: 28, 
+        justifyContent: "center", 
+        alignItems: "center"
+    },
+    challengeContainer: {
+        width: '100%', 
+        height: 200, 
+        flexDirection: 'column', 
+        gap: 28, 
+        justifyContent: "space-between", 
+        alignItems: "center"
+    },
     buttonsContainer: {
         width: 270,
         flexDirection: "row",
         alignSelf: "center",
         justifyContent: "space-between",
     },
-
 })
