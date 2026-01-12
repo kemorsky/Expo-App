@@ -10,7 +10,7 @@ import { Link } from 'expo-router';
 import { UserLogin } from "@/__generated__/graphql";
 
 export default function Login() {
-    const { logIn } = useAuth();
+    const { logIn, authErrors } = useAuth();
     const globalStyles = useGlobalStyles();
     const formRef = useRef<UserLogin>({
         email: '',
@@ -22,8 +22,13 @@ export default function Login() {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
                     <View style={[globalStyles.container, {marginTop: 80, }]}>
-                        <ThemedText type="title">Welcome back!</ThemedText>
+                        <ThemedText type="title">Welcome!</ThemedText>
                         <ThemedText type="title">Sign in to proceed to your account</ThemedText>
+                        <View style={{height: 24}}>
+                            {authErrors.map(err => (
+                                <ThemedText key={err.message} type="error">{err.message}</ThemedText>
+                            ))}
+                        </View>
                         <View style={[globalStyles.container, {padding: 0, marginBottom: 20}]}>
                             <TextInput
                                 aria-label='E-mail login input field'

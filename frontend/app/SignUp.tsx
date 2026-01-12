@@ -7,27 +7,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserInput } from '@/__generated__/graphql';
 import { useSignIn } from '@/lib/api/user/userMutations';
 import { useRouter } from 'expo-router';
-import { useGraphQLErrors} from '@/lib/graphql/errors';
 
 export default function SignIn() {
     const { createUser, error } = useSignIn();
-    const [uiError, setUiError] = useState<string>('');
+    const [uiError, setUiError] = useState("");
     const router = useRouter();
     const globalStyles = useGlobalStyles();
-    const errors = useGraphQLErrors(error);
     const formRef = useRef<UserInput & { confirmPassword: string }>({
         email: '', 
         name: '', 
         password: '',
         confirmPassword: ''
     });
-
-    if (errors.length > 0) {
-        errors.forEach((err) => {
-            console.log(err.message);
-            console.log(err.code);
-        });
-    }
 
     const handleSignIn = async () => {
         const { email, name, password, confirmPassword } = formRef.current;
@@ -50,7 +41,12 @@ export default function SignIn() {
                 <Wrapper>
                     <View style={[globalStyles.container, { }]}>
                         <ThemedText type="title">Sign Up</ThemedText>
-                        {error && <ThemedText>{error.message}</ThemedText>}
+                        <View style={{height: 46}}>
+                            {error && <ThemedText type="error">{error.message}</ThemedText>}
+                            <ThemedText>
+                                {uiError && <ThemedText type="error">{uiError}</ThemedText>}
+                            </ThemedText>
+                        </View>
                         <TextInput
                             aria-label='Username sign up input field'
                             placeholder="Username"

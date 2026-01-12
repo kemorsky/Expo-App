@@ -7,6 +7,7 @@ import { Container } from '@/components/shared/Container';
 import React, { useState, useEffect } from 'react';
 import { UserChallenge } from '@/__generated__/graphql';
 import { router } from 'expo-router';
+import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
 export default function AcceptChallenge() {
     const { acceptChallenge } = useAcceptChallenge();
@@ -14,10 +15,28 @@ export default function AcceptChallenge() {
     const [ previewedChallenge, setPreviewedChallenge ] = useState<Partial<UserChallenge | null>>(null);
 
     const globalStyles = useGlobalStyles();
+        
+    const translateY = useSharedValue(-20);
+    const opacity = useSharedValue(0);
 
     useEffect(() => {
         handlePreviewChallenge()
     }, [])
+
+    useEffect(() => {
+        if (!previewedChallenge) return;
+
+        translateY.value = -20; // reset values to let animations play on each roll
+        opacity.value = 0;
+
+        translateY.value = withTiming(0, { duration: 300 });
+        opacity.value = withTiming(1, { duration: 300 });
+    }, [translateY, opacity, previewedChallenge]);
+    
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: translateY.value }],
+        opacity: opacity.value,
+    }));
 
     const handlePreviewChallenge = async () => {
             const data = await previewChallenge();
@@ -44,9 +63,11 @@ export default function AcceptChallenge() {
                 <View style={{width: '100%', flexDirection: 'column', gap: 28}}>
                     <View style={{flexDirection: 'column', alignItems: 'center', gap: 8}}>
                         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                            <ThemedText style={{ fontSize: 22 }} type='subtitle'>
-                                {previewedChallenge?.challenge?.title}
-                            </ThemedText>
+                            <Animated.Text style={animatedStyle}>
+                                <ThemedText style={{ fontSize: 22 }} type='subtitle'>
+                                    {previewedChallenge?.challenge?.title}
+                                </ThemedText>
+                            </Animated.Text>
                         </View>
                     <View style={styles.buttonsContainer}>
                         <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "red", width: 120, alignItems: "center"}]} onPress={() => handlePreviewChallenge()}>

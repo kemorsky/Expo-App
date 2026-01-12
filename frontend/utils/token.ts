@@ -4,7 +4,6 @@ import { Platform } from "react-native"
 
 export async function saveToken(accessToken: string) {
     if (Platform.OS === 'web') {
-        console.log("token saved")
         return await AsyncStorage.setItem('accessToken', accessToken)
     } else {
         return await SecureStore.setItemAsync('accessToken', accessToken)
@@ -21,7 +20,6 @@ export async function saveRefreshToken(refreshToken: string) {
 
 export async function getToken(): Promise<string | null> {
     if (Platform.OS === 'web') {
-        console.log("function ran successfully")
         return await AsyncStorage.getItem('accessToken')
     } else {
         return await SecureStore.getItemAsync('accessToken')
@@ -30,7 +28,6 @@ export async function getToken(): Promise<string | null> {
 
 export async function getRefreshToken(): Promise<string | null> {
     if (Platform.OS === 'web') {
-        console.log("function ran successfully - 2")
         return await AsyncStorage.getItem('refreshToken')
     } else {
         return await SecureStore.getItemAsync('refreshToken')

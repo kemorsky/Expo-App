@@ -16,6 +16,10 @@ export default function ForgottenPassword() {
 
     const handleRequestPasswordReset = async () => {
         const { email } = emailRef.current;
+        if (!email) {
+            setSuccessMessage("Please enter an e-mail address.");
+            return;
+        }
         const data = await requestPasswordReset(email);
         if (data) {
             setSuccess(true);
@@ -29,7 +33,7 @@ export default function ForgottenPassword() {
         <SafeAreaView>
             <Wrapper>
                 <View style={[globalStyles.container, { }]}>
-                    <ThemedText type="title">Forgotten Password</ThemedText>
+                    <ThemedText type="title">Request Password Reset</ThemedText>
                     <TextInput
                         aria-label='Email input field'
                         placeholder="E-mail"
@@ -45,6 +49,7 @@ export default function ForgottenPassword() {
                     </Pressable>
                     {error && <ThemedText>{error.message}</ThemedText>}
                     {success && <ThemedText>{successMessage}</ThemedText>}
+                    {!success && <ThemedText type="error">{successMessage}</ThemedText>}
                 </View>
             </Wrapper>
         </SafeAreaView>

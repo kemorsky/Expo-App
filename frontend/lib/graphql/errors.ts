@@ -1,13 +1,13 @@
 import { CombinedGraphQLErrors } from "@apollo/client";
 import type { ErrorLike } from "@apollo/client";
 
-type AppError = {
+export type AppError = {
   message: string;
   code?: string;
   fields?: Record<string, string>;
 };
 
-export function useGraphQLErrors(error?: ErrorLike): AppError[] {
+export function extractGraphQLErrors(error?: ErrorLike): AppError[] {
   if (!error) return [];
 
   // GraphQL resolver errors

@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import type { AuthPayload } from "@/__generated__/graphql";
+import { AppError } from "@/lib/graphql/errors";
 
 type AuthContext = {
     isLoggedIn: boolean,
@@ -7,6 +8,8 @@ type AuthContext = {
     logOut: () => Promise<void>,
     rehydrate: () => Promise<void>,
     user: AuthPayload | null,
+    authErrors: AppError[],
+    setAuthErrors: (errors: AppError[]) => void
 }
 
 const AuthState = createContext<AuthContext | null>(null);

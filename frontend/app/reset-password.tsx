@@ -39,9 +39,13 @@ export default function ResetPassword() {
         <SafeAreaView>
             <Wrapper>
                 <View style={[globalStyles.container, { }]}>
-                    <ThemedText type="title">Forgotten Password</ThemedText>
-                    {uiError && <ThemedText>{uiError}</ThemedText>}
-                    {error && <ThemedText>{error.message}</ThemedText>}
+                    <ThemedText type="title">Reset Password</ThemedText>
+                    <View style={{height: 46}}>
+                        {error && <ThemedText type="error">{error.message}</ThemedText>}
+                        <ThemedText>
+                            {uiError && <ThemedText type="error">{uiError}</ThemedText>}
+                        </ThemedText>
+                    </View>
                     <TextInput
                         aria-label='New Password input field'
                         placeholder="New Password"

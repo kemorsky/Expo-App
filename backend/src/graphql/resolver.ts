@@ -73,6 +73,7 @@ const resolvers: Resolvers = {
         createUser: async (_, { input }) => {
             const existingUser = await User.findOne({email: input!.email})
             if (existingUser) throw gqlError("E-mail already in use. Sign in or recover your password.", "BAD_REQUEST", 400);
+            if (!input.email || !input.name || !input.password) throw gqlError("All fields are required.", "BAD_REQUEST", 400);
 
             const user = new User(input)
             await user.save();
