@@ -8,7 +8,7 @@ import { Container } from '@/components/shared/Container';
 import React, { useState, useEffect } from 'react';
 import { UserChallenge } from '@/__generated__/graphql';
 import { router } from 'expo-router';
-import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { useSharedValue, withTiming, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
 export default function AcceptChallenge() {
     const { acceptChallenge } = useAcceptChallenge();
@@ -30,8 +30,8 @@ export default function AcceptChallenge() {
         translateY.value = -20; // reset values to let animations play on each roll
         opacity.value = 0;
 
-        translateY.value = withTiming(0, { duration: 300 });
-        opacity.value = withTiming(1, { duration: 300 });
+        translateY.value = withSpring(0, { duration: 400 });
+        opacity.value = withTiming(1, { duration: 400 });
     }, [translateY, opacity, previewedChallenge]);
     
     const animatedStyle = useAnimatedStyle(() => ({
@@ -71,11 +71,11 @@ export default function AcceptChallenge() {
                             </Animated.Text>
                         </View>
                         <View style={styles.buttonsContainer}>
-                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "red", width: 120, alignItems: "center"}]} onPress={() => handlePreviewChallenge()}>
-                                <Text>Not today</Text>
+                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "#707070", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                                <ThemedText>Not today</ThemedText>
                             </Pressable>
-                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "green", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
-                                <Text>Accept</Text>
+                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "#315827", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                                <ThemedText>Accept</ThemedText>
                             </Pressable>
                         </View>
                     </View>

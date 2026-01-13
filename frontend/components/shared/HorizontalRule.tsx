@@ -1,14 +1,9 @@
-import { View, StyleSheet } from "react-native"
+import { View } from "react-native"
+import { useGlobalStyles } from "@/styles/globalStyles"
 
 export const HorizontalRule = () => {
+    const globalStyles = useGlobalStyles();
     return (
-        <View style={styles.horizontalRule} />
+        <View style={globalStyles.horizontalRule} />
     )
-}
-
-const styles = StyleSheet.create({
-    horizontalRule: {
-        borderBottomWidth: 1,
-        borderColor: '#000000'
-    }
-})
+};

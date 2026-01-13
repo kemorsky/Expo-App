@@ -50,7 +50,7 @@ export default function HomeScreen() {
           <View style={[globalStyles.card, {gap: 20, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
             {currentChallenge ? (
               <>
-                <ThemedText style={{maxWidth: 235}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
+                <ThemedText style={{maxWidth: 300}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
                 <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
                   <ThemedText>Mark as done</ThemedText>
                 </Pressable>
@@ -62,9 +62,10 @@ export default function HomeScreen() {
                   <Pressable style={{
                     ...globalStyles.buttonMarkAsDone,
                     ...(isDisabled ? globalStyles.buttonDisabled : {}),
-                  }}>
+                  }}
+                  aria-label="Get a new challenge button">
                     {(user.assignmentsToday ?? 1) >= 1 ? (
-                      <ThemedText>Get another challenge</ThemedText>
+                      <ThemedText style={{color: "#c5c5c5"}}>Get another challenge</ThemedText>
                     ) : (
                       <ThemedText>Get a challenge</ThemedText>
                     )}
@@ -104,7 +105,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type='subtitle'>Your latest challenges</ThemedText>
-        <View style={[globalStyles.card, {minHeight: 180}]}>
+        <View style={[globalStyles.card, {minHeight: 167}]}>
           {completedChallenges > 0 ? (
             <FlatList
               data={recentChallenges}
@@ -115,9 +116,6 @@ export default function HomeScreen() {
                   return <View style={styles.previousChallenge}>
                               <View style={styles.previousChallengeTitle}>
                                 <ThemedText type="date" style={{ fontSize: 14 }}>{formatDate(item?.completedAt ?? '')}</ThemedText>
-                                <Pressable>
-                                  <ThemedText>View -&gt; </ThemedText>
-                                </Pressable>
                               </View>
                               <ThemedText>{item?.challenge.title}</ThemedText>
                           </View>

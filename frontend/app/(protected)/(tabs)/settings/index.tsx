@@ -35,7 +35,7 @@ export default function Settings() {
                             <ThemedText> {user?.email}</ThemedText>
                         </ThemedText>
                     </View>
-                    <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "blue", borderRadius: 8, }} onPress={logOut}>
+                    <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "#3e05a8", borderRadius: 8, }} onPress={logOut}>
                         <ThemedText>Sign Out</ThemedText>
                     </Pressable>
                 </View>

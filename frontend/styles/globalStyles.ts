@@ -44,6 +44,10 @@ export const useGlobalStyles = () => {
             padding: 16,
             fontSize: 16
         },
+        horizontalRule: {
+            borderBottomWidth: 1,
+            borderColor: theme.colors.border
+        },
 
         // onboarding
 
@@ -70,19 +74,20 @@ export const useGlobalStyles = () => {
             height: 20,
             width: 20,
             borderRadius: 999,
-            backgroundColor: "#300808ff"
+            backgroundColor: "rgb(91, 148, 255)"
         },
         cycleThroughButton: {
+            flexDirection: "row",
             width: 90,
             alignItems: "center",
-            backgroundColor: "#da7070ff",
-            alignSelf: "flex-end",
+            justifyContent: "center",
+            gap: 8,
             padding: 8,
             borderRadius: 8,
         },
         skipButton: {
-            width: 200, 
-            backgroundColor: "#ac2222ff", 
+            width: 150, 
+            backgroundColor: "rgb(74, 116, 255)", 
             alignItems: "center", 
             alignSelf: "center", 
             marginTop: 40, 
@@ -117,8 +122,6 @@ export const useGlobalStyles = () => {
             justifyContent: "center",
             alignSelf: "flex-end",
             padding: 8,
-            borderWidth: 1,
-            borderColor: "#000000ff",
             borderRadius: 4,
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             backgroundColor: theme.colors.primary,
@@ -129,11 +132,9 @@ export const useGlobalStyles = () => {
             justifyContent: "center",
             alignSelf: "flex-end",
             padding: 8,
-            borderWidth: 1,
-            borderColor: "#000000ff",
             borderRadius: 4,
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "#a33f3fff",
+            backgroundColor: "rgb(102, 102, 102)",
             pointerEvents: "none"
         },
 
