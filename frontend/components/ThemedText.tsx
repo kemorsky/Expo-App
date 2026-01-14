@@ -44,12 +44,12 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   challenge: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'PoppinsBold'
   },
   date: {
     color: '#808080',
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'PoppinsSemiBold'
   },
   default: {

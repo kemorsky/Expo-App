@@ -55,12 +55,12 @@ export default function Challenges() {
               }
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <ThemedText style={{ fontSize: 22 }} type='subtitle'>
+              <ThemedText style={{ fontSize: 18 }} type='subtitle'>
                 {activeChallenge.challenge.title}
               </ThemedText>
             </View>
           </View>
-          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 20}}>
+          <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
               <ThemedText type='subtitle'>
                 Notes
               </ThemedText>
@@ -85,9 +85,6 @@ export default function Challenges() {
         <View style={globalStyles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
-            {defaultChallenges?.length === 0 && (
-              <Text>You have not created any challenges of your own yet.</Text>
-            )}
             <Link href='/challenges/create-challenge' push asChild>
               <Pressable style={globalStyles.createChallengeButton}>
                 <MaterialIcons name="add-circle" size={24} color="black" />
@@ -106,37 +103,37 @@ export default function Challenges() {
             </View>
           </View>
           <SectionList 
-                      sections={DATA}
-                      keyExtractor={item => item?.id ?? ''}
-                      contentContainerStyle={globalStyles.challengesSectionList}
-                      ItemSeparatorComponent={HorizontalRule}
-                      scrollEnabled={false}
-                      renderItem={({ item }) => {
-                        if (item === null) {
-                          return null; // fallback check in case item is null or something unintended
-                        }
-                        return <View>
-                                <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); if (item.done  === true) {
-                                    openChallenge(item);
-                                  } 
-                                }}>
-                                  <View style={globalStyles.challengeItem}>
-                                    {item?.done === true ? 
-                                        <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
-                                        <MaterialIcons name="remove-circle-outline" size={24} color="red" />
-                                      }
-                                      <ThemedText type='challengeTitle' style={{color: item?.done === false ? '#5a5a5aff' : theme.colors.text }}>
-                                        {item?.challenge.title}
-                                      </ThemedText>
-                                  </View>  
-                                  {item?.done === true ?       
-                                    <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null }
-                                </Pressable>
-                              </View>
-                      }}
-                      renderSectionHeader={({section: {title}}) => (
-                        <ThemedText style={{paddingVertical: 14, fontFamily: 'PoppinsMedium'}}>{title}</ThemedText>
-                      )}
+            sections={DATA}
+            keyExtractor={item => item?.id ?? ''}
+            contentContainerStyle={globalStyles.challengesSectionList}
+            ItemSeparatorComponent={HorizontalRule}
+            scrollEnabled={false}
+            renderItem={({ item }) => {
+              if (item === null) {
+                return null; // fallback check in case item is null or something unintended
+              }
+              return <View>
+                      <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); if (item.done  === true) {
+                          openChallenge(item);
+                        } 
+                      }}>
+                        <View style={globalStyles.challengeItem}>
+                          {item?.done === true ? 
+                              <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
+                              <MaterialIcons name="remove-circle-outline" size={24} color="red" />
+                            }
+                            <ThemedText type='challengeTitle' style={{color: item?.done === false ? '#5a5a5aff' : theme.colors.text }}>
+                              {item?.challenge.title}
+                            </ThemedText>
+                        </View>  
+                        {item?.done === true ?       
+                          <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null }
+                      </Pressable>
+                    </View>
+            }}
+            renderSectionHeader={({section: {title}}) => (
+              <ThemedText style={{paddingVertical: 14, fontFamily: 'PoppinsMedium'}}>{title}</ThemedText>
+            )}
           />
         </View>
       </Container>

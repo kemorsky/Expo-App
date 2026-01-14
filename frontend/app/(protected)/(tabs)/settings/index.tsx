@@ -41,27 +41,6 @@ export default function Settings() {
                 </View>
             </Container>
             <Container>
-                <ThemedText type='subtitle'>Account</ThemedText>
-                <View style={globalStyles.settingsList}>
-                    <Link href='/settings/manage-account' push asChild>
-                        <Pressable style={globalStyles.setting}>
-                            <ThemedText type='option'>Manage Account</ThemedText>
-                            <Feather name="arrow-right" size={16} color={theme.colors.text} />
-                        </Pressable>
-                    </Link>
-                    <HorizontalRule />
-                    <Pressable style={globalStyles.setting}>
-                        <ThemedText type='option'>Password & Security</ThemedText>
-                        <Feather name="arrow-right" size={16} color={theme.colors.text} />
-                    </Pressable>
-                    <HorizontalRule />
-                    <Pressable style={globalStyles.setting}>
-                        <ThemedText type='option'>Notifications</ThemedText>
-                        <Feather name="arrow-right" size={16} color={theme.colors.text} />
-                    </Pressable>
-                </View>
-            </Container>
-            <Container>
                 <ThemedText type='subtitle'>Preferences</ThemedText>
                 <View style={globalStyles.settingsList}>
                     <Link href='/settings/language' push asChild>

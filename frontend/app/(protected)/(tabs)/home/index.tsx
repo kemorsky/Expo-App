@@ -43,8 +43,8 @@ export default function HomeScreen() {
       
         <Container>
           <View style={styles.cardTitleContainer}>
-              <ThemedText type='subtitle'>Today&apos;s challenge</ThemedText>
-              <ThemedText type='date'>{formatDate(date.toString())}</ThemedText>
+              <ThemedText style={{fontSize: 14}} type='subtitle'>Today&apos;s challenge</ThemedText>
+              <ThemedText style={{alignSelf: "flex-end"}} type='date'>{formatDate(date.toString())}</ThemedText>
           </View>
           
           <View style={[globalStyles.card, {gap: 20, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
@@ -67,7 +67,7 @@ export default function HomeScreen() {
                     {(user.assignmentsToday ?? 1) >= 1 ? (
                       <ThemedText style={{color: "#c5c5c5"}}>Get another challenge</ThemedText>
                     ) : (
-                      <ThemedText>Get a challenge</ThemedText>
+                      <ThemedText style={{color: "#ffffff"}}>Get a challenge</ThemedText>
                     )}
                   </Pressable>
                 </Link>

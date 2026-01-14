@@ -11,6 +11,7 @@ export const formatDate = (dateInput?: string | number): string => {
   if (isNaN(date.getTime())) return '';
 
   return new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
     day: '2-digit',
     month: 'short',
     year: 'numeric',

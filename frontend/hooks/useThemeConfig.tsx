@@ -33,7 +33,7 @@ export const LightTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '',
+    primary: Colors.light.buttonBackground,
     background: Colors.light.wrapperBackground,
     card: Colors.light.card,
     text: Colors.light.text,

@@ -58,13 +58,13 @@ export default function ChallengeDoneModal(props: ModalProps) {
             <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalHeader}>
                     <ThemedText type='subtitle'>Complete challenge</ThemedText>
-                    <Pressable onPress={() => setOpenModal(!openModal)}>
+                    <Pressable aria-label="Close modal button" onPress={() => setOpenModal(!openModal)}>
                         <AntDesign name="close" size={24} color="white" />
                     </Pressable>
                 </View>
                 <View style={globalStyles.modalTitle}>
                     <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
-                    <ThemedText type='title'>{currentChallenge?.challenge.title}</ThemedText>
+                    <ThemedText style={{ fontSize: 18 }} type='subtitle'>{currentChallenge?.challenge.title}</ThemedText>
                 </View>
                 <TextInput 
                     aria-label="Challenge notes input field"
@@ -75,7 +75,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     value={notes.notes ?? ''}
                     placeholder="Add notes to this challenge (not required)"
                     placeholderTextColor={"#8b8b8bff"}/>
-                <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
                     <ThemedText>Mark as done</ThemedText>
                 </Pressable>
             </View>
