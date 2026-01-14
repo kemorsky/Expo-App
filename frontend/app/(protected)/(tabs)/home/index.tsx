@@ -27,7 +27,7 @@ export default function HomeScreen() {
   const completedChallenges = user.challenges?.filter((challenge) => challenge?.done === true).length || 0;
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
-  const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => Number(b?.completedAt) - Number(a?.completedAt)).slice(0, 5)
+  const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => new Date(b?.completedAt).getTime() - new Date(a?.completedAt).getTime()).slice(0, 5)
 
   if (!user.settings?.numberOfChallengesPerDay) return;
 
@@ -43,8 +43,7 @@ export default function HomeScreen() {
       
         <Container>
           <View style={styles.cardTitleContainer}>
-              <ThemedText style={{fontSize: 14}} type='subtitle'>Today&apos;s challenge</ThemedText>
-              <ThemedText style={{alignSelf: "flex-end"}} type='date'>{formatDate(date.toString())}</ThemedText>
+              <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
           </View>
           
           <View style={[globalStyles.card, {gap: 20, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
@@ -57,19 +56,31 @@ export default function HomeScreen() {
               </>
             ) : (
               <>
-                <ThemedText type='challenge'>No active challenge</ThemedText>
+                {!isDisabled ? (
+                  <ThemedText type='challenge'>No active challenge</ThemedText>
+                ) : (
+                  <ThemedText type='challenge'>You&apos;ve reached your daily challenge limit for the day. Great work!</ThemedText>
+                )}
+                
                 <Link href="/home/accept-challenge" push asChild>
-                  <Pressable style={{
+                  {isDisabled ? (
+                    <Pressable style={globalStyles.buttonDisabled}
+                                aria-label="Get a new challenge button">
+                      <ThemedText type="buttonText" style={{color: "#000000"}}>Get a challenge</ThemedText>                     
+                    </Pressable>
+                  ) : (
+                    <Pressable style={{
                     ...globalStyles.buttonMarkAsDone,
                     ...(isDisabled ? globalStyles.buttonDisabled : {}),
                   }}
                   aria-label="Get a new challenge button">
                     {(user.assignmentsToday ?? 1) >= 1 ? (
-                      <ThemedText style={{color: "#c5c5c5"}}>Get another challenge</ThemedText>
+                      <ThemedText type="buttonText">Get another challenge</ThemedText>
                     ) : (
-                      <ThemedText style={{color: "#ffffff"}}>Get a challenge</ThemedText>
+                      <ThemedText type="buttonText">Get a challenge</ThemedText>
                     )}
                   </Pressable>
+                  )}
                 </Link>
               </>
             )}
@@ -134,7 +145,8 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   cardTitleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    alignItems: "center"
   },
   cardContentContainer: {
     width: '100%',

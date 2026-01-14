@@ -134,7 +134,7 @@ export const useGlobalStyles = () => {
             padding: 8,
             borderRadius: 4,
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            backgroundColor: "rgb(102, 102, 102)",
+            backgroundColor: "rgb(148, 148, 148)",
             pointerEvents: "none"
         },
 
@@ -236,7 +236,7 @@ export const useGlobalStyles = () => {
         },
 
         buttonLogin: {
-            width: 300,
+            width: 240,
             height: 54,
             alignSelf: "center",
             alignItems: "center",
@@ -249,7 +249,7 @@ export const useGlobalStyles = () => {
             borderRadius: 8,
         },
         buttonSignUp: {
-            width: 300,
+            width: 240,
             height: 54,
             alignSelf: "center",
             alignItems: "center",

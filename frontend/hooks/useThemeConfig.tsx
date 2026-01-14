@@ -25,7 +25,8 @@ export const DarkTheme: Theme = {
     background: Colors.dark.wrapperBackground,
     card: Colors.dark.card,
     text: Colors.dark.text,
-    border: Colors.dark.border
+    border: Colors.dark.border,
+    notification: Colors.dark.tabTint
   },
 };
 
@@ -37,7 +38,8 @@ export const LightTheme: Theme = {
     background: Colors.light.wrapperBackground,
     card: Colors.light.card,
     text: Colors.light.text,
-    border: Colors.light.border
+    border: Colors.light.border,
+    notification: Colors.light.tabTint
   },
 };
 

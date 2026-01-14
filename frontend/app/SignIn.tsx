@@ -58,13 +58,13 @@ export default function Login() {
                             </Link>
                         </View>
                         <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
-                            <Text style={globalStyles.buttonText}>Login</Text>
+                            <ThemedText type="buttonText" style={{fontSize: 16}}>Sign In</ThemedText>
                         </Pressable>
                         <View style={{flexDirection: "column", alignItems: "center", gap: 12, marginTop: 16}}>
                             <ThemedText>Not a user yet?</ThemedText>
                             <Link href="/SignUp" push asChild>
                                 <Pressable aria-label='Sign Up button'>
-                                    <Text style={globalStyles.buttonText}>Create an account</Text>
+                                    <ThemedText type="buttonText" style={{fontSize: 16}}>Create an account</ThemedText>
                                 </Pressable>
                             </Link>
                         </View>

@@ -86,13 +86,13 @@ export default function Challenges() {
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
             <Link href='/challenges/create-challenge' push asChild>
-              <Pressable style={globalStyles.createChallengeButton}>
-                <MaterialIcons name="add-circle" size={24} color="black" />
-                <ThemedText>Create Challenge</ThemedText>
+              <Pressable aria-label="Create new challenge button" style={globalStyles.createChallengeButton}>
+                <MaterialIcons name="add" size={24} color="white" />
+                <ThemedText type="buttonText">Create Challenge</ThemedText>
               </Pressable>
             </Link>
           </View>
-          <View style={{flexDirection: 'column', alignItems: 'flex-start', alignSelf: "flex-end", gap: 8}}>
+          <View style={{flexDirection: 'column', alignItems: 'flex-start', alignSelf: "flex-end", gap: 4}}>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
               <MaterialIcons name="check-circle-outline" size={22} color="green" />
               <ThemedText style={{fontSize: 12}}>Completed</ThemedText>

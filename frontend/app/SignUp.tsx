@@ -88,7 +88,7 @@ export default function SignIn() {
                             secureTextEntry
                         />
                         <Pressable style={globalStyles.buttonSignUp} onPress={() => handleSignIn()}>
-                            <Text style={globalStyles.buttonText}>Sign Up</Text>
+                            <ThemedText type="buttonText" style={{fontSize: 16}}>Sign Up</ThemedText>
                         </Pressable>
                     </View>
                 </Wrapper>

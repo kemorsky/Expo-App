@@ -71,10 +71,10 @@ export default function AcceptChallenge() {
                             </Animated.Text>
                         </View>
                         <View style={styles.buttonsContainer}>
-                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "#707070", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                            <Pressable aria-label="Roll a different challenge button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
                                 <ThemedText>Not today</ThemedText>
                             </Pressable>
-                            <Pressable style={[globalStyles.buttonMarkAsDone, {backgroundColor: "#315827", width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                            <Pressable aria-label="Accept challenge button" style={[globalStyles.buttonMarkAsDone, { width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
                                 <ThemedText>Accept</ThemedText>
                             </Pressable>
                         </View>
