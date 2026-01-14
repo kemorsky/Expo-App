@@ -30,13 +30,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "backgroundColor": "#278a00",
+          "image": "./assets/images/react-logo@2x.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
           "dark": {
-            "backgroundColor": "#000000"
-          }
+            "backgroundColor": "#000000",
+            "image": "./assets/images/react-logo@2x.png"
+          },
+          "imageWidth": 200
         }
       ],
       [
