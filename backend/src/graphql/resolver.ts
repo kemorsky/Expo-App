@@ -279,6 +279,7 @@ const resolvers: Resolvers = {
                 }
             } catch (error) {
                 if (error instanceof GraphQLError) throw error;
+                if (!input.title) throw gqlError("Title must be provided", "BAD_REQUEST", 400);
                 throw gqlError("Error creating new challenge", "BAD_REQUEST", 400);
             }
         },

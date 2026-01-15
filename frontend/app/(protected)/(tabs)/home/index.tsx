@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
+import { StyleSheet, View, Pressable, FlatList } from 'react-native';
 import { useMe } from '@/lib/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
@@ -20,7 +20,6 @@ export default function HomeScreen() {
   const { t } = useTranslation();
 
   if (!user || loading) return <HomePageSkeleton />;
-  if (error) return <Text>Error: {error.message}</Text>;
 
   const date = new Date();
 
@@ -28,6 +27,7 @@ export default function HomeScreen() {
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false).length || 0;
   const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true)
   const recentChallenges = user.challenges?.filter((ch) => ch?.done === true).sort((a, b) => new Date(b?.completedAt).getTime() - new Date(a?.completedAt).getTime()).slice(0, 5)
+  const unavailableChallenges = user.challenges?.filter((challenge) => challenge?.done === false).length === 0;
 
   if (!user.settings?.numberOfChallengesPerDay) return;
 
@@ -40,13 +40,11 @@ export default function HomeScreen() {
         <Container>
           <ThemedText style={{alignSelf: "center"}} type='title'>{t('home.welcome')}, {user.name}!</ThemedText>
         </Container>
-      
         <Container>
           <View style={styles.cardTitleContainer}>
               <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
           </View>
-          
-          <View style={[globalStyles.card, {gap: 20, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
+          <View style={[globalStyles.card, {gap: 32, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
             {currentChallenge ? (
               <>
                 <ThemedText style={{maxWidth: 300}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
@@ -60,8 +58,8 @@ export default function HomeScreen() {
                   <ThemedText type='challenge'>No active challenge</ThemedText>
                 ) : (
                   <ThemedText type='challenge'>You&apos;ve reached your daily challenge limit for the day. Great work!</ThemedText>
-                )}
-                
+                )}       
+                {unavailableChallenges && <ThemedText>You have no challenges available.</ThemedText>}     
                 <Link href="/home/accept-challenge" push asChild>
                   {isDisabled ? (
                     <Pressable style={globalStyles.buttonDisabled}
@@ -71,14 +69,14 @@ export default function HomeScreen() {
                   ) : (
                     <Pressable style={{
                     ...globalStyles.buttonMarkAsDone,
-                    ...(isDisabled ? globalStyles.buttonDisabled : {}),
-                  }}
-                  aria-label="Get a new challenge button">
-                    {(user.assignmentsToday ?? 1) >= 1 ? (
-                      <ThemedText type="buttonText">Get another challenge</ThemedText>
-                    ) : (
-                      <ThemedText type="buttonText">Get a challenge</ThemedText>
-                    )}
+                    ...(isDisabled || unavailableChallenges ? globalStyles.buttonDisabled : {}),
+                    }}
+                    aria-label="Get a new challenge button">
+                      {(user.assignmentsToday ?? 1) >= 1 ? (
+                        <ThemedText type="buttonText">Get another challenge</ThemedText>
+                      ) : (
+                        <ThemedText type="buttonText">Get a challenge</ThemedText>
+                      )}
                   </Pressable>
                   )}
                 </Link>
@@ -89,7 +87,6 @@ export default function HomeScreen() {
       </View>
       <Container>
         <ThemedText type='subtitle'>Stats</ThemedText>
-        
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
               <StatsCard>
@@ -101,18 +98,7 @@ export default function HomeScreen() {
                 <ThemedText type="statValue">{createdChallenges}</ThemedText>
               </StatsCard>
             </View>
-            {/* <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
-              <StatsCard>
-                <ThemedText type="statTitle">Current streak</ThemedText>
-                <ThemedText type="statValue">{completedChallenges}</ThemedText>
-              </StatsCard>
-              <StatsCard>
-                <ThemedText type="statTitle">Highest streak</ThemedText>
-                <ThemedText type="statValue">{createdChallenges}</ThemedText>
-              </StatsCard>
-            </View> */}
           </View>
-        
       </Container>
       <Container>
         <ThemedText type='subtitle'>Your latest challenges</ThemedText>

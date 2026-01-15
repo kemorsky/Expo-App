@@ -79,7 +79,9 @@ const CREATE_CHALLENGE = gql`
 `
 
 export function usePreviewChallenge() {
-    const [previewChallengeMutation, { data, loading, error }] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE)
+    const [previewChallengeMutation, { data, loading, error }] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE, {
+        errorPolicy: "all"
+    })
 
     const previewChallenge = async () => {
         try {
@@ -95,7 +97,9 @@ export function usePreviewChallenge() {
 }
 
 export function useAcceptChallenge() {
-    const [acceptChallengeMutation, { data, loading, error }] = useMutation<AcceptChallengeMutation, AcceptChallengeMutationVariables>(ACCEPT_CHALLENGE);
+    const [acceptChallengeMutation, { data, loading, error }] = useMutation<AcceptChallengeMutation, AcceptChallengeMutationVariables>(ACCEPT_CHALLENGE, {
+        errorPolicy: "all"
+    });
     
     const acceptChallenge = async (id: string) => {
         try {
@@ -176,7 +180,8 @@ export function useMarkChallengeAsDone() {
 
 export function useCreateChallenge() {
     const [createChallengeMutation, { data, loading, error }] = useMutation<CreateChallengeMutation, CreateChallengeMutationVariables>(CREATE_CHALLENGE, {
-        refetchQueries: ["Me"]
+        refetchQueries: ["Me"],
+        errorPolicy: "all"
     });
 
     const createChallenge = async (title: string) => {

@@ -110,7 +110,7 @@ export const useGlobalStyles = () => {
 
         welcomeCard: {
             flexDirection: "column", 
-            gap: 40, 
+            gap: 28, 
             backgroundColor: theme.colors.card, 
             borderBottomRightRadius: 16, 
             borderBottomLeftRadius: 16, 

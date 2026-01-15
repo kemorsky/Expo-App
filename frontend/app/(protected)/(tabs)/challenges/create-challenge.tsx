@@ -4,36 +4,25 @@ import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/ThemedText";
 import { useCreateChallenge } from "@/lib/api/challenges/challengesMutations";
 import { useMe } from '@/lib/api/user/userQueries';
-import { useState } from "react";
-import { ChallengeInput } from "@/__generated__/graphql";
+import { useRef } from "react";
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { useRouter } from "expo-router";
 
 export default function CreateChallenge() {
     const { user, loading, error } = useMe();
-    const { createChallenge } = useCreateChallenge();
+    const { createChallenge, error: createChallengeError } = useCreateChallenge();
     const globalStyles = useGlobalStyles();
     const router = useRouter();
-
-    const [ newChallenge, setNewChallenge ] = useState<ChallengeInput>({ title: ''})
+    const titleRef = useRef({title: ""});
 
     if (!user || loading) return <ActivityIndicator />;
-    if (error) return <Text>Error: {error.message}</Text>;
+    if (error) return <ThemedText>Error: {error.message}</ThemedText>;
 
-    const handleCreateChallenge = async (title: string) => {
-        try {
-            const data = await createChallenge(title);
-            if (data) {
-                console.log(data)
-                setNewChallenge({
-                    title: data.challenge.title
-                })
-                console.log("New challenge created!" + newChallenge.title);
-                router.push('/challenges');
-            }
-        setNewChallenge({title: ''});
-        } catch (error) {
-            throw new Error (`Error creating challenge: ${error}`)
+    const handleCreateChallenge = async () => {
+        const { title } = titleRef.current;
+        const data = await createChallenge(title);
+        if (data) {
+            router.push('/challenges');
         }
     }
     
@@ -46,14 +35,16 @@ export default function CreateChallenge() {
                             aria-label="Create Challenge Input Field"
                             placeholder="Title"
                             style={globalStyles.input}
-                            value={newChallenge.title}
-                            onChangeText={(title: string) => setNewChallenge((prev) => ({...prev, title}))}
+                            onChangeText={(title) => {
+                                titleRef.current.title = title;
+                            }}
                             autoCapitalize="sentences"
                             selectTextOnFocus={false}
                     />
-                    <Pressable style={globalStyles.createChallengeButton} onPress={() => handleCreateChallenge(newChallenge.title)}>
+                    <Pressable style={globalStyles.createChallengeButton} onPress={() => handleCreateChallenge()}>
                         <ThemedText>Create Challenge</ThemedText>
                     </Pressable>
+                    {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
                 </View>
             </Container>
         </Wrapper>

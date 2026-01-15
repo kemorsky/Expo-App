@@ -3,21 +3,21 @@ export const slides = [
         id: "1",
         title: "Get a new challenge every day",
         description: 
-            "You can accept the challenge, or decline it and try another one. Some days are harder than others, so pick whatever suits you best.",
+            "You can accept the challenge, or try another one. Some days are harder than others, so pick whatever suits you best.",
         image: require("../assets/images/icon.png"),
     },
     {
         id: "2",
-        title: "Create your own challenges!",
+        title: "Create your own challenges",
         description: 
-            "On top of default challenges provided with the app, you can create your own and customize them to your personal needs.",
+            "On top of challenges provided by the app, you can create your own and customize them to your personal needs.",
         image: require("../assets/images/icon.png"),
     },
     {
         id: "3",
         title: "Take up more challenges whenever you want to",
         description: 
-            "BY default you can do 1 challenge per day, however you can up the number up to 3. Just head to your settings to change it.",
+            "By default you can do 1 challenge per day, however you can up the number up to 3. Just head to your settings to change it.",
         image: require("../assets/images/icon.png"),
     },
 ]

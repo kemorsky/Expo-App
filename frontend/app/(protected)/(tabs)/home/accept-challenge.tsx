@@ -7,12 +7,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { Container } from '@/components/shared/Container';
 import React, { useState, useEffect } from 'react';
 import { UserChallenge } from '@/__generated__/graphql';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import Animated, { useSharedValue, withTiming, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
 export default function AcceptChallenge() {
-    const { acceptChallenge } = useAcceptChallenge();
-    const { previewChallenge } = usePreviewChallenge();
+    const { acceptChallenge} = useAcceptChallenge();
+    const { previewChallenge, error } = usePreviewChallenge();
     const [ previewedChallenge, setPreviewedChallenge ] = useState<Partial<UserChallenge | null>>(null);
 
     const globalStyles = useGlobalStyles();
@@ -41,9 +41,10 @@ export default function AcceptChallenge() {
 
     const handlePreviewChallenge = async () => {
             const data = await previewChallenge();
-            if (data) {
-                setPreviewedChallenge(data)
+            if (!data) {
+                throw error;
             }
+            setPreviewedChallenge(data)
         }
 
     const handleAcceptChallenge = async (id: string) => {
@@ -62,23 +63,37 @@ export default function AcceptChallenge() {
             <Container>
                 <ThemedText type='date'>{formatDate(new Date().toString())}</ThemedText>
                 <View style={styles.challengeWrapper}>
-                    <View style={styles.challengeContainer}>
-                        <View>
-                            <Animated.Text style={[animatedStyle, {textAlign: "center" }]}>
-                                <ThemedText style={{ fontSize: 18}} type='subtitle'>
-                                    {previewedChallenge?.challenge?.title}
-                                </ThemedText>
-                            </Animated.Text>
+                    {error ? (
+                        <View style={styles.challengeContainer}>
+                            <View>
+                                {error && <ThemedText style={{fontSize: 16}} type="error">{error.message}.</ThemedText>}
+                            </View>
+                            <View style={styles.buttonsContainer}>
+                                <Link dismissTo href="/home">
+                                    <Pressable aria-label="Go back to homepage button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                                        <ThemedText>Go back</ThemedText>
+                                    </Pressable>
+                                </Link>
+                            </View>
+                        </View>) : (
+                        <View style={styles.challengeContainer}>
+                            <View>
+                                <Animated.Text style={[animatedStyle, {textAlign: "center" }]}>
+                                    <ThemedText style={{ fontSize: 18}} type='subtitle'>
+                                        {previewedChallenge?.challenge?.title}
+                                    </ThemedText>
+                                </Animated.Text>
+                            </View>
+                            <View style={styles.buttonsContainer}>
+                                <Pressable aria-label="Roll a different challenge button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                                    <ThemedText>Not today</ThemedText>
+                                </Pressable>
+                                <Pressable aria-label="Accept challenge button" style={[globalStyles.buttonMarkAsDone, { width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                                    <ThemedText>Accept</ThemedText>
+                                </Pressable>
+                            </View>
                         </View>
-                        <View style={styles.buttonsContainer}>
-                            <Pressable aria-label="Roll a different challenge button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
-                                <ThemedText>Not today</ThemedText>
-                            </Pressable>
-                            <Pressable aria-label="Accept challenge button" style={[globalStyles.buttonMarkAsDone, { width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
-                                <ThemedText>Accept</ThemedText>
-                            </Pressable>
-                        </View>
-                    </View>
+                    )}
                 </View>
             </Container>
         </Wrapper>
