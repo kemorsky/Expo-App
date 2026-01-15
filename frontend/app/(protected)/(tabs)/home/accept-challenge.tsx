@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import { usePreviewChallenge, useAcceptChallenge } from '@/lib/api/challenges/challengesMutations';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { formatDate } from '@/utils/formatDate';

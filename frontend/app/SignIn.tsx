@@ -21,7 +21,7 @@ export default function Login() {
         <SafeAreaView>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
-                    <View style={[globalStyles.container, {marginTop: 80, }]}>
+                    <View style={[globalStyles.container, {marginTop: 30, }]}>
                         <ThemedText type="title">Welcome!</ThemedText>
                         <ThemedText type="title">Sign in to proceed to your account</ThemedText>
                         <View style={{height: 24}}>

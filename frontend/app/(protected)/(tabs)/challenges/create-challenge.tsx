@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, ActivityIndicator, TextInput } from "react-native";
+import { StyleSheet, View, Pressable, ActivityIndicator, TextInput } from "react-native";
 import { Wrapper } from "@/components/shared/Wrapper";
 import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/ThemedText";
