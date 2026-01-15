@@ -146,15 +146,15 @@ const resolvers: Resolvers = {
             await sendMail({
                 to: user.email,
                 subject: "Reset your password",
-                html: `
-                <p>You requested a password reset. Testing whether changes are even registered in here</p>
-                <p>Click
-                    <button style="color:#3b82f6; border-radius:0.5rem;" }>
-                        <a href="${resetLink}">this link</a>
-                        to reset your password.
+                html: 
+                `<p style="font-size:1rem;">You requested a password reset.</p>
+                <p style="font-size:1rem;">Use the button below to reset your password:</p>
+                <a href="${resetLink}">
+                    <button style="background-color:#0281F1; border-radius:0.5rem; padding:0.5rem; font-size:1rem; color:#ffffff;" }>
+                        Reset Password
                     </button>
-                </p>
-                <p>This link will expire in 30 minutes.</p>
+                </a>
+                <p style="font-size:1rem;">This link will expire in 30 minutes.</p>
                 `,
             });
 

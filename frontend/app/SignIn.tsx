@@ -36,6 +36,7 @@ export default function Login() {
                                 placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
                                 autoCapitalize="none"
+                                selectTextOnFocus={false}
                                 keyboardType='email-address'
                                 onChangeText={(email) => {
                                     formRef.current.email = email
@@ -46,6 +47,7 @@ export default function Login() {
                                 placeholder="Password"
                                 placeholderTextColor={"#8b8b8bff"}
                                 style={globalStyles.input}
+                                selectTextOnFocus={false}
                                 onChangeText={(password) => {
                                     formRef.current.password = password
                                 }}

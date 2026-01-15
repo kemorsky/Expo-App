@@ -31,8 +31,6 @@ export default function ChallengeDoneModal(props: ModalProps) {
         try {
             const data = await markChallengeAsDone(id, notes, done, currentChallenge);
             if (data) {
-                console.log("success")
-                console.log(data)
                 setNotes({
                     notes: data.notes,
                     done: data.done,

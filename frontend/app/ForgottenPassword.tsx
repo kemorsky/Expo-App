@@ -24,8 +24,6 @@ export default function ForgottenPassword() {
         if (data) {
             setSuccess(true);
             setSuccessMessage("Password reset request was successful. Please check yor e-mail and follow the instructions.");
-            console.log(data)
-            console.log(email);
         }
     }
     
