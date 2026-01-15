@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "expo-app",
-    "slug": "expo-app",
+    "name": "Daily Challenge App",
+    "slug": "daily-challenge",
+    "owner": "kemor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -52,6 +53,18 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "63c64244-cc16-4a24-9f52-1cd6ce4277b3"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/63c64244-cc16-4a24-9f52-1cd6ce4277b3"
     }
   }
 }

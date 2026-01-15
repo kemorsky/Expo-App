@@ -147,10 +147,12 @@ const resolvers: Resolvers = {
                 to: user.email,
                 subject: "Reset your password",
                 html: `
-                <p>You requested a password reset.</p>
+                <p>You requested a password reset. Testing whether changes are even registered in here</p>
                 <p>Click
-                    <a href="${resetLink}">this link</a>
-                    to reset your password.
+                    <button style="color:#3b82f6; border-radius:0.5rem;" }>
+                        <a href="${resetLink}">this link</a>
+                        to reset your password.
+                    </button>
                 </p>
                 <p>This link will expire in 30 minutes.</p>
                 `,
