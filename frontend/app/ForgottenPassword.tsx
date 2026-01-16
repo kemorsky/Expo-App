@@ -6,9 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { ThemedText } from '@/components/ThemedText';
 import { Pressable, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function ForgottenPassword() {
     const { requestPasswordReset, error } = useRequestPasswordReset();
+    const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const [ success, setSuccess ] = useState(false);
     const [ successMessage, setSuccessMessage ] = useState('');
@@ -17,13 +19,13 @@ export default function ForgottenPassword() {
     const handleRequestPasswordReset = async () => {
         const { email } = emailRef.current;
         if (!email) {
-            setSuccessMessage("Please enter an e-mail address.");
+            setSuccessMessage(t('forgotPassword.noInput'));
             return;
         }
         const data = await requestPasswordReset(email);
         if (data) {
             setSuccess(true);
-            setSuccessMessage("Password reset request was successful. Please check yor e-mail and follow the instructions.");
+            setSuccessMessage(t('forgotPassword.successMessage'));
         }
     }
     
@@ -31,10 +33,10 @@ export default function ForgottenPassword() {
         <SafeAreaView>
             <Wrapper>
                 <View style={[globalStyles.container, { }]}>
-                    <ThemedText type="title">Request Password Reset</ThemedText>
+                    <ThemedText type="title">{t('forgotPassword.title')}</ThemedText>
                     <TextInput
                         aria-label='Email input field'
-                        placeholder="E-mail"
+                        placeholder={t('forgotPassword.email')}
                         placeholderTextColor={"#8b8b8bff"}
                         style={globalStyles.input}
                         onChangeText={(email) => {
@@ -43,7 +45,7 @@ export default function ForgottenPassword() {
                         autoCapitalize="none"
                     />
                     <Pressable onPress={handleRequestPasswordReset}>
-                        <ThemedText>Send Reset Email</ThemedText>
+                        <ThemedText>{t('forgotPassword.sendEmailButton')}</ThemedText>
                     </Pressable>
                     {error && <ThemedText>{error.message}</ThemedText>}
                     {success && <ThemedText>{successMessage}</ThemedText>}

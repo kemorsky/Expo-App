@@ -1,41 +1,77 @@
 {
   "language": "Språk",
   "login": {
+    "welcome": "Välkommen!",
+    "proceed": "Logga in för att gå vidare",
     "title": "Logga In",
     "email": "E-post",
     "password": "Lösenord",
-    "button": "Logga In"
+    "button": "Logga In",
+    "forgotPassword": "Glömde lösenordet?",
+    "noAccount": "Inget konto än?",
+    "signUp": "Skapa Konto"
   },
   "signUp": {
     "title": "Skapa Konto",
     "name": "Användarnamn",
     "email": "E-post",
     "password": "Lösenord",
+    "confirmPassword": "Bekräfta Lösenord",
     "button": "Skapa Konto"
+  },
+  "forgotPassword": {
+    "title": "Återkomma Lösenord",
+    "email": "E-post",
+    "sendEmailButton": "Skicka Meddelandet",
+    "successMessage": "Lösenord återkomning lyckades. Kontrollera din e-post och följa instruktionerna.",
+    "noInput": "Sätt till en e-postadress."
   },
   "home": {
     "title": "Home",
     "welcome": "Hej",
     "subtitles": {
-        "challenge": "Dagens Utmaning",
         "stats": "Statistiker",
         "previousChallenges": "Tidigare Utmaningar"
     },
+    "challengeCard": {
+      "noActiveChallenge": "Ingen aktiv utmaning",
+      "dailyQuota": "Du har klarat alla utmaningar för idag. Bra jobbat!",
+      "noChallengesAvailable": "Du har inga utmaningar kvar.",
+      "getChallengeButton": "Få en utmaning",
+      "getAnotherChallengeButton": "Få en till utmaning",
+      "markAsDoneButton": "Markera som klart"
+    },
     "stats": {
         "completedChallenges": "Klarade Utmaningar",
-        "createdChallenges": "Skapade Utmaningar",
-        "currentStreak": "Current Streak",
-        "bestStreak": "Best Streak"
+        "createdChallenges": "Skapade Utmaningar"
     },
     "previousChallenges": {
-        
+        "noChallenges": "Du har inte klarat några utmaningar än."
     }
   },
   "tabs": {
     "challenges": {
       "title": "Mina Utmaningar",
-      "subtitle": "Today's Challenge",
-      "button": "Submit"
+      "createButton": "Skapa Utmaning",
+      "completed": "Klarade",
+      "notCompleted": "Ej klarade",
+      "headers": {
+        "created": "Skapade Utmaningar",
+        "default": "Standard Utmaningar"
+      },
+      "completedOn": "Klart den",
+      "bottomSheet": {
+        "notes": "Noteringar",
+        "noNotes": "Du har inte sätt till noteringar till denna utmaning."
+      },
+      "createChallenge": {
+        "header": "Skapa dina egna utmaningar. Det är du som bestämmer!",
+        "title": "Titel"
+      },
+      "acceptChallenge": {
+        "notTodayButton": "Inte idag",
+        "acceptButton": "Acceptera"
+      }
     },
     "settings": {
       "title": "Inställningar",
@@ -43,7 +79,11 @@
       "theme": "Tema",
       "maxChallenges": "Max. Antal Utmaningar Per Dag",
       "language": "Språk",
-      "button": "Logga Ut"
+      "button": "Logga Ut",
+      "english": "Engelska",
+      "swedish": "Svenska",
+      "dark": "Mörk",
+      "light": "Ljus"
     }
   }
 }

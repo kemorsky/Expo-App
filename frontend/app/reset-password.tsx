@@ -7,9 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { ThemedText } from '@/components/ThemedText';
 import { Pressable, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function ResetPassword() {
     const { resetPassword, error } = useResetPassword();
+    const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const [uiError, setUiError] = useState<string | null>(null);
     const { token } = useLocalSearchParams<{ token: string }>();

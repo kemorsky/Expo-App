@@ -47,7 +47,7 @@ export default function Challenges() {
           <View style={{flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText type='date'>
-                Completed At: {formatDate(activeChallenge.completedAt ?? '')}
+                {t('tabs.challenges.completedOn')}: {formatDate(activeChallenge.completedAt ?? '')}
               </ThemedText>
               {activeChallenge.done && activeChallenge.done === true ? 
                   <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
@@ -62,14 +62,14 @@ export default function Challenges() {
           </View>
           <View style={{width: '100%', flexDirection: 'column', alignItems: 'flex-start', gap: 8}}>
               <ThemedText type='subtitle'>
-                Notes
+                {t('tabs.challenges.bottomSheet.notes')}
               </ThemedText>
               {activeChallenge.notes && activeChallenge.notes.length > 0 ? 
                   <ThemedText style={{ maxWidth: 300}}>
                     {activeChallenge.notes}
                   </ThemedText> : 
                   <ThemedText>
-                    You haven&apos;t added notes to this challenge.
+                    {t('tabs.challenges.bottomSheet.noNotes')}
                   </ThemedText>
               }
             </View>
@@ -88,18 +88,18 @@ export default function Challenges() {
             <Link href='/challenges/create-challenge' push asChild>
               <Pressable aria-label="Create new challenge button" style={globalStyles.createChallengeButton}>
                 <MaterialIcons name="add" size={24} color="white" />
-                <ThemedText type="buttonText">Create Challenge</ThemedText>
+                <ThemedText type="buttonText">{t('tabs.challenges.createButton')}</ThemedText>
               </Pressable>
             </Link>
           </View>
           <View style={{flexDirection: 'column', alignItems: 'flex-start', alignSelf: "flex-end", gap: 4}}>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
               <MaterialIcons name="check-circle-outline" size={22} color="green" />
-              <ThemedText style={{fontSize: 12}}>Completed</ThemedText>
+              <ThemedText style={{fontSize: 12}}>{t('tabs.challenges.completed')}</ThemedText>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>
               <MaterialIcons name="remove-circle-outline" size={22} color="red" />
-              <ThemedText style={{fontSize: 12}}>Not Completed</ThemedText>
+              <ThemedText style={{fontSize: 12}}>{t('tabs.challenges.notCompleted')}</ThemedText>
             </View>
           </View>
           <SectionList 

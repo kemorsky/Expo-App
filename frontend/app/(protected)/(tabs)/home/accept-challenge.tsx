@@ -9,8 +9,10 @@ import React, { useState, useEffect } from 'react';
 import { UserChallenge } from '@/__generated__/graphql';
 import { Link, router } from 'expo-router';
 import Animated, { useSharedValue, withTiming, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 export default function AcceptChallenge() {
+    const { t } = useTranslation();
     const { acceptChallenge} = useAcceptChallenge();
     const { previewChallenge, error } = usePreviewChallenge();
     const [ previewedChallenge, setPreviewedChallenge ] = useState<Partial<UserChallenge | null>>(null);
@@ -86,10 +88,10 @@ export default function AcceptChallenge() {
                             </View>
                             <View style={styles.buttonsContainer}>
                                 <Pressable aria-label="Roll a different challenge button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
-                                    <ThemedText>Not today</ThemedText>
+                                    <ThemedText>{t('tabs.challenges.acceptChallenge.notTodayButton')}</ThemedText>
                                 </Pressable>
                                 <Pressable aria-label="Accept challenge button" style={[globalStyles.buttonMarkAsDone, { width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
-                                    <ThemedText>Accept</ThemedText>
+                                    <ThemedText>{t('tabs.challenges.acceptChallenge.acceptButton')}</ThemedText>
                                 </Pressable>
                             </View>
                         </View>

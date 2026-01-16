@@ -10,10 +10,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router';
 import SettingsPageSkeleton from '@/components/skeleton/pages/SettingsPageSkeleton';
 import { useThemeConfig } from '@/hooks/useThemeConfig';
+import { useTranslation } from 'react-i18next';
 
 export default function Settings() {
     const { user, loading, error } = useMe();
     const { theme } = useThemeConfig();
+    const { t } = useTranslation();
     const  { logOut } = useAuth();
     const globalStyles = useGlobalStyles();
 
@@ -36,7 +38,7 @@ export default function Settings() {
                         </ThemedText>
                     </View>
                     <Pressable style={{width: 120, alignItems: "center", alignSelf: "center", padding: 8, backgroundColor: "#3e05a8", borderRadius: 8, }} onPress={logOut}>
-                        <ThemedText type="buttonText">Sign Out</ThemedText>
+                        <ThemedText type="buttonText">{t('tabs.settings.button')}</ThemedText>
                     </Pressable>
                 </View>
             </Container>
@@ -45,7 +47,7 @@ export default function Settings() {
                 <View style={globalStyles.settingsList}>
                     <Link href='/settings/language' push asChild>
                         <Pressable style={globalStyles.setting}>
-                            <ThemedText type='option'>Language</ThemedText>
+                            <ThemedText type='option'>{t('tabs.settings.language')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.language}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
@@ -55,7 +57,7 @@ export default function Settings() {
                     <HorizontalRule />
                     <Link href='/settings/theme' push asChild>
                         <Pressable style={globalStyles.setting}>
-                            <ThemedText type='option'>Theme</ThemedText>
+                            <ThemedText type='option'>{t('tabs.settings.theme')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.theme}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
@@ -65,7 +67,7 @@ export default function Settings() {
                     <HorizontalRule />
                     <Link href='/settings/max-challenges' push asChild>
                         <Pressable style={globalStyles.setting}>
-                            <ThemedText type='option'>Max Challenges Per Day</ThemedText>
+                            <ThemedText type='option'>{t('tabs.settings.maxChallenges')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
                                 <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />

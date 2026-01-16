@@ -49,22 +49,22 @@ export default function HomeScreen() {
               <>
                 <ThemedText style={{maxWidth: 300}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
                 <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
-                  <ThemedText>Mark as done</ThemedText>
+                  <ThemedText>{t('home.challengeCard.markAsDoneButton')}</ThemedText>
                 </Pressable>
               </>
             ) : (
               <>
                 {!isDisabled ? (
-                  <ThemedText type='challenge'>No active challenge</ThemedText>
+                  <ThemedText type='challenge'>{t('home.challengeCard.noActiveChallenge')}</ThemedText>
                 ) : (
-                  <ThemedText type='challenge'>You&apos;ve reached your daily challenge limit for the day. Great work!</ThemedText>
+                  <ThemedText type='challenge'>{t('home.challengeCard.dailyQuota')}</ThemedText>
                 )}       
-                {unavailableChallenges && <ThemedText>You have no challenges available.</ThemedText>}     
+                {unavailableChallenges && <ThemedText>{t('home.challengeCard.noChallengesAvailable')}</ThemedText>}     
                 <Link href="/home/accept-challenge" push asChild>
                   {isDisabled ? (
                     <Pressable style={globalStyles.buttonDisabled}
                                 aria-label="Get a new challenge button">
-                      <ThemedText type="buttonText" style={{color: "#000000"}}>Get a challenge</ThemedText>                     
+                      <ThemedText type="buttonText" style={{color: "#000000"}}>{t('home.challengeCard.getChallengeButton')}</ThemedText>                     
                     </Pressable>
                   ) : (
                     <Pressable style={{
@@ -73,9 +73,9 @@ export default function HomeScreen() {
                     }}
                     aria-label="Get a new challenge button">
                       {(user.assignmentsToday ?? 1) >= 1 ? (
-                        <ThemedText type="buttonText">Get another challenge</ThemedText>
+                        <ThemedText type="buttonText">{t('home.challengeCard.getAnotherChallengeButton')}</ThemedText>
                       ) : (
-                        <ThemedText type="buttonText">Get a challenge</ThemedText>
+                        <ThemedText type="buttonText">{t('home.challengeCard.getChallengeButton')}</ThemedText>
                       )}
                   </Pressable>
                   )}
@@ -86,22 +86,22 @@ export default function HomeScreen() {
         </Container>
       </View>
       <Container>
-        <ThemedText type='subtitle'>Stats</ThemedText>
+        <ThemedText type='subtitle'>{t('home.subtitles.stats')}</ThemedText>
           <View style={styles.statsContainer}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', gap: 12}}>
               <StatsCard>
-                <ThemedText type="statTitle">Challenges completed</ThemedText>
+                <ThemedText type="statTitle">{t('home.stats.completedChallenges')}</ThemedText>
                 <ThemedText type="statValue">{completedChallenges}</ThemedText>
               </StatsCard>
               <StatsCard>
-                <ThemedText type="statTitle">Challenges created</ThemedText>
+                <ThemedText type="statTitle">{t('home.stats.createdChallenges')}</ThemedText>
                 <ThemedText type="statValue">{createdChallenges}</ThemedText>
               </StatsCard>
             </View>
           </View>
       </Container>
       <Container>
-        <ThemedText type='subtitle'>Your latest challenges</ThemedText>
+        <ThemedText type='subtitle'>{t('home.subtitles.previousChallenges')}</ThemedText>
         <View style={[globalStyles.card, {minHeight: 167}]}>
           {completedChallenges > 0 ? (
             <FlatList
@@ -120,7 +120,7 @@ export default function HomeScreen() {
               keyExtractor={item => item?.id ?? ''}
             />
             ) : (
-              <ThemedText>You haven&apos;t completed any challenges yet.</ThemedText>
+              <ThemedText>{t('home.previousChallenges.noChallenges')}</ThemedText>
             )}
         </View>
       </Container>

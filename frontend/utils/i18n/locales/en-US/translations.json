@@ -1,55 +1,88 @@
 {
   "language": "Language",
   "login": {
-    "title": "Login",
-    "email": "Email",
+    "welcome": "Welcome!",
+    "proceed": "Sign in to proceed to your account",
+    "title": "Sign In",
+    "email": "E-mail",
     "password": "Password",
-    "button": "Login"
+    "button": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Not a user yet?",
+    "signUp": "Create an account"
   },
   "signUp": {
     "title": "Sign Up",
     "name": "Name",
-    "email": "Email",
+    "email": "E-mail",
     "password": "Password",
+    "confirmPassword": "Confirm Password",
     "button": "Sign Up"
+  },
+  "forgotPassword": {
+    "title": "Request Password Reset",
+    "email": "E-mail",
+    "sendEmailButton": "Send Reset E-mail",
+    "successMessage": "Password reset request was successful. Please check yor e-mail and follow the instructions.",
+    "noInput": "Please enter an e-mail address."
   },
   "home": {
     "title": "Home",
     "welcome": "Hi",
     "subtitles": {
-        "challenge": "Today's Challenge",
         "stats": "Stats",
-        "previousChallenges": "Previous Challenges"
+        "previousChallenges": "Your latest Challenges"
+    },
+    "challengeCard": {
+      "noActiveChallenge": "No active challenge",
+      "dailyQuota": "You've reached your daily challenge limit for the day. Great work!",
+      "noChallengesAvailable": "You have no challenges available.",
+      "getChallengeButton": "Get a challenge",
+      "getAnotherChallengeButton": "Get another challenge",
+      "markAsDoneButton": "Mark as done"
     },
     "stats": {
         "completedChallenges": "Completed Challenges",
-        "createdChallenges": "Created Challenges",
-        "currentStreak": "Current Streak",
-        "bestStreak": "Best Streak"
+        "createdChallenges": "Created Challenges"
     },
     "previousChallenges": {
-        
+        "noChallenges": "You haven't completed any challenges yet."
     }
   },
   "tabs": {
     "challenges": {
       "title": "My Challenges",
       "createButton": "Create Challenge",
+      "completed": "Completed",
+      "notCompleted": "Not Completed",
       "headers": {
         "created": "Created Challenges",
         "default": "Default Challenges"
       },
-      "challengeTitle": "Challenge Title",
-      "subtitle": "Today's Challenge",
-      "button": "Submit"
+      "completedOn": "Completed On",
+      "bottomSheet": {
+        "notes": "Notes",
+        "noNotes": "You haven't added notes to this challenge."
+      },
+      "createChallenge": {
+        "header": "Add your own challenge. You call the shots here!",
+        "title": "Title"
+      },
+      "acceptChallenge": {
+        "notTodayButton": "Not today",
+        "acceptButton": "Accept"
+      }
     },
     "settings": {
       "title": "Settings",
-      "manageAccount": "Manage Account",
       "theme": "Theme",
       "maxChallenges": "Max Challenges Per Day",
       "language": "Language",
-      "button": "Logout"
+      "button": "Sign Out",
+      "english": "English",
+      "swedish": "Swedish",
+      "dark": "Dark",
+      "light": "Light"
     }
   }
 }

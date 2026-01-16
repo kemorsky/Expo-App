@@ -1,15 +1,17 @@
 import { useState, useRef } from 'react';
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from '@/components/shared/Wrapper';
-import { View, TextInput, KeyboardAvoidingView, Platform, Text, Pressable } from "react-native";
+import { View, TextInput, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserInput } from '@/__generated__/graphql';
 import { useSignIn } from '@/lib/api/user/userMutations';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export default function SignIn() {
     const { createUser, error } = useSignIn();
+    const { t } = useTranslation();
     const [uiError, setUiError] = useState("");
     const router = useRouter();
     const globalStyles = useGlobalStyles();
@@ -40,7 +42,7 @@ export default function SignIn() {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
                     <View style={[globalStyles.container, { }]}>
-                        <ThemedText type="title">Sign Up</ThemedText>
+                        <ThemedText type="title">{t('signUp.title')}</ThemedText>
                         <View style={{height: 46}}>
                             {error && <ThemedText type="error">{error.message}</ThemedText>}
                             <ThemedText>
@@ -49,7 +51,7 @@ export default function SignIn() {
                         </View>
                         <TextInput
                             aria-label='Username sign up input field'
-                            placeholder="Username"
+                            placeholder={t('signUp.name')}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(name) => {
@@ -59,7 +61,7 @@ export default function SignIn() {
                         />
                         <TextInput 
                             aria-label='Email sign up input field'
-                            placeholder="Email"
+                            placeholder={t('signUp.email')}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(email) => {
@@ -69,7 +71,7 @@ export default function SignIn() {
                         />
                         <TextInput 
                             aria-label='Password sign up input field'
-                            placeholder="Password"
+                            placeholder={t('signUp.password')}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(password) => {
@@ -79,7 +81,7 @@ export default function SignIn() {
                         />
                         <TextInput 
                             aria-label='Confirm sign up input field'
-                            placeholder="Confirm Password"
+                            placeholder={t('signUp.confirmPassword')}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(confirmPassword) => {
@@ -88,7 +90,7 @@ export default function SignIn() {
                             secureTextEntry
                         />
                         <Pressable style={globalStyles.buttonSignUp} onPress={() => handleSignIn()}>
-                            <ThemedText type="buttonText" style={{fontSize: 16}}>Sign Up</ThemedText>
+                            <ThemedText type="buttonText" style={{fontSize: 16}}>{t('signUp.button')}</ThemedText>
                         </Pressable>
                     </View>
                 </Wrapper>

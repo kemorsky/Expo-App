@@ -7,10 +7,12 @@ import { useMe } from '@/lib/api/user/userQueries';
 import { useRef } from "react";
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function CreateChallenge() {
     const { user, loading, error } = useMe();
     const { createChallenge, error: createChallengeError } = useCreateChallenge();
+    const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const router = useRouter();
     const titleRef = useRef({title: ""});
@@ -30,10 +32,10 @@ export default function CreateChallenge() {
         <Wrapper>
             <Container>
                 <View style={styles.content}>
-                    <ThemedText style={{ maxWidth: 250 }} type='subtitle'>Add your own challenge. You call the shots here!</ThemedText>
+                    <ThemedText style={{ maxWidth: 250 }} type='subtitle'>{t('tabs.challenges.createChallenge.header')}</ThemedText>
                     <TextInput 
                             aria-label="Create Challenge Input Field"
-                            placeholder="Title"
+                            placeholder={t('tabs.challenges.createChallenge.title')}
                             style={globalStyles.input}
                             onChangeText={(title) => {
                                 titleRef.current.title = title;
@@ -42,7 +44,7 @@ export default function CreateChallenge() {
                             selectTextOnFocus={false}
                     />
                     <Pressable style={globalStyles.createChallengeButton} onPress={() => handleCreateChallenge()}>
-                        <ThemedText>Create Challenge</ThemedText>
+                        <ThemedText>{t('tabs.challenges.createButton')}</ThemedText>
                     </Pressable>
                     {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
                 </View>
