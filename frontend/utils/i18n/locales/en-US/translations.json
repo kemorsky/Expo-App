@@ -13,7 +13,7 @@
   },
   "signUp": {
     "title": "Sign Up",
-    "name": "Name",
+    "name": "Username",
     "email": "E-mail",
     "password": "Password",
     "confirmPassword": "Confirm Password",

@@ -37,12 +37,13 @@ export const useGlobalStyles = () => {
         },
         input: {
             backgroundColor: "#fff",
-            height: 54,
+            height: 48,
             width: "100%",
             borderWidth: 1,
             borderRadius: 4,
-            padding: 16,
-            fontSize: 16
+            padding: 12,
+            fontSize: 16,
+            fontFamily: "PoppinsRegular"
         },
         horizontalRule: {
             borderBottomWidth: 1,

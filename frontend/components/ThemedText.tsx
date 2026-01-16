@@ -6,7 +6,7 @@ import { useThemeConfig } from "@/hooks/useThemeConfig";
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'challengeTitle' |
+  type?: 'label' | 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'challengeTitle' |
          'option' | 'optionValue' | 'statTitle' | 'statValue' | 'link' | 'error' | 'buttonText';
 };
 
@@ -24,6 +24,7 @@ export function ThemedText({
     <Text
       style={[
         { color },
+        type === 'label' ? styles.label : undefined,
         type === 'challenge' ? styles.challenge : undefined,
         type === 'date' ? styles.date : undefined,
         type === 'default' ? styles.default : undefined,
@@ -45,6 +46,10 @@ export function ThemedText({
 }
 
 const styles = StyleSheet.create({
+  label: {
+    fontSize: 14,
+    fontFamily: 'PoppinsMedium'
+  },
   challenge: {
     fontSize: 18,
     fontFamily: 'PoppinsBold'

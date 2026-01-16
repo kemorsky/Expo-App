@@ -23,7 +23,7 @@ export default function Login() {
         <SafeAreaView>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
                 <Wrapper>
-                    <View style={[globalStyles.container, {marginTop: 30, }]}>
+                    <View style={[globalStyles.container, {marginTop: 15 }]}>
                         <ThemedText type="title">{t('login.welcome')}</ThemedText>
                         <ThemedText type="title">{t('login.proceed')}</ThemedText>
                         <View style={{height: 24}}>
@@ -32,29 +32,35 @@ export default function Login() {
                             ))}
                         </View>
                         <View style={[globalStyles.container, {padding: 0, marginBottom: 20}]}>
-                            <TextInput
-                                aria-label='E-mail login input field'
-                                placeholder={t('login.email')}
-                                placeholderTextColor={"#8b8b8bff"}
-                                style={globalStyles.input}
-                                autoCapitalize="none"
-                                selectTextOnFocus={false}
-                                keyboardType='email-address'
-                                onChangeText={(email) => {
-                                    formRef.current.email = email
-                                }}
-                            />
-                            <TextInput 
-                                aria-label='Password login input field'
-                                placeholder={t('login.password')}
-                                placeholderTextColor={"#8b8b8bff"}
-                                style={globalStyles.input}
-                                selectTextOnFocus={false}
-                                onChangeText={(password) => {
-                                    formRef.current.password = password
-                                }}
-                                secureTextEntry
-                            />
+                            <View style={{gap: 4}}>
+                                <ThemedText type="label">{t('login.email')}</ThemedText>
+                                <TextInput
+                                    aria-label='E-mail login input field'
+                                    placeholder={t('login.email')}
+                                    placeholderTextColor={"#8b8b8bff"}
+                                    style={globalStyles.input}
+                                    autoCapitalize="none"
+                                    selectTextOnFocus={false}
+                                    keyboardType='email-address'
+                                    onChangeText={(email) => {
+                                        formRef.current.email = email
+                                    }}
+                                />
+                            </View>
+                            <View style={{gap: 4}}>
+                                <ThemedText type="label">{t('login.password')}</ThemedText>
+                                <TextInput 
+                                    aria-label='Password login input field'
+                                    placeholder={t('login.password')}
+                                    placeholderTextColor={"#8b8b8bff"}
+                                    style={globalStyles.input}
+                                    selectTextOnFocus={false}
+                                    onChangeText={(password) => {
+                                        formRef.current.password = password
+                                    }}
+                                    secureTextEntry
+                                />
+                            </View>
                             <Link href="/ForgottenPassword" push asChild>
                                 <Pressable style={{alignSelf: "flex-end"}} aria-label='Forgot Password button'>
                                     <ThemedText>{t('login.forgotPassword')}</ThemedText>
