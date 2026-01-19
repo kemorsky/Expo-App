@@ -1,4 +1,4 @@
-import { useSaveOnboarding } from '@/lib/api/user/userMutations';
+import { useSaveOnboarding } from '@/api/user/userMutations';
 import { useState, useRef, useEffect } from "react";
 import { View, FlatList, ViewToken, Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

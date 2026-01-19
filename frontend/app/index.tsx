@@ -1,4 +1,4 @@
-import { useMe } from '@/lib/api/user/userQueries';
+import { useMe } from '@/api/user/userQueries';
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator } from 'react-native';

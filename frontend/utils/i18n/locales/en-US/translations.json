@@ -56,6 +56,9 @@
     }
   },
   "tabs": {
+    "tabHome": "Home",
+    "tabChallenges": "Challenges",
+    "tabSettings": "Settings",
     "challenges": {
       "title": "My Challenges",
       "createButton": "Create Challenge",
@@ -75,6 +78,7 @@
         "title": "Title"
       },
       "acceptChallenge": {
+        "title": "Accept Challenge",
         "notTodayButton": "Not today",
         "acceptButton": "Accept"
       }

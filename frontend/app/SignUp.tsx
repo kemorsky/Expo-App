@@ -6,7 +6,7 @@ import { View, TextInput, KeyboardAvoidingView, Platform, Pressable } from "reac
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { UserInput } from '@/__generated__/graphql';
-import { useSignIn } from '@/lib/api/user/userMutations';
+import { useSignIn } from '@/api/user/userMutations';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 

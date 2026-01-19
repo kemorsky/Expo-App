@@ -2,9 +2,9 @@ import { Container } from "@/components/shared/Container";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
-import { useMe } from '@/lib/api/user/userQueries';
+import { useMe } from '@/api/user/userQueries';
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
-import { useUpdateUserSettings } from "@/lib/api/user/userMutations";
+import { useUpdateUserSettings } from "@/api/user/userMutations";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import Entypo from "@expo/vector-icons/Entypo";
 

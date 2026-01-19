@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { saveToken, getRefreshToken, saveRefreshToken, deleteToken, deleteRefreshToken} from './token'
 import { PropsWithChildren, useState, useEffect, useCallback } from "react";
-import { useLogin, useRefreshToken } from "@/lib/api/user/userMutations";
+import { useLogin, useRefreshToken } from "@/api/user/userMutations";
 import type { AuthPayload } from "@/__generated__/graphql";
 import AuthState from './AuthContext'
 import { setAccessToken } from "./authToken";

@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useResetPassword } from '@/lib/api/user/userMutations';
+import { useResetPassword } from '@/api/user/userMutations';
 import { Wrapper } from '@/components/shared/Wrapper';
 import { Container } from '@/components/shared/Container';
 import Ionicons from '@expo/vector-icons/Ionicons';

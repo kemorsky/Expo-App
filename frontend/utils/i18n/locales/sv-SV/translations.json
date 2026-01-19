@@ -56,6 +56,9 @@
     }
   },
   "tabs": {
+    "tabHome": "Hem",
+    "tabChallenges": "Utmaningar",
+    "tabSettings": "Inställningar",
     "challenges": {
       "title": "Mina Utmaningar",
       "createButton": "Skapa Utmaning",
@@ -75,6 +78,7 @@
         "title": "Titel"
       },
       "acceptChallenge": {
+        "title": "Acceptera Utmaningen",
         "notTodayButton": "Inte idag",
         "acceptButton": "Acceptera"
       }

@@ -2,8 +2,8 @@ import { StyleSheet, View, Pressable, ActivityIndicator, TextInput } from "react
 import { Wrapper } from "@/components/shared/Wrapper";
 import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/ThemedText";
-import { useCreateChallenge } from "@/lib/api/challenges/challengesMutations";
-import { useMe } from '@/lib/api/user/userQueries';
+import { useCreateChallenge } from "@/api/challenges/challengesMutations";
+import { useMe } from '@/api/user/userQueries';
 import { useRef } from "react";
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { useRouter } from "expo-router";

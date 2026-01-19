@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useRequestPasswordReset } from '@/lib/api/user/userMutations';
+import { useRequestPasswordReset } from '@/api/user/userMutations';
 import { Wrapper } from '@/components/shared/Wrapper';
 import { Container } from '@/components/shared/Container';
 import { SafeAreaView } from 'react-native-safe-area-context';

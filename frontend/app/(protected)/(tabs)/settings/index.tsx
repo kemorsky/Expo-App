@@ -1,5 +1,5 @@
 import { View, Text, Pressable, Image } from 'react-native';
-import { useMe } from '@/lib/api/user/userQueries';
+import { useMe } from '@/api/user/userQueries';
 import { useAuth } from '@/utils/AuthContext';
 import { useGlobalStyles } from '@/styles/globalStyles';
 import { HorizontalRule } from '@/components/shared/HorizontalRule';
@@ -21,7 +21,7 @@ export default function Settings() {
 
     if (!user ||loading) return <SettingsPageSkeleton />;
     if (error) return <Text>Error: {error.message}</Text>;
-    
+
     return (
         <Wrapper>
             <Container>

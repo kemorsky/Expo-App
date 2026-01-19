@@ -3,7 +3,7 @@ import { useMe } from '@/hooks/useMe';
 import { formatDate } from '@/utils/formatDate';
 import { View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useMarkChallengeAsDone } from '@/lib/api/challenges/challengesMutations';
+import { useMarkChallengeAsDone } from '@/api/challenges/challengesMutations';
 import { ThemedText } from './ThemedText';
 import { ChallengeDoneInput } from '@/__generated__/graphql';
 import { useGlobalStyles } from '@/styles/globalStyles';

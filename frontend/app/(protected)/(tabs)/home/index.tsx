@@ -1,5 +1,5 @@
 import { StyleSheet, View, Pressable, FlatList } from 'react-native';
-import { useMe } from '@/lib/api/user/userQueries';
+import { useMe } from '@/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/utils/formatDate';
 import { useGlobalStyles } from '@/styles/globalStyles';
