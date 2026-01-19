@@ -27,7 +27,6 @@ export default function MaxChallengesPerDay() {
     return (
         <Wrapper>
             <Container>
-                <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={globalStyles.settingsList}>
                     <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting(1)}>
                         <ThemedText>1</ThemedText>

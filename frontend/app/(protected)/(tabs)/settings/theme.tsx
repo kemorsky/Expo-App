@@ -10,11 +10,13 @@ import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
 import { SettingsInput } from "@/__generated__/graphql";
 import { useGlobalStyles } from "@/styles/globalStyles";
+import { useTranslation } from "react-i18next";
 
 export default function Theme() {
     const { user, loading, error } = useMe();
     const { setLightTheme, setDarkTheme } = useThemeConfig();
     const { updateUserSettings } = useUpdateUserSettings();
+    const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
 
     const [ newTheme, setNewTheme ] = useState<SettingsInput>({ theme: '' });
@@ -35,16 +37,15 @@ export default function Theme() {
     return (
         <Wrapper>
             <Container>
-                <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={globalStyles.settingsList}>
                     <Pressable style={globalStyles.setting} onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
                         <ThemedText>Light</ThemedText>
-                        {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.theme === t('tabs.settings.light') && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                     <HorizontalRule />
                     <Pressable style={globalStyles.setting} onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
                         <ThemedText>Dark</ThemedText>
-                        {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.theme === t('tabs.settings.dark') && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                 </View>
             </Container>

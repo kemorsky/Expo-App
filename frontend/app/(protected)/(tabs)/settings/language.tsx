@@ -37,7 +37,6 @@ export default function Language() {
     return (
         <Wrapper>
             <Container>
-                <ThemedText type='subtitle'>Account</ThemedText>
                 <View style={globalStyles.settingsList}>
                     {LANGUAGES.map(({ labelKey, locale }) => (
                         <Pressable
