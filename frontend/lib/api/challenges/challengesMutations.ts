@@ -98,7 +98,8 @@ export function usePreviewChallenge() {
 
 export function useAcceptChallenge() {
     const [acceptChallengeMutation, { data, loading, error }] = useMutation<AcceptChallengeMutation, AcceptChallengeMutationVariables>(ACCEPT_CHALLENGE, {
-        errorPolicy: "all"
+        errorPolicy: "all",
+        refetchQueries: ["Me"]
     });
     
     const acceptChallenge = async (id: string) => {

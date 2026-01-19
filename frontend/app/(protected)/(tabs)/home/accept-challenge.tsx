@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function AcceptChallenge() {
     const { t } = useTranslation();
-    const { acceptChallenge} = useAcceptChallenge();
+    const { acceptChallenge, error: acceptChallengeError } = useAcceptChallenge();
     const { previewChallenge, error } = usePreviewChallenge();
     const [ previewedChallenge, setPreviewedChallenge ] = useState<Partial<UserChallenge | null>>(null);
 
@@ -42,22 +42,19 @@ export default function AcceptChallenge() {
     }));
 
     const handlePreviewChallenge = async () => {
-            const data = await previewChallenge();
-            if (!data) {
-                throw error;
-            }
-            setPreviewedChallenge(data)
+        const data = await previewChallenge();
+        if (!data) {
+            throw error;
         }
+        setPreviewedChallenge(data)
+    }
 
     const handleAcceptChallenge = async (id: string) => {
-        try {
-            const data = await acceptChallenge(id);
-            if (data) {
-                router.replace('/home');
-            };
-        } catch (error: any) {
-            throw new Error (`Error assigning random challenge: ${error}`)
-        }
+        const data = await acceptChallenge(id);
+        if (!data) {
+            throw error;
+        };
+        router.dismissTo("/home");  
     };
 
     return (
@@ -65,10 +62,11 @@ export default function AcceptChallenge() {
             <Container>
                 <ThemedText type='date'>{formatDate(new Date().toString())}</ThemedText>
                 <View style={styles.challengeWrapper}>
-                    {error ? (
+                    {error || acceptChallengeError ? (
                         <View style={styles.challengeContainer}>
                             <View>
                                 {error && <ThemedText style={{fontSize: 16}} type="error">{error.message}.</ThemedText>}
+                                {acceptChallengeError && <ThemedText style={{fontSize: 16}} type="error">{acceptChallengeError.message}.</ThemedText>}
                             </View>
                             <View style={styles.buttonsContainer}>
                                 <Link dismissTo href="/home">
