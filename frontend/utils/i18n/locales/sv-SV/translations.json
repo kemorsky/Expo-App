@@ -26,6 +26,12 @@
     "successMessage": "Lösenord återkomning lyckades. Kontrollera din e-post och följa instruktionerna.",
     "noInput": "Sätt till en e-postadress."
   },
+  "resetPassword": {
+    "title": "Återställ Lösenord",
+    "newPassword": "Nytt Lösenord",
+    "confirmPassword": "Bekräfta Nytt Lösenord",
+    "button": "Uppdatera Lösenord"
+  },
   "home": {
     "title": "Home",
     "welcome": "Hej",

@@ -7,7 +7,7 @@ export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
   type?: 'label' | 'challenge' | 'date' | 'default' | 'title' | 'subtitle' | 'challengeTitle' |
-         'option' | 'optionValue' | 'statTitle' | 'statValue' | 'link' | 'error' | 'buttonText';
+         'option' | 'optionValue' | 'statTitle' | 'statValue' | 'link' | 'error' | 'signInPageTexts' | 'buttonText';
 };
 
 export function ThemedText({
@@ -37,6 +37,7 @@ export function ThemedText({
         type === 'statValue' ? styles.statValue : undefined,
         type === 'link' ? styles.link : undefined,
         type === 'error' ? styles.error : undefined,
+        type === 'signInPageTexts' ? styles.signInPageTexts : undefined,
         type === 'buttonText' ? styles.buttonText : undefined,
         style,
       ]}
@@ -98,9 +99,14 @@ const styles = StyleSheet.create({
     color: '#0a7ea4',
   },
   error: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'PoppinsMedium',
     color: "#f82a2a"
+  },
+  signInPageTexts: {
+    fontSize: 14,
+    fontFamily: 'PoppinsRegular',
+    color: "#9372d1"
   },
   buttonText: {
     fontSize: 14,

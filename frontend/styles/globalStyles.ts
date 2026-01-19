@@ -37,13 +37,22 @@ export const useGlobalStyles = () => {
         },
         input: {
             backgroundColor: "#fff",
-            height: 48,
+            height: 54,
             width: "100%",
             borderWidth: 1,
             borderRadius: 4,
             padding: 12,
             fontSize: 16,
             fontFamily: "PoppinsRegular"
+        },
+        showPasswordIcon: {
+            position: "absolute",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 40,
+            width: 40,
+            top: "40%", 
+            right: 12
         },
         horizontalRule: {
             borderBottomWidth: 1,

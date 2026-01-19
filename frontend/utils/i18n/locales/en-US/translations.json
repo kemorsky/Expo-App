@@ -26,6 +26,12 @@
     "successMessage": "Password reset request was successful. Please check yor e-mail and follow the instructions.",
     "noInput": "Please enter an e-mail address."
   },
+  "resetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "button": "Update Password"
+  },
   "home": {
     "title": "Home",
     "welcome": "Hi",

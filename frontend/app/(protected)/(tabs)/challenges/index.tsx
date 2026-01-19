@@ -49,10 +49,7 @@ export default function Challenges() {
               <ThemedText type='date'>
                 {t('tabs.challenges.completedOn')}: {formatDate(activeChallenge.completedAt ?? '')}
               </ThemedText>
-              {activeChallenge.done && activeChallenge.done === true ? 
-                  <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
-                  <MaterialIcons name="remove-circle-outline" size={24} color="red" />
-              }
+              <MaterialIcons name={activeChallenge.done ? "check-circle-outline" : "remove-circle-outline"} size={24} color="green" />
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <ThemedText style={{ fontSize: 18 }} type='subtitle'>
@@ -118,13 +115,10 @@ export default function Challenges() {
                         } 
                       }}>
                         <View style={globalStyles.challengeItem}>
-                          {item?.done === true ? 
-                              <MaterialIcons name="check-circle-outline" size={24} color="green" /> : 
-                              <MaterialIcons name="remove-circle-outline" size={24} color="red" />
-                            }
-                            <ThemedText type='challengeTitle' style={{color: item?.done === false ? '#5a5a5aff' : theme.colors.text }}>
-                              {item?.challenge.title}
-                            </ThemedText>
+                          <MaterialIcons name={item.done ? "check-circle-outline" : "remove-circle-outline"} size={24} color={item.done ? "green" : "red"} />
+                          <ThemedText type='challengeTitle' style={{color: item?.done === false ? '#5a5a5aff' : theme.colors.text }}>
+                            {item?.challenge.title}
+                          </ThemedText>
                         </View>  
                         {item?.done === true ?       
                           <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null }
