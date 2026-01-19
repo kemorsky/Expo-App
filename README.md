@@ -2,6 +2,8 @@
 
 A React Native app built in Expo with React Native and GraphQL. I built this project for learning purposes, but also to solve specific issues encountered by my fiancee, who struggled finding something that fit her needs. The app is not tested, nor meant to be used on platforms other than iOS or by the public. With that said, the bare minimum threshhold of care has been put into making sure the app could be run by all platforms.
 
+**For how to run the project and a video showcase please scroll down to the bottom of this page. Thanks!**
+
 ## Technologies
 - Expo
 - React Native
