@@ -53,6 +53,11 @@
     },
     "previousChallenges": {
         "noChallenges": "Du har inte klarat några utmaningar än."
+    },
+    "completeChallenge": {
+      "title": "Klara Utmaningen",
+      "inputPlaceholder": "Lägg till noteringar till utmaningen (ej krav)",
+      "button": "Markera som klart"
     }
   },
   "tabs": {

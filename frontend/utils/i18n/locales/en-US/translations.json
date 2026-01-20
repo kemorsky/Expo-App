@@ -53,6 +53,11 @@
     },
     "previousChallenges": {
         "noChallenges": "You haven't completed any challenges yet."
+    },
+    "completeChallenge": {
+      "title": "Complete Challenge",
+      "inputPlaceholder": "Add notes to this challenge (not required)",
+      "button": "Mark as done"
     }
   },
   "tabs": {

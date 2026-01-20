@@ -7,6 +7,7 @@ import { useMarkChallengeAsDone } from '@/api/challenges/challengesMutations';
 import { ThemedText } from './ThemedText';
 import { ChallengeDoneInput } from '@/__generated__/graphql';
 import { useGlobalStyles } from '@/styles/globalStyles';
+import { useTranslation } from 'react-i18next';
 
 type ModalProps = {
     openModal: boolean,
@@ -16,6 +17,7 @@ type ModalProps = {
 export default function ChallengeDoneModal(props: ModalProps) {
     const { openModal, setOpenModal } = props;
     const { user, loading } = useMe();
+    const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const { markChallengeAsDone } = useMarkChallengeAsDone();
 
@@ -55,7 +57,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
             }}>
             <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalHeader}>
-                    <ThemedText type='subtitle'>Complete challenge</ThemedText>
+                    <ThemedText type='subtitle'>{t('home.completeChallenge.title')}</ThemedText>
                     <Pressable aria-label="Close modal button" onPress={() => setOpenModal(!openModal)}>
                         <AntDesign name="close" size={24} color="white" />
                     </Pressable>
@@ -71,10 +73,10 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     editable
                     onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
                     value={notes.notes ?? ''}
-                    placeholder="Add notes to this challenge (not required)"
+                    placeholder={t('home.completeChallenge.inputPlaceholder')}
                     placeholderTextColor={"#8b8b8bff"}/>
                 <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
-                    <ThemedText>Mark as done</ThemedText>
+                    <ThemedText>{t('home.completeChallenge.button')}</ThemedText>
                 </Pressable>
             </View>
         </Modal>
