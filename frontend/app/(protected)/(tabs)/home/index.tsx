@@ -54,11 +54,7 @@ export default function HomeScreen() {
               </>
             ) : (
               <>
-                {!isDisabled ? (
-                  <ThemedText type='challenge'>{t('home.challengeCard.noActiveChallenge')}</ThemedText>
-                ) : (
-                  <ThemedText type='challenge'>{t('home.challengeCard.dailyQuota')}</ThemedText>
-                )}       
+                <ThemedText type='challenge'>{!isDisabled ? t('home.challengeCard.noActiveChallenge') : t('home.challengeCard.dailyQuota')}</ThemedText>      
                 {unavailableChallenges && <ThemedText>{t('home.challengeCard.noChallengesAvailable')}</ThemedText>}     
                 <Link href="/home/accept-challenge" push asChild>
                   {isDisabled ? (
@@ -102,7 +98,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type='subtitle'>{t('home.subtitles.previousChallenges')}</ThemedText>
-        <View style={[globalStyles.card, {minHeight: 167}]}>
+        <View style={[globalStyles.card, {minHeight: 167, paddingVertical: 0}]}>
           {completedChallenges > 0 ? (
             <FlatList
               data={recentChallenges}

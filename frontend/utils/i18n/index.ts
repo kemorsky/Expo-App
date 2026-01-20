@@ -10,7 +10,7 @@ const resources = {
   "en-US": { translation: translationEn }
 };
 
-const getDeviceLanguage = () => {
+export const getDeviceLanguage = () => {
   const locales = Localization.getLocales();
   return locales?.[0]?.languageTag ?? "en-US";
 };
@@ -23,7 +23,7 @@ export async function initI18n() {
     .use(initReactI18next)
     .init({
         resources,
-        lng: language, // TODO: set up depending on user's preferences
+        lng: language,
         fallbackLng: "en-US",
         interpolation: {
         escapeValue: false,

@@ -84,6 +84,8 @@
       }
     },
     "settings": {
+      "username": "Användarnamn",
+      "email": "E-post",
       "title": "Inställningar",
       "manageAccount": "Manage Account",
       "theme": "Tema",

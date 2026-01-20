@@ -84,6 +84,8 @@
       }
     },
     "settings": {
+      "username": "Username",
+      "email": "E-mail",
       "title": "Settings",
       "theme": "Theme",
       "maxChallenges": "Max Challenges Per Day",

@@ -235,7 +235,7 @@ export const useGlobalStyles = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingVertical: 12,
+            paddingVertical: 16,
         },
         userRundown: {
             backgroundColor: theme.colors.card,

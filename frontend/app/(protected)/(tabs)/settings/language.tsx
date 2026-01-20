@@ -19,11 +19,6 @@ export default function Language() {
     if (!user || loading) return <ActivityIndicator />;
     if (error) return <Text>Error: {error.message}</Text>;
 
-    const LANGUAGES = [
-        { labelKey: "tabs.settings.english", locale: "en-US" },
-        { labelKey: "tabs.settings.swedish", locale: "sv-SV" },
-    ] as const;
-
     const handleUpdateSetting = async (locale: "en-US" | "sv-SV") => {
         try {
             await updateUserSettings({ language: locale });
@@ -38,17 +33,23 @@ export default function Language() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.settingsList}>
-                    {LANGUAGES.map(({ labelKey, locale }) => (
-                        <Pressable
-                            key={locale}
-                            style={globalStyles.setting}
-                            onPress={() => handleUpdateSetting(locale)}>
-                                <ThemedText>{t(labelKey)}</ThemedText>
-                                {user.settings?.language === locale && (
-                                    <Entypo name="check" size={18} color="green" />
-                                )}
-                        </Pressable>
-                    ))}
+                    <Pressable
+                        style={globalStyles.setting}
+                        onPress={() => handleUpdateSetting("en-US")}>
+                            <ThemedText>{t("tabs.settings.english")}</ThemedText>
+                            {user.settings?.language === "en-US" && (
+                                <Entypo name="check" size={18} color="green" />
+                            )}
+                    </Pressable>
+                    <HorizontalRule />
+                    <Pressable
+                        style={globalStyles.setting}
+                        onPress={() => handleUpdateSetting("sv-SV")}>
+                            <ThemedText>{t("tabs.settings.swedish")}</ThemedText>
+                            {user.settings?.language === "sv-SV" && (
+                                <Entypo name="check" size={18} color="green" />
+                            )}
+                    </Pressable>
                 </View>
             </Container>
         </Wrapper>

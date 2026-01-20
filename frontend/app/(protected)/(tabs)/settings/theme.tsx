@@ -39,13 +39,13 @@ export default function Theme() {
             <Container>
                 <View style={globalStyles.settingsList}>
                     <Pressable style={globalStyles.setting} onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
-                        <ThemedText>Light</ThemedText>
-                        {user.settings?.theme === t('tabs.settings.light') && (<Entypo name="check" size={18} color="green" />)}
+                        <ThemedText>{t('tabs.settings.light')}</ThemedText>
+                        {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                     <HorizontalRule />
                     <Pressable style={globalStyles.setting} onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
-                        <ThemedText>Dark</ThemedText>
-                        {user.settings?.theme === t('tabs.settings.dark') && (<Entypo name="check" size={18} color="green" />)}
+                        <ThemedText>{t('tabs.settings.dark')}</ThemedText>
+                        {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
                     </Pressable>
                 </View>
             </Container>

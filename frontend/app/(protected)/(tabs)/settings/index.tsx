@@ -30,10 +30,10 @@ export default function Settings() {
                         <Image style={{width: 80, height: 80, objectFit: "cover"}} source={require('../../../../assets/images/splash-icon.jpg')}/>
                     </View>
                     <View style={{flexDirection: "column", gap: 8}}>
-                        <ThemedText type='option'>Username: 
+                        <ThemedText type='option'>{t('tabs.settings.username')}: 
                             <ThemedText> {user?.name}</ThemedText>
                         </ThemedText>
-                        <ThemedText type='option'>E-mail: 
+                        <ThemedText type='option'>{t('tabs.settings.email')}: 
                             <ThemedText> {user?.email}</ThemedText>
                         </ThemedText>
                     </View>
@@ -49,7 +49,6 @@ export default function Settings() {
                         <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>{t('tabs.settings.language')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                                <ThemedText>{user?.settings?.language}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
@@ -59,7 +58,6 @@ export default function Settings() {
                         <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>{t('tabs.settings.theme')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                                <ThemedText>{user?.settings?.theme}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
@@ -69,7 +67,6 @@ export default function Settings() {
                         <Pressable style={globalStyles.setting}>
                             <ThemedText type='option'>{t('tabs.settings.maxChallenges')}</ThemedText>
                             <View style={{ flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-                                <ThemedText>{user?.settings?.numberOfChallengesPerDay}</ThemedText>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                         </Pressable>
