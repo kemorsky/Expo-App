@@ -15,7 +15,7 @@ export const slides = [
     },
     {
         id: "3",
-        title: "Take up more challenges whenever you want to",
+        title: "Take on more challenges whenever",
         description: 
             "By default you can do 1 challenge per day, however you can up the number up to 3. Just head to your settings to change it.",
         image: require("../assets/images/icon.png"),

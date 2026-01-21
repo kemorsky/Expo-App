@@ -1,5 +1,4 @@
 import { Pressable } from "react-native";
-import { ThemedText } from "../ThemedText";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
@@ -13,7 +12,6 @@ export default function PreviousButton({ scrollToPrevious }: PreviousButtonProps
     return (
         <Pressable accessibilityLabel="Previous Onboarding Slide Button" style={globalStyles.cycleThroughButton} onPress={scrollToPrevious}>
             <AntDesign name="left" size={20} color="white" />
-            <ThemedText>Previous</ThemedText>
         </Pressable>
     );
 };

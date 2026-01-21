@@ -78,6 +78,7 @@ export const useGlobalStyles = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "flex-end",
+            gap: 24,
             paddingHorizontal: 12
         },
         dot: {
@@ -88,7 +89,6 @@ export const useGlobalStyles = () => {
         },
         cycleThroughButton: {
             flexDirection: "row",
-            width: 90,
             alignItems: "center",
             justifyContent: "center",
             gap: 8,
@@ -97,11 +97,10 @@ export const useGlobalStyles = () => {
         },
         skipButton: {
             width: 150, 
-            backgroundColor: "rgb(74, 116, 255)", 
             alignItems: "center", 
-            alignSelf: "center", 
-            marginTop: 40, 
+            alignSelf: "center",  
             padding: 12, 
+            marginTop: 24,
             borderRadius: 8
         },
 

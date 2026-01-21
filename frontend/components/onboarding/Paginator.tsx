@@ -12,7 +12,7 @@ export default function Paginator({ data, scrollX, scrollToNext, scrollToPreviou
     return (
         <View style={globalStyles.paginator}>
             <PreviousButton scrollToPrevious={scrollToPrevious} />
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "center", justifyContent: "center", gap: 4 }}>
                 {data.map((_, index) => {
                     return (
                         <PaginatorDot

@@ -15,7 +15,7 @@ export default function HomeLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack>
+      <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
         <Stack.Screen name="index" options={{ title: t('tabs.tabHome') }} />
         <Stack.Screen name="accept-challenge" options={{ title: t('tabs.challenges.acceptChallenge.title') }} />
       </Stack>
