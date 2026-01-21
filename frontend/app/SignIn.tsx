@@ -60,6 +60,7 @@ export default function Login() {
                                     onChangeText={(password) => {
                                         formRef.current.password = password
                                     }}
+                                    autoCapitalize="none"
                                     secureTextEntry={!showPassword}
                                 />
                                 <Pressable style={globalStyles.showPasswordIcon} onPress={handleShowPassword}>                         

@@ -67,6 +67,7 @@ export default function SignIn() {
                         <TextInput 
                             aria-label='Email sign up input field'
                             placeholder={t('signUp.email')}
+                            keyboardType="email-address"
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(email) => {
@@ -85,13 +86,14 @@ export default function SignIn() {
                             onChangeText={(password) => {
                                 formRef.current.password = password;
                             }}
+                            autoCapitalize="none"
                             secureTextEntry={!showPassword}
                         />
                         <Pressable style={globalStyles.showPasswordIcon} onPress={handleShowPassword}>
                             <Ionicons name={showPassword ? "eye-off-outline" : "eye"} size={24} color="black"/>
                         </Pressable>
                     </View>
-                    <View style={{height: 22}}>
+                    <View style={{height: 44}}>
                         {error && <ThemedText type="error" style={{alignSelf: "center"}}>{error.message}</ThemedText>}
                     </View>
                     <Pressable style={globalStyles.buttonSignUp} onPress={() => handleSignIn()}>
