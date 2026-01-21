@@ -29,19 +29,13 @@ export default function SignIn() {
     const handleSignIn = async () => {
         const { email, name, password } = formRef.current;
 
-        // if (password !== confirmPassword) {
-        //     setUiError("Passwords must match");
-        //     return;
-        // }
-
         const data = await createUser(email, name, password);
 
         if (!data) {
             return;
         }
 
-        router.back();
-        // router.replace("/SignIn");
+        router.navigate("/SignIn");
         
     }
 

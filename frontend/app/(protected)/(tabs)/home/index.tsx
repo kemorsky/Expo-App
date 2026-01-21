@@ -64,8 +64,8 @@ export default function HomeScreen() {
                     </Pressable>
                   ) : (
                     <Pressable style={{
-                    ...globalStyles.buttonMarkAsDone,
-                    ...(isDisabled || unavailableChallenges ? globalStyles.buttonDisabled : {}),
+                      ...globalStyles.buttonMarkAsDone,
+                      ...(isDisabled || unavailableChallenges ? globalStyles.buttonDisabled : {}),
                     }}
                     aria-label="Get a new challenge button">
                       {(user.assignmentsToday ?? 1) >= 1 ? (
@@ -98,7 +98,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type='subtitle'>{t('home.subtitles.previousChallenges')}</ThemedText>
-        <View style={[globalStyles.card, {minHeight: 167, paddingVertical: 0}]}>
+        <View style={[globalStyles.card, {minHeight: 128, paddingVertical: 0}]}>
           {completedChallenges > 0 ? (
             <FlatList
               data={recentChallenges}
@@ -116,7 +116,7 @@ export default function HomeScreen() {
               keyExtractor={item => item?.id ?? ''}
             />
             ) : (
-              <ThemedText>{t('home.previousChallenges.noChallenges')}</ThemedText>
+              <ThemedText style={{paddingVertical: 8}}>{t('home.previousChallenges.noChallenges')}</ThemedText>
             )}
         </View>
       </Container>
