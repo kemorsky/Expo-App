@@ -70,7 +70,7 @@ export default function AcceptChallenge() {
                             </View>
                             <View style={styles.buttonsContainer}>
                                 <Link dismissTo href="/home">
-                                    <Pressable aria-label="Go back to homepage button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                                    <Pressable aria-label="Go back to homepage button" style={[globalStyles.buttonAction, {backgroundColor: "none", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
                                         <ThemedText>Go back</ThemedText>
                                     </Pressable>
                                 </Link>
@@ -85,11 +85,11 @@ export default function AcceptChallenge() {
                                 </Animated.Text>
                             </View>
                             <View style={styles.buttonsContainer}>
-                                <Pressable aria-label="Roll a different challenge button" style={[globalStyles.buttonMarkAsDone, {backgroundColor: "transparent", borderWidth: 1, borderColor: "#375375", width: 120, alignItems: "center",}]} onPress={() => handlePreviewChallenge()}>
+                                <Pressable aria-label="Roll a different challenge button" style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.notTodayButton]} onPress={() => handlePreviewChallenge()}>
                                     <ThemedText>{t('tabs.challenges.acceptChallenge.notTodayButton')}</ThemedText>
                                 </Pressable>
-                                <Pressable aria-label="Accept challenge button" style={[globalStyles.buttonMarkAsDone, { width: 120, alignItems: "center"}]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
-                                    <ThemedText>{t('tabs.challenges.acceptChallenge.acceptButton')}</ThemedText>
+                                <Pressable aria-label="Accept challenge button" style={({pressed}) => [{ opacity: pressed ? 0.8 : 1 }, globalStyles.acceptButton, { width: 120 }]} onPress={() => handleAcceptChallenge(previewedChallenge?.id ?? '')}>
+                                    <ThemedText type="buttonText">{t('tabs.challenges.acceptChallenge.acceptButton')}</ThemedText>
                                 </Pressable>
                             </View>
                         </View>

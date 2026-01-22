@@ -4,7 +4,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
 import { useMe } from '@/api/user/userQueries';
 import { useUpdateUserSettings } from "@/api/user/userMutations";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { SettingsOption } from '@/components/settings/SettingsOption';
+import { View, Text, ActivityIndicator } from "react-native";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useTranslation } from "react-i18next";
@@ -33,23 +34,19 @@ export default function Language() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.settingsList}>
-                    <Pressable
-                        style={globalStyles.setting}
-                        onPress={() => handleUpdateSetting("en-US")}>
-                            <ThemedText>{t("tabs.settings.english")}</ThemedText>
-                            {user.settings?.language === "en-US" && (
-                                <Entypo name="check" size={18} color="green" />
-                            )}
-                    </Pressable>
+                    <SettingsOption onPress={() => handleUpdateSetting("en-US")}>
+                        <ThemedText type="option">{t("tabs.settings.english")}</ThemedText>
+                        {user.settings?.language === "en-US" && (
+                            <Entypo name="check" size={18} color="green" />
+                        )}
+                    </SettingsOption>
                     <HorizontalRule />
-                    <Pressable
-                        style={globalStyles.setting}
-                        onPress={() => handleUpdateSetting("sv-SV")}>
-                            <ThemedText>{t("tabs.settings.swedish")}</ThemedText>
-                            {user.settings?.language === "sv-SV" && (
-                                <Entypo name="check" size={18} color="green" />
-                            )}
-                    </Pressable>
+                    <SettingsOption onPress={() => handleUpdateSetting("sv-SV")}>
+                        <ThemedText type="option">{t("tabs.settings.swedish")}</ThemedText>
+                        {user.settings?.language === "sv-SV" && (
+                            <Entypo name="check" size={18} color="green" />
+                        )}
+                    </SettingsOption>
                 </View>
             </Container>
         </Wrapper>

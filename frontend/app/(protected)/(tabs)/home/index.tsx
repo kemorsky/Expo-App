@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import ChallengeDoneModal from '@/components/ChallengeDoneModal';
 import { HorizontalRule } from '@/components/shared/HorizontalRule';
 import HomePageSkeleton from '@/components/skeleton/pages/HomePageSkeleton';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 export default function HomeScreen() {
   const [openModal, setOpenModal] = useState(false);
@@ -40,6 +40,9 @@ export default function HomeScreen() {
         <Container>
           <ThemedText style={{alignSelf: "center"}} type='title'>{t('home.welcome')}, {user.name}!</ThemedText>
         </Container>
+        {/* <Pressable onPress={() => {router.navigate("/Onboarding")}}>
+          <ThemedText>onboarding</ThemedText>
+        </Pressable> */}
         <Container>
           <View style={styles.cardTitleContainer}>
               <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
@@ -48,7 +51,7 @@ export default function HomeScreen() {
             {currentChallenge ? (
               <>
                 <ThemedText style={{maxWidth: 300}} type='challenge'>{currentChallenge.challenge.title}</ThemedText>
-                <Pressable style={globalStyles.buttonMarkAsDone} onPress={() => setOpenModal(true)}>
+                <Pressable style={globalStyles.buttonAction} onPress={() => setOpenModal(true)}>
                   <ThemedText>{t('home.challengeCard.markAsDoneButton')}</ThemedText>
                 </Pressable>
               </>
@@ -64,15 +67,15 @@ export default function HomeScreen() {
                     </Pressable>
                   ) : (
                     <Pressable style={{
-                      ...globalStyles.buttonMarkAsDone,
+                      ...globalStyles.buttonAction,
                       ...(isDisabled || unavailableChallenges ? globalStyles.buttonDisabled : {}),
                     }}
                     aria-label="Get a new challenge button">
-                      {(user.assignmentsToday ?? 1) >= 1 ? (
-                        <ThemedText type="buttonText">{t('home.challengeCard.getAnotherChallengeButton')}</ThemedText>
-                      ) : (
-                        <ThemedText type="buttonText">{t('home.challengeCard.getChallengeButton')}</ThemedText>
-                      )}
+                      <ThemedText type="buttonText">
+                        {(user.assignmentsToday ?? 1) >= 1 
+                        ? t('home.challengeCard.getAnotherChallengeButton') 
+                        : t('home.challengeCard.getChallengeButton')}
+                      </ThemedText>
                   </Pressable>
                   )}
                 </Link>

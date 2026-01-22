@@ -3,10 +3,11 @@ import { Container } from "@/components/shared/Container";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
+import { SettingsOption } from '@/components/settings/SettingsOption';
 import { useMe } from '@/api/user/userQueries';
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { useUpdateUserSettings } from "@/api/user/userMutations";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
 import { SettingsInput } from "@/__generated__/graphql";
 import { useGlobalStyles } from "@/styles/globalStyles";
@@ -38,15 +39,15 @@ export default function Theme() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.settingsList}>
-                    <Pressable style={globalStyles.setting} onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
-                        <ThemedText>{t('tabs.settings.light')}</ThemedText>
+                    <SettingsOption onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
+                        <ThemedText type="option">{t('tabs.settings.light')}</ThemedText>
                         {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
-                    </Pressable>
+                    </SettingsOption>
                     <HorizontalRule />
-                    <Pressable style={globalStyles.setting} onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
-                        <ThemedText>{t('tabs.settings.dark')}</ThemedText>
+                    <SettingsOption onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
+                        <ThemedText type="option">{t('tabs.settings.dark')}</ThemedText>
                         {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
-                    </Pressable>
+                    </SettingsOption>
                 </View>
             </Container>
         </Wrapper>

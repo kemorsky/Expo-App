@@ -78,7 +78,7 @@ export default function Login() {
                                 <ThemedText key={err.message} type="error" style={{alignSelf: "center"}}>{err.message}</ThemedText>
                             ))}
                         </View>
-                        <Pressable aria-label='Sign In button' style={globalStyles.buttonLogin} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
+                        <Pressable aria-label='Sign In button' style={globalStyles.buttonSignIn} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
                             <ThemedText type="buttonText" style={{fontSize: 16}}>{t('login.button')}</ThemedText>
                         </Pressable>
                         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 16}}>

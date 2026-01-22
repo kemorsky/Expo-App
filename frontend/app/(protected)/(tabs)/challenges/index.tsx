@@ -1,6 +1,6 @@
 import { Text, View, SectionList, Pressable } from 'react-native';
 import { useGlobalStyles } from '@/styles/globalStyles';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import { useContext, useState } from 'react';
 import { useMe } from '@/api/user/userQueries';
 import { useTranslation } from 'react-i18next';
@@ -82,12 +82,12 @@ export default function Challenges() {
         <View style={globalStyles.challengesContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20}}>
             <ThemedText type='subtitle'>{t('tabs.challenges.title')}</ThemedText>
-            <Link href='/challenges/create-challenge' push asChild>
-              <Pressable aria-label="Create new challenge button" style={globalStyles.createChallengeButton}>
-                <MaterialIcons name="add" size={24} color="white" />
-                <ThemedText type="buttonText">{t('tabs.challenges.createButton')}</ThemedText>
-              </Pressable>
-            </Link>
+            <Pressable aria-label="Create new challenge button" 
+                        style={({pressed}) => [{ opacity: pressed ? 0.7 : 1}, globalStyles.createChallengeButton]}
+                        onPress={() => {router.push("/challenges/create-challenge")}}>
+              <MaterialIcons name="add" size={24} color="white" />
+              <ThemedText type="buttonText">{t('tabs.challenges.createButton')}</ThemedText>
+            </Pressable>
           </View>
           <View style={{flexDirection: 'column', alignItems: 'flex-start', alignSelf: "flex-end", gap: 4}}>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2}}>

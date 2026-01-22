@@ -2,8 +2,9 @@ import { Container } from "@/components/shared/Container";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import { ThemedText } from "@/components/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
+import { SettingsOption } from '@/components/settings/SettingsOption';
 import { useMe } from '@/api/user/userQueries';
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { useUpdateUserSettings } from "@/api/user/userMutations";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -28,20 +29,20 @@ export default function MaxChallengesPerDay() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.settingsList}>
-                    <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting(1)}>
-                        <ThemedText>1</ThemedText>
+                    <SettingsOption onPress={() => handleUpdateSetting(1)}>
+                        <ThemedText type="option">1</ThemedText>
                         {user.settings?.numberOfChallengesPerDay === 1 && (<Entypo name="check" size={18} color="green" />)}
-                    </Pressable>
+                    </SettingsOption>
                     <HorizontalRule />
-                    <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting(2)}>
-                        <ThemedText>2</ThemedText>
+                    <SettingsOption onPress={() => handleUpdateSetting(2)}>
+                        <ThemedText type="option">2</ThemedText>
                         {user.settings?.numberOfChallengesPerDay === 2 && (<Entypo name="check" size={18} color="green" />)}
-                    </Pressable>
+                    </SettingsOption>
                     <HorizontalRule />
-                    <Pressable style={globalStyles.setting} onPress={() => handleUpdateSetting(3)}>
-                        <ThemedText>3</ThemedText>
+                    <SettingsOption onPress={() => handleUpdateSetting(3)}>
+                        <ThemedText type="option">3</ThemedText>
                         {user.settings?.numberOfChallengesPerDay === 3 && (<Entypo name="check" size={18} color="green" />)}
-                    </Pressable>
+                    </SettingsOption>
                 </View>
             </Container>
         </Wrapper>

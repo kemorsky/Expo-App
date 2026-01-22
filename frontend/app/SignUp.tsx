@@ -90,7 +90,7 @@ export default function SignIn() {
                     <View style={{height: 44}}>
                         {error && <ThemedText type="error" style={{alignSelf: "center"}}>{error.message}</ThemedText>}
                     </View>
-                    <Pressable style={globalStyles.buttonSignUp} onPress={() => handleSignIn()}>
+                    <Pressable style={globalStyles.buttonSignIn} onPress={() => handleSignIn()}>
                         <ThemedText type="buttonText" style={{fontSize: 16}}>{t('signUp.button')}</ThemedText>
                     </Pressable>
                     

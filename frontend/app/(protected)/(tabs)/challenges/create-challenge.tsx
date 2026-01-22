@@ -33,20 +33,23 @@ export default function CreateChallenge() {
             <Container>
                 <View style={styles.content}>
                     <ThemedText style={{ maxWidth: 250 }} type='subtitle'>{t('tabs.challenges.createChallenge.header')}</ThemedText>
-                    <TextInput 
+                    <View style={styles.content2}>
+                        <TextInput 
                             aria-label="Create Challenge Input Field"
                             placeholder={t('tabs.challenges.createChallenge.title')}
+                            placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(title) => {
                                 titleRef.current.title = title;
                             }}
                             autoCapitalize="sentences"
                             selectTextOnFocus={false}
-                    />
-                    <Pressable style={globalStyles.createChallengeButton} onPress={() => handleCreateChallenge()}>
-                        <ThemedText>{t('tabs.challenges.createButton')}</ThemedText>
-                    </Pressable>
-                    {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
+                        />
+                        <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.buttonAction]} onPress={() => handleCreateChallenge()}>
+                            <ThemedText type="buttonText">{t('tabs.challenges.createButton')}</ThemedText>
+                        </Pressable>
+                        {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
+                    </View>
                 </View>
             </Container>
         </Wrapper>
@@ -55,10 +58,14 @@ export default function CreateChallenge() {
 
 const styles = StyleSheet.create({
     content: {
+        gap: 40,
+    },
+    content2: {
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        alignItems: 'flex-end',
         justifyContent: 'center',
-        gap: 20
+        gap: 20,
+        width: "100%",
     },
     button: {
         backgroundColor: 'yellow',

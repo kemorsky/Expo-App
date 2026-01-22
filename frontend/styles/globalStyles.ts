@@ -58,6 +58,16 @@ export const useGlobalStyles = () => {
             borderBottomWidth: 1,
             borderColor: theme.colors.border
         },
+        buttonAction: {
+            height: 40,
+            justifyContent: "center",
+            alignSelf: "flex-end",
+            padding: 8,
+            borderRadius: 8,
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            backgroundColor: theme.colors.primary,
+            pointerEvents: "auto"
+        },
 
         // onboarding
 
@@ -126,16 +136,6 @@ export const useGlobalStyles = () => {
             borderBottomWidth: 1, 
             borderBottomColor: theme.colors.border,
         },
-        buttonMarkAsDone: {
-            height: 40,
-            justifyContent: "center",
-            alignSelf: "flex-end",
-            padding: 8,
-            borderRadius: 4,
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            backgroundColor: theme.colors.primary,
-            pointerEvents: "auto"
-        },
         buttonDisabled: {
             height: 40,
             justifyContent: "center",
@@ -145,6 +145,32 @@ export const useGlobalStyles = () => {
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             backgroundColor: "rgb(148, 148, 148)",
             pointerEvents: "none"
+        },
+
+        // accept-challenge
+
+        notTodayButton: {
+            height: 40,
+            width: 120,
+            justifyContent: "center",
+            alignSelf: "flex-end",
+            alignItems: "center",
+            padding: 8,
+            borderWidth: 1,
+            borderRadius: 4,
+            borderColor: "#375375",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
+        acceptButton: {
+            height: 40,
+            width: 120,
+            backgroundColor: theme.colors.primary,
+            justifyContent: "center",
+            alignSelf: "flex-end",
+            alignItems: "center",
+            padding: 8,
+            borderRadius: 4,
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         },
 
         // mark challenge as done modal
@@ -226,15 +252,16 @@ export const useGlobalStyles = () => {
 
         settingsList: {
             backgroundColor: theme.colors.card,
-            paddingHorizontal: 8,
             flexDirection: "column",
             borderRadius: 8,
+            overflow: "hidden"
         },
         setting: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
             paddingVertical: 16,
+            paddingHorizontal: 8,
         },
         userRundown: {
             backgroundColor: theme.colors.card,
@@ -243,8 +270,18 @@ export const useGlobalStyles = () => {
             gap: 12,
             borderRadius: 8,
         },
+        buttonSignOut: {
+            width: 120, 
+            alignItems: "center", 
+            backgroundColor: theme.colors.primary,
+            justifyContent: "center", 
+            alignSelf: "center", 
+            padding: 8, 
+            borderRadius: 8,
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        },
 
-        buttonLogin: {
+        buttonSignIn: {
             width: 240,
             height: 54,
             alignSelf: "center",
@@ -256,6 +293,7 @@ export const useGlobalStyles = () => {
             borderWidth: 1,
             borderColor: "#000000ff",
             borderRadius: 8,
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
         },
         buttonSignUp: {
             width: 240,

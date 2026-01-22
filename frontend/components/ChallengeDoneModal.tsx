@@ -75,7 +75,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     value={notes.notes ?? ''}
                     placeholder={t('home.completeChallenge.inputPlaceholder')}
                     placeholderTextColor={"#8b8b8bff"}/>
-                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonMarkAsDone} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
                     <ThemedText>{t('home.completeChallenge.button')}</ThemedText>
                 </Pressable>
             </View>
