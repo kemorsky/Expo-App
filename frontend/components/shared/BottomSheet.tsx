@@ -112,7 +112,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
 
 const styles = StyleSheet.create({
     backdrop: {
-        // position: "absolute", // temporarily disabled to allow usage of app on web as it disables the ability to interact with content
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
