@@ -109,7 +109,7 @@ export function useAcceptChallenge() {
                     acceptChallengeId: id
                 }
             });
-            console.log(response?.data?.acceptChallenge.user?.assignmentsToday);
+            
             return response.data?.acceptChallenge;
         } catch (error: any) {
             throw new Error(error.message || "Cannot assign challenge today");

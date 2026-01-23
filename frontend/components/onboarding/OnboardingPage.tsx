@@ -1,9 +1,9 @@
-import { useGlobalStyles } from '@/styles/globalStyles';
-import { View, Image, useWindowDimensions } from 'react-native'
-import { ThemedText } from '../ThemedText';
-import { OnboardingPageProps } from '@/utils/pagination'
-import { useEffect } from 'react';
-import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
+import { useGlobalStyles } from "@/styles/globalStyles";
+import { View, useWindowDimensions } from "react-native"
+import { ThemedText } from "../shared/ThemedText";
+import { OnboardingPageProps } from "@/utils/pagination"
+import { useEffect } from "react";
+import Animated, { useSharedValue, withTiming, useAnimatedStyle } from "react-native-reanimated";
 
 export default function OnboardingPage({ item }: OnboardingPageProps) {
     const { width } = useWindowDimensions();
@@ -23,9 +23,9 @@ export default function OnboardingPage({ item }: OnboardingPageProps) {
 
     return (
         <View style={[{ width }, globalStyles.onboardingWrapper]}>
-            <Animated.Image style={[animatedStyle, { width: 341, height: 341, objectFit: "contain" }, { resizeMode: 'contain' }]} source={item.image} />
-            <ThemedText type="title" style={{maxWidth: 351, textAlign: "center"}}>{item.title}</ThemedText>
-            <ThemedText style={{maxWidth: 351, textAlign: "center"}}>{item.description}</ThemedText>
+            <Animated.Image style={[ animatedStyle, { width: 341, height: 341 }, { resizeMode: "contain" } ]} source={item.image} />
+            <ThemedText type="title" style={{ maxWidth: 351, textAlign: "center" }}>{item.title}</ThemedText>
+            <ThemedText style={{ maxWidth: 351, textAlign: "left" }}>{item.description}</ThemedText>
         </View>
     )
 }

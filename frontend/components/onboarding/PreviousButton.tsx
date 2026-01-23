@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 import { useGlobalStyles } from "@/styles/globalStyles";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 type PreviousButtonProps = {
     scrollToPrevious: () => void;

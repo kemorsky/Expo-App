@@ -51,13 +51,11 @@ app.use("/api/graphql",
         
         if (token) {
           user = getCachedUser(token);
-          console.log("Context user keys:", user ? Object.keys(user) : null);
 
           if (!user) {
             try {
               user = verifyToken(token);
               cacheUser(token, user);
-              console.log("Decoded user:", user);
             } catch (error) {
               console.error("Invalid token", error);
             }

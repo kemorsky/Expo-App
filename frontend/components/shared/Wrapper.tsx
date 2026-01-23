@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet } from "react-native"
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { useCallback } from "react";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 type WrapperProps = {
@@ -28,7 +28,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
     }));
 
     return (
-        <Animated.View style={[globalStyles.wrapper, animatedStyle]}>
+        <Animated.View style={[ globalStyles.wrapper, animatedStyle ]}>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}> 
                 {children}
             </ScrollView>
@@ -38,7 +38,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
 
 const styles = StyleSheet.create({
     content: {
-        flexDirection: 'column',
+        flexDirection: "column",
         gap: 8,
     }
 })

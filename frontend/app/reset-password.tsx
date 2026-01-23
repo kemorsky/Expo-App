@@ -1,14 +1,14 @@
-import { useRef, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useResetPassword } from '@/api/user/userMutations';
-import { Wrapper } from '@/components/shared/Wrapper';
-import { Container } from '@/components/shared/Container';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useGlobalStyles } from '@/styles/globalStyles';
-import { ThemedText } from '@/components/ThemedText';
-import { Pressable, TextInput, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { useRef, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useResetPassword } from "@/api/user/userMutations";
+import { Wrapper } from "@/components/shared/Wrapper";
+import { Container } from "@/components/shared/Container";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useGlobalStyles } from "@/styles/globalStyles";
+import { ThemedText } from "@/components/shared/ThemedText";
+import { Pressable, TextInput, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPassword() {
     const { resetPassword, error } = useResetPassword();
@@ -18,8 +18,8 @@ export default function ResetPassword() {
     const [ showPassword, setShowPassword ] = useState(false);
     const { token } = useLocalSearchParams<{ token: string }>();
     const inputRef = useRef({
-        newPassword: '',
-        confirmNewPassword: ''
+        newPassword: "",
+        confirmNewPassword: ""
     });
 
     const handleResetPassword = async () => {
@@ -47,7 +47,7 @@ export default function ResetPassword() {
         <SafeAreaView>
             <Wrapper>
                 <View style={[globalStyles.container, { }]}>
-                    <ThemedText type="title">{t('resetPassword.title')}</ThemedText>
+                    <ThemedText type="title">{t("resetPassword.title")}</ThemedText>
                     <View style={{height: 46}}>
                         {error && <ThemedText type="error">{error.message}</ThemedText>}
                         <ThemedText>
@@ -57,8 +57,8 @@ export default function ResetPassword() {
                     <View style={{gap: 4}}>
                         <ThemedText type="label">{t("resetPassword.newPassword")}</ThemedText>
                         <TextInput
-                            aria-label='New Password input field'
-                            placeholder={t('resetPassword.newPassword')}
+                            aria-label="New Password input field"
+                            placeholder={t("resetPassword.newPassword")}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(newPassword) => {
@@ -72,10 +72,10 @@ export default function ResetPassword() {
                         </Pressable>
                     </View>
                     <View style={{gap: 4}}>
-                        <ThemedText type="label">{t('resetPassword.confirmPassword')}</ThemedText>
+                        <ThemedText type="label">{t("resetPassword.confirmPassword")}</ThemedText>
                         <TextInput
-                            aria-label='Confirm New Password input field'
-                            placeholder={t('resetPassword.confirmPassword')}
+                            aria-label="Confirm New Password input field"
+                            placeholder={t("resetPassword.confirmPassword")}
                             placeholderTextColor={"#8b8b8bff"}
                             style={globalStyles.input}
                             onChangeText={(confirmNewPassword) => {
@@ -86,7 +86,7 @@ export default function ResetPassword() {
                         />
                         </View>
                     <Pressable onPress={handleResetPassword}>
-                        <ThemedText>{t('resetPassword.button')}</ThemedText>
+                        <ThemedText>{t("resetPassword.button")}</ThemedText>
                     </Pressable>
                 </View>
             </Wrapper>

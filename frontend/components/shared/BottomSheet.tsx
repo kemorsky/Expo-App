@@ -15,7 +15,7 @@ type BottomSheetProps = {
     children: React.ReactNode,
 }
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
     const { theme } = useThemeConfig();
@@ -95,11 +95,11 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
         <> 
             {/* BackDrop - GestureDetector prevents scrolling of the background page */}
             <GestureDetector gesture={Gesture.Pan().onStart(() => {})}>
-                <Animated.View style={[styles.backdrop, animatedBackdropStyle]} />
+                <Animated.View style={[ styles.backdrop, animatedBackdropStyle ]} />
             </GestureDetector>
             {/* BottomSheet */}
             <GestureDetector gesture={gesture}>
-                <Animated.View style={[styles.bottomSheet, { backgroundColor: theme.colors.card }, animatedStyle]}>
+                <Animated.View style={[ styles.bottomSheet, { backgroundColor: theme.colors.card }, animatedStyle ]}>
                     <View style={styles.handle} />
                     <View style={styles.content}>
                         {children}
@@ -112,7 +112,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
 
 const styles = StyleSheet.create({
     backdrop: {
-        position: "absolute",
+        // position: "absolute",
         top: 0,
         left: 0,
         right: 0,
@@ -122,17 +122,17 @@ const styles = StyleSheet.create({
     },
     bottomSheet: {
         height: SCREEN_HEIGHT,
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         right: 0,
         zIndex: 1000
     },
     content: {
         padding: 12,
-        width: '100%',
+        width: "100%",
         minHeight: 300,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
+        flexDirection: "column",
+        alignItems: "flex-start",
     },
     handle: {
         alignSelf: "center",

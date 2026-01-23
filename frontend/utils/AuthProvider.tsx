@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
-import { saveToken, getRefreshToken, saveRefreshToken, deleteToken, deleteRefreshToken} from './token'
+import { saveToken, getRefreshToken, saveRefreshToken, deleteToken, deleteRefreshToken} from "./token"
 import { PropsWithChildren, useState, useEffect, useCallback } from "react";
 import { useLogin, useRefreshToken } from "@/api/user/userMutations";
 import type { AuthPayload } from "@/__generated__/graphql";
-import AuthState from './AuthContext'
+import AuthState from "./AuthContext"
 import { setAccessToken } from "./authToken";
 import { AppError, extractGraphQLErrors } from "@/lib/graphql/errors";
 import { ErrorLike } from "@apollo/client";
@@ -33,9 +33,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const accessToken = data?.token;
             const refreshToken = data?.refreshToken;
 
-            await saveToken(accessToken ?? '');
-            setAccessToken(data.token ?? '');
-            await saveRefreshToken(refreshToken ?? '');
+            await saveToken(accessToken ?? "");
+            setAccessToken(data.token ?? "");
+            await saveRefreshToken(refreshToken ?? "");
             setUser({
                 id: data.id,
                 email: data.email,
@@ -70,9 +70,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const data = await refreshToken(storedRefreshToken);
             if (!data) return console.log("Login failed: no data returned");
 
-            await saveToken(data.token ?? '');
-            await saveRefreshToken(data.refreshToken ?? '');
-            setAccessToken(data.token ?? '');
+            await saveToken(data.token ?? "");
+            await saveRefreshToken(data.refreshToken ?? "");
+            setAccessToken(data.token ?? "");
             setUser({
                 id: data.id,
                 email: data.email,

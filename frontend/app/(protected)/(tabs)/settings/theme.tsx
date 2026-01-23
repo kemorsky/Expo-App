@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Container } from "@/components/shared/Container";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/shared/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
-import { SettingsOption } from '@/components/settings/SettingsOption';
-import { useMe } from '@/api/user/userQueries';
+import { SettingsOption } from "@/components/settings/SettingsOption";
+import { useMe } from "@/api/user/userQueries";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { useUpdateUserSettings } from "@/api/user/userMutations";
 import { View, Text, ActivityIndicator } from "react-native";
-import Entypo from '@expo/vector-icons/Entypo';
+import Entypo from "@expo/vector-icons/Entypo";
 import { SettingsInput } from "@/__generated__/graphql";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { useTranslation } from "react-i18next";
@@ -20,7 +20,7 @@ export default function Theme() {
     const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
 
-    const [ newTheme, setNewTheme ] = useState<SettingsInput>({ theme: '' });
+    const [ newTheme, setNewTheme ] = useState<SettingsInput>({ theme: "" });
     if (!user || loading) return <ActivityIndicator />;
     if (error) return <Text>Error: {error.message}</Text>;
 
@@ -40,12 +40,12 @@ export default function Theme() {
             <Container>
                 <View style={globalStyles.settingsList}>
                     <SettingsOption onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
-                        <ThemedText type="option">{t('tabs.settings.light')}</ThemedText>
+                        <ThemedText type="option">{t("tabs.settings.light")}</ThemedText>
                         {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
-                        <ThemedText type="option">{t('tabs.settings.dark')}</ThemedText>
+                        <ThemedText type="option">{t("tabs.settings.dark")}</ThemedText>
                         {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
                     </SettingsOption>
                 </View>

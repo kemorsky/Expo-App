@@ -1,10 +1,10 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import type { Theme } from '@react-navigation/native';
-import { DarkTheme as _DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Colors } from '@/constants/Colors';
-import { Platform } from 'react-native';
+import type { Theme } from "@react-navigation/native";
+import { DarkTheme as _DarkTheme, DefaultTheme } from "@react-navigation/native";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { Colors } from "@/constants/Colors";
+import { Platform } from "react-native";
 
 type ThemeContextType = {
   theme: Theme;

@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useMe } from '@/hooks/useMe';
-import { formatDate } from '@/utils/formatDate';
+import { useState } from "react";
+import { useMe } from "@/hooks/useMe";
+import { formatDate } from "@/utils/formatDate";
 import { View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { useMarkChallengeAsDone } from '@/api/challenges/challengesMutations';
-import { ThemedText } from './ThemedText';
-import { ChallengeDoneInput } from '@/__generated__/graphql';
-import { useGlobalStyles } from '@/styles/globalStyles';
-import { useTranslation } from 'react-i18next';
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useMarkChallengeAsDone } from "@/api/challenges/challengesMutations";
+import { ThemedText } from "../shared/ThemedText";
+import { ChallengeDoneInput } from "@/__generated__/graphql";
+import { useGlobalStyles } from "@/styles/globalStyles";
+import { useTranslation } from "react-i18next";
 
 type ModalProps = {
     openModal: boolean,
@@ -21,7 +21,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const globalStyles = useGlobalStyles();
     const { markChallengeAsDone } = useMarkChallengeAsDone();
 
-    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: '', currentChallenge: true, done: false});
+    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: "", currentChallenge: true, done: false});
 
     if (!user || loading) return <ActivityIndicator />;
 
@@ -40,7 +40,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
                 })
                 setOpenModal(!openModal)
             };
-            setNotes({notes: '', done: false, currentChallenge: false});
+            setNotes({notes: "", done: false, currentChallenge: false});
             } catch (error) {
                 throw new Error (`Error marking challenge as done: ${error}`)
             };
@@ -57,14 +57,14 @@ export default function ChallengeDoneModal(props: ModalProps) {
             }}>
             <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalHeader}>
-                    <ThemedText type='subtitle'>{t('home.completeChallenge.title')}</ThemedText>
+                    <ThemedText type="subtitle">{t("home.completeChallenge.title")}</ThemedText>
                     <Pressable aria-label="Close modal button" onPress={() => setOpenModal(!openModal)}>
                         <AntDesign name="close" size={24} color="white" />
                     </Pressable>
                 </View>
                 <View style={globalStyles.modalTitle}>
                     <ThemedText type="date">{formatDate(date.toString())}</ThemedText>
-                    <ThemedText style={{ fontSize: 18 }} type='subtitle'>{currentChallenge?.challenge.title}</ThemedText>
+                    <ThemedText style={{ fontSize: 18 }} type="subtitle">{currentChallenge?.challenge.title}</ThemedText>
                 </View>
                 <TextInput 
                     aria-label="Challenge notes input field"
@@ -72,11 +72,11 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     multiline
                     editable
                     onChangeText={(notes: string) => setNotes((prev) => ({...prev, notes}))}
-                    value={notes.notes ?? ''}
-                    placeholder={t('home.completeChallenge.inputPlaceholder')}
+                    value={notes.notes ?? ""}
+                    placeholder={t("home.completeChallenge.inputPlaceholder")}
                     placeholderTextColor={"#8b8b8bff"}/>
-                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? '', notes.notes ?? '', currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
-                    <ThemedText>{t('home.completeChallenge.button')}</ThemedText>
+                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? "", notes.notes ?? "", currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                    <ThemedText>{t("home.completeChallenge.button")}</ThemedText>
                 </Pressable>
             </View>
         </Modal>

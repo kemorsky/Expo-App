@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import translationEn from "./locales/en-US/translations.json";
 import translationSv from "./locales/sv-SV/translations.json";
-import { getStoredLanguage } from './languageStorage';
+import { getStoredLanguage } from "./languageStorage";
 
 const resources = {
   "sv-SV": { translation: translationSv },

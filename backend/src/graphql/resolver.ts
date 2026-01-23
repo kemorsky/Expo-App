@@ -239,7 +239,6 @@ const resolvers: Resolvers = {
             }
         },
         createChallenge: async (_, { input }, context) => {
-            console.log(context.user)
             const user = await User.findById(context.user.id);
             if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
@@ -258,7 +257,6 @@ const resolvers: Resolvers = {
 
                 await userChallenge.save();
 
-                console.log(challenge)
                 return {
                     id: userChallenge._id.toString(),
                     user: {
@@ -383,7 +381,6 @@ const resolvers: Resolvers = {
                     { new: true, runValidators: true }
                 ).populate("challenge");
                 
-                console.log(doneChallenge)
                 if (!doneChallenge) {
                     throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
                 }
@@ -425,11 +422,13 @@ const resolvers: Resolvers = {
                     { title: input.title },
                     { new: true, runValidators: true }
                 ).populate("challenge");
+                
                 const challenge = updatedChallenge?.challenge as ChallengeDocument;
-                console.log(updatedChallenge)
+
                 if (!updatedChallenge) {
                     throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
                 }
+
                 return {
                     id: updatedChallenge._id.toString(),
                     user: {

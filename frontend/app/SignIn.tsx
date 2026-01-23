@@ -1,15 +1,15 @@
-import { useAuth } from '@/utils/AuthContext';
-import { useState, useRef } from 'react';
-import { Wrapper } from '@/components/shared/Wrapper';
+import { useAuth } from "@/utils/AuthContext";
+import { useState, useRef } from "react";
+import { Wrapper } from "@/components/shared/Wrapper";
 import { View, KeyboardAvoidingView, Platform, TextInput, Pressable } from "react-native";
-import { ThemedText } from '@/components/ThemedText';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { ThemedText } from "@/components/shared/ThemedText";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGlobalStyles } from "@/styles/globalStyles";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "expo-router";
 
 import { UserLogin } from "@/__generated__/graphql";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
     const { logIn, authErrors } = useAuth();
@@ -18,8 +18,8 @@ export default function Login() {
     const globalStyles = useGlobalStyles();
 
     const formRef = useRef<UserLogin>({
-        email: '',
-        password: ''
+        email: "",
+        password: ""
     })
 
     const handleShowPassword = () => {
@@ -28,32 +28,32 @@ export default function Login() {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : "height"}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <Wrapper>
                     <View style={[globalStyles.container, {marginTop: 15 }]}>
-                        <ThemedText type="title">{t('login.welcome')}</ThemedText>
-                        <ThemedText type="title">{t('login.proceed')}</ThemedText>
+                        <ThemedText type="title">{t("login.welcome")}</ThemedText>
+                        <ThemedText type="title">{t("login.proceed")}</ThemedText>
                         <View style={[globalStyles.container, {padding: 0}]}>
                             <View style={{gap: 4}}>
-                                <ThemedText type="label">{t('login.email')}</ThemedText>
+                                <ThemedText type="label">{t("login.email")}</ThemedText>
                                 <TextInput
-                                    aria-label='E-mail login input field'
-                                    placeholder={t('login.email')}
+                                    aria-label="E-mail login input field"
+                                    placeholder={t("login.email")}
                                     placeholderTextColor={"#8b8b8bff"}
                                     style={globalStyles.input}
                                     autoCapitalize="none"
                                     selectTextOnFocus={false}
-                                    keyboardType='email-address'
+                                    keyboardType="email-address"
                                     onChangeText={(email) => {
                                         formRef.current.email = email
                                     }}
                                 />
                             </View>
                             <View style={{gap: 4}}>
-                                <ThemedText type="label">{t('login.password')}</ThemedText>
+                                <ThemedText type="label">{t("login.password")}</ThemedText>
                                 <TextInput                
-                                    aria-label='Password login input field'
-                                    placeholder={t('login.password')}
+                                    aria-label="Password login input field"
+                                    placeholder={t("login.password")}
                                     placeholderTextColor={"#8b8b8bff"}
                                     style={[globalStyles.input, {flex: 1}]}
                                     selectTextOnFocus={false}
@@ -68,8 +68,8 @@ export default function Login() {
                                 </Pressable>
                             </View>
                             <Link href="/ForgottenPassword" push asChild>
-                                <Pressable style={{alignSelf: "flex-end"}} aria-label='Forgot Password button'>
-                                    <ThemedText type="signInPageTexts">{t('login.forgotPassword')}</ThemedText>
+                                <Pressable style={{alignSelf: "flex-end"}} aria-label="Forgot Password button">
+                                    <ThemedText type="signInPageTexts">{t("login.forgotPassword")}</ThemedText>
                                 </Pressable>
                             </Link>
                         </View>
@@ -78,14 +78,14 @@ export default function Login() {
                                 <ThemedText key={err.message} type="error" style={{alignSelf: "center"}}>{err.message}</ThemedText>
                             ))}
                         </View>
-                        <Pressable aria-label='Sign In button' style={globalStyles.buttonSignIn} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
-                            <ThemedText type="buttonText" style={{fontSize: 16}}>{t('login.button')}</ThemedText>
+                        <Pressable aria-label="Sign In button" style={globalStyles.buttonSignIn} onPress={() => logIn(formRef.current.email, formRef.current.password)}>
+                            <ThemedText type="buttonText" style={{fontSize: 16}}>{t("login.button")}</ThemedText>
                         </Pressable>
                         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 16}}>
-                            <ThemedText>{t('login.noAccount')}</ThemedText>
+                            <ThemedText>{t("login.noAccount")}</ThemedText>
                             <Link href="/SignUp" push asChild>
-                                <Pressable aria-label='Sign Up button'>
-                                    <ThemedText type="signInPageTexts">{t('login.signUp')}</ThemedText>
+                                <Pressable aria-label="Sign Up button">
+                                    <ThemedText type="signInPageTexts">{t("login.signUp")}</ThemedText>
                                 </Pressable>
                             </Link>
                         </View>

@@ -79,27 +79,27 @@ export const ChallengeSkeleton = () => {
 
 const styles = StyleSheet.create({
   challengeList: {
-    backgroundColor: '#dbdbdbff',
+    backgroundColor: "#dbdbdbff",
     paddingHorizontal: 8,
-    flexDirection: 'column',
+    flexDirection: "column",
     borderRadius: 8,
   },
   challenge: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 8,
   },
   challengeItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   },
   sectionList: {
-    backgroundColor: '#dbdbdbff',
+    backgroundColor: "#dbdbdbff",
     paddingHorizontal: 8,
-    flexDirection: 'column',
+    flexDirection: "column",
     borderRadius: 8,
     paddingVertical: 8,
     gap: 20

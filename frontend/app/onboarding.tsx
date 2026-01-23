@@ -1,4 +1,4 @@
-import { useSaveOnboarding } from '@/api/user/userMutations';
+import { useSaveOnboarding } from "@/api/user/userMutations";
 import { useState, useRef, useEffect } from "react";
 import { View, FlatList, ViewToken, Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,7 +8,7 @@ import OnboardingPage from "@/components/onboarding/OnboardingPage";
 import Paginator from "@/components/onboarding/Paginator";
 import { router } from "expo-router";
 import { useGlobalStyles } from "@/styles/globalStyles";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/shared/ThemedText";
 
 type Slides = {
     id: string;
@@ -98,7 +98,7 @@ export default function Onboarding() {
                     <Paginator data={slides} scrollX={scrollX} scrollToNext={scrollToNext} scrollToPrevious={scrollToPrevious} />
                     <Pressable style={({pressed}) => [
                                     {
-                                    backgroundColor: pressed ? '#6d8ffd' : '#4a74ff',
+                                    backgroundColor: pressed ? "#6d8ffd" : "#4a74ff",
                                     },
                                     globalStyles.skipButton,
                                 ]} 

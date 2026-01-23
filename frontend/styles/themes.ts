@@ -17,7 +17,7 @@ export const theme = {
   typography: {
     heading: { fontSize: 20, fontWeight: "bold" },
     body: { fontSize: 16 },
-    title: { fontSize: 12, fontWeight: '600' },
-    challenge: { fontSize: 16, fontWeight: 'bold'}
+    title: { fontSize: 12, fontWeight: "600" },
+    challenge: { fontSize: 16, fontWeight: "bold"}
   },
 };

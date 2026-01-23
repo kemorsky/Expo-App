@@ -1,8 +1,8 @@
-import { Wrapper } from '@/components/shared/Wrapper';
-import { Container } from '@/components/shared/Container';
+import { Wrapper } from "@/components/shared/Wrapper";
+import { Container } from "@/components/shared/Container";
 import { SkeletonText } from "../blocks/SkeletonText";
-import { View, StyleSheet, Pressable } from 'react-native';
-import { HorizontalRule } from '@/components/shared/HorizontalRule';
+import { View, StyleSheet, Pressable } from "react-native";
+import { HorizontalRule } from "@/components/shared/HorizontalRule";
 
 export default function SettingsPageSkeleton() {
 
@@ -53,21 +53,21 @@ export default function SettingsPageSkeleton() {
 
 const styles = StyleSheet.create({
   settingsList: {
-    backgroundColor: '#dbdbdbff',
+    backgroundColor: "#dbdbdbff",
     paddingHorizontal: 8,
-    flexDirection: 'column',
+    flexDirection: "column",
     borderRadius: 8,
   },
   setting: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 12,
   },
   userRundown: {
-    backgroundColor: '#dbdbdbff',
+    backgroundColor: "#dbdbdbff",
     padding: 8,
-    flexDirection: 'column',
+    flexDirection: "column",
     gap: 8,
     borderRadius: 8,
   }

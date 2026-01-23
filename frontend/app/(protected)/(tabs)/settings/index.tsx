@@ -7,7 +7,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { Wrapper } from "@/components/shared/Wrapper";
 import { SettingsOption } from "@/components/settings/SettingsOption";
 import { Container } from "@/components/shared/Container";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/shared/ThemedText";
 import { router } from "expo-router";
 import SettingsPageSkeleton from "@/components/skeleton/pages/SettingsPageSkeleton";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
@@ -27,8 +27,8 @@ export default function Settings() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.userRundown}>
-                    <View style={{width: 80, height: 80, borderRadius: 999, backgroundColor: "blue", alignSelf: "center", overflow: "hidden"}}>
-                        <Image style={{width: 80, height: 80, objectFit: "cover"}} source={require("../../../../assets/images/splash-icon.jpg")}/>
+                    <View style={{ width: 80, height: 80, borderRadius: 999, borderWidth: 1, borderColor: "#2b00ec", alignSelf: "center", overflow: "hidden" }}>
+                        <Image style={[{ width: 80, height: 80 }, { resizeMode: "cover" } ]} source={require("../../../../assets/images/profile-picture.png")}/>
                     </View>
                     <View style={{flexDirection: "column", gap: 8}}>
                         <ThemedText type="option">{t("tabs.settings.username")}: 

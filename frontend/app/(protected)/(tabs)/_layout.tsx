@@ -1,12 +1,12 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import React from "react";
+import { Platform } from "react-native";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useThemeConfig } from '@/hooks/useThemeConfig';
-import { useTranslation } from 'react-i18next';
+import { HapticTab } from "@/components/HapticTab";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import TabBarBackground from "@/components/ui/TabBarBackground";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
   const { theme } = useThemeConfig();
@@ -22,7 +22,7 @@ export default function TabLayout() {
           tabBarStyle: Platform.select({
             ios: {
               // Use a transparent background on iOS to show the blur effect
-              position: 'absolute',
+              position: "absolute",
             },
             default: {
               height: 60,
@@ -36,21 +36,21 @@ export default function TabLayout() {
         <Tabs.Screen
           name="home"
           options={{
-            title: t('tabs.tabHome'),
+            title: t("tabs.tabHome"),
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color}/>,
           }}
         />
         <Tabs.Screen
           name="challenges"
           options={{
-            title: t('tabs.tabChallenges'),
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+            title: t("tabs.tabChallenges"),
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="mountain.2" color={color} />,
           }}
         />
         <Tabs.Screen
           name="settings"
           options={{
-            title: t('tabs.tabSettings'),
+            title: t("tabs.tabSettings"),
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="gearshape.fill" color={color} />,
           }}
         />

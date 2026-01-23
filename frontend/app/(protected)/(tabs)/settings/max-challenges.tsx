@@ -1,9 +1,9 @@
 import { Container } from "@/components/shared/Container";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/shared/ThemedText";
 import { Wrapper } from "@/components/shared/Wrapper";
-import { SettingsOption } from '@/components/settings/SettingsOption';
-import { useMe } from '@/api/user/userQueries';
+import { SettingsOption } from "@/components/settings/SettingsOption";
+import { useMe } from "@/api/user/userQueries";
 import { View, Text, ActivityIndicator } from "react-native";
 import { useUpdateUserSettings } from "@/api/user/userMutations";
 import { useGlobalStyles } from "@/styles/globalStyles";

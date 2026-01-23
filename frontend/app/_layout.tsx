@@ -1,18 +1,18 @@
-import { ThemeProvider } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { AuthProvider } from '@/utils/AuthProvider';
-import * as SplashScreen from 'expo-splash-screen';
-import 'react-native-reanimated';
-import '../utils/i18n'
-// import SplashController from './splash';
+import { ThemeProvider } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { AuthProvider } from "@/utils/AuthProvider";
+import * as SplashScreen from "expo-splash-screen";
+import "react-native-reanimated";
+import "../utils/i18n"
+// import SplashController from "./splash";
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { useEffect } from 'react';
-import { ThemeConfigProvider, useThemeConfig } from '@/hooks/useThemeConfig';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useEffect } from "react";
+import { ThemeConfigProvider, useThemeConfig } from "@/hooks/useThemeConfig";
 
 export default function Root() {
 
@@ -31,13 +31,13 @@ export default function Root() {
 function RootLayout() {
   const { theme } = useThemeConfig();
   const [loaded] = useFonts({
-    MontserratBold: require('../assets/fonts/Montserrat-Bold.ttf'),
-    MontserratRegular: require('../assets/fonts/Montserrat-Regular.ttf'),
-    MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
-    PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
-    PoppinsMedium: require('../assets/fonts/Poppins-Medium.ttf'),
-    PoppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
-    PoppinsSemiBold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    MontserratBold: require("../assets/fonts/Montserrat-Bold.ttf"),
+    MontserratRegular: require("../assets/fonts/Montserrat-Regular.ttf"),
+    MontserratSemiBold: require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    PoppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
+    PoppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
+    PoppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
+    PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
   });
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <StatusBar style="auto" />
-          <Stack screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
+          <Stack screenOptions={{ headerBackButtonDisplayMode: "minimal" }}>
             <Stack.Screen
               name="SignIn"
               options={{
