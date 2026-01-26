@@ -37,9 +37,8 @@ export type Challenge = {
 
 export type ChallengeDoneInput = {
   completedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  currentChallenge: Scalars['Boolean']['input'];
-  done: Scalars['Boolean']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
+  repeatable: Scalars['Boolean']['input'];
 };
 
 export type ChallengeInput = {
@@ -203,6 +202,7 @@ export type UserChallenge = {
   done: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
+  repeatable?: Maybe<Scalars['Boolean']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
   user?: Maybe<User>;
 };
@@ -413,6 +413,7 @@ export type UserChallengeResolvers<ContextType = any, ParentType = ResolversPare
   done?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  repeatable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };

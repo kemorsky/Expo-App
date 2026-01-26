@@ -55,6 +55,7 @@ type UserChallenge {
   assignedAt: DateTime
   updatedAt: String
   completedAt: DateTime
+  repeatable: Boolean
 }
 
 input ChallengeInput {
@@ -63,8 +64,7 @@ input ChallengeInput {
 
 input ChallengeDoneInput {
   notes: String
-  done: Boolean!
-  currentChallenge: Boolean!
+  repeatable: Boolean!
   completedAt: DateTime
 }
 

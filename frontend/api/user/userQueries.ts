@@ -23,6 +23,7 @@ export const GET_USER = gql`
         updatedAt
         completedAt
         notes
+        repeatable
       }
       settings {
         language  

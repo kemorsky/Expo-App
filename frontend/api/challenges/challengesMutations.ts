@@ -16,6 +16,7 @@ const PREVIEW_CHALLENGE = gql`
                 title
                 isPredefined
             }
+            repeatable
         }
     }
 `
@@ -39,6 +40,7 @@ const ACCEPT_CHALLENGE = gql`
             createdAt
             assignedAt
             updatedAt
+            repeatable
         }
     }
 `
@@ -58,6 +60,7 @@ const MARK_CHALLENGE_AS_DONE = gql`
             createdAt
             updatedAt
             completedAt
+            repeatable
         }
     }
 `
@@ -74,6 +77,7 @@ const CREATE_CHALLENGE = gql`
             done
             createdAt
             updatedAt
+            repeatable
         }
     }
 `
@@ -165,11 +169,11 @@ export function useMarkChallengeAsDone() {
         }
     });
 
-    const markChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
+    const markChallengeAsDone = async (id: string, notes: string, repeatable: boolean) => {
         const response = await markChallengeAsDoneMutation({
             variables: {
                 markChallengeAsDoneId: id,
-                input: { notes, done, currentChallenge }
+                input: { notes, repeatable }
             }
         })
 

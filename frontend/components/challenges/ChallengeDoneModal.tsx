@@ -8,6 +8,7 @@ import { ThemedText } from "../shared/ThemedText";
 import { ChallengeDoneInput } from "@/__generated__/graphql";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { useTranslation } from "react-i18next";
+import { Checkbox } from 'expo-checkbox';
 
 type ModalProps = {
     openModal: boolean,
@@ -21,7 +22,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const globalStyles = useGlobalStyles();
     const { markChallengeAsDone } = useMarkChallengeAsDone();
 
-    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: "", currentChallenge: true, done: false});
+    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: "", repeatable: false});
 
     if (!user || loading) return <ActivityIndicator />;
 
@@ -29,18 +30,17 @@ export default function ChallengeDoneModal(props: ModalProps) {
 
     const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true);
 
-    const handleMarkChallengeAsDone = async (id: string, notes: string, done: boolean, currentChallenge: boolean) => {
+    const handleMarkChallengeAsDone = async (id: string) => {
         try {
-            const data = await markChallengeAsDone(id, notes, done, currentChallenge);
-            if (data) {
-                setNotes({
-                    notes: data.notes,
-                    done: data.done,
-                    currentChallenge: data.currentChallenge
-                })
-                setOpenModal(!openModal)
-            };
-            setNotes({notes: "", done: false, currentChallenge: false});
+            const data = await markChallengeAsDone(id, notes.notes ?? '', notes.repeatable);
+            if (!data) {
+                return;
+            }
+
+            console.log(data)
+            setNotes({notes: "", repeatable: false});
+            setOpenModal(!openModal)
+
             } catch (error) {
                 throw new Error (`Error marking challenge as done: ${error}`)
             };
@@ -75,7 +75,17 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     value={notes.notes ?? ""}
                     placeholder={t("home.completeChallenge.inputPlaceholder")}
                     placeholderTextColor={"#8b8b8bff"}/>
-                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? "", notes.notes ?? "", currentChallenge?.done === true ? false : true, currentChallenge?.currentChallenge === false ? true : false)}>
+                <View>
+                    <Checkbox
+                        value={notes.repeatable ?? false}
+                        onValueChange={(value) =>
+                            setNotes(prev => ({ ...prev, repeatable: value }))
+                        }
+                        color={notes.repeatable ? '#4630EB' : undefined}
+                    />
+                    <ThemedText>Repeatable?</ThemedText>
+                </View>
+                <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? "")}>
                     <ThemedText>{t("home.completeChallenge.button")}</ThemedText>
                 </Pressable>
             </View>

@@ -56,6 +56,7 @@ const typeDefs = `#graphql
         assignedAt: DateTime
         updatedAt: String
         completedAt: DateTime
+        repeatable: Boolean
     }
 
     input ChallengeInput {
@@ -64,8 +65,7 @@ const typeDefs = `#graphql
 
     input ChallengeDoneInput {
         notes: String
-        done: Boolean!
-        currentChallenge: Boolean!
+        repeatable: Boolean!
         completedAt: DateTime
     }
 

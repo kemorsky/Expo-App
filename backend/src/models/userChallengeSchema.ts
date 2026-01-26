@@ -11,7 +11,8 @@ export type UserChallengeDocument = Document & {
     assignedAt: Date | null;
     createdAt: string;
     updatedAt: string;
-    completedAt: Date | null
+    completedAt: Date | null;
+    repeatable: boolean;
 }
 
 const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
@@ -45,6 +46,10 @@ const userChallengeSchema = new mongoose.Schema<UserChallengeDocument>(
         completedAt: {
             type: Date,
             default: null
+        },
+        repeatable: {
+            type: Boolean,
+            default: false
         }
     }, {
             timestamps: true,

@@ -273,7 +273,8 @@ const resolvers: Resolvers = {
                     },
                     currentChallenge: userChallenge.currentChallenge,
                     done: userChallenge.done,
-                    createdAt: userChallenge.createdAt
+                    createdAt: userChallenge.createdAt,
+                    repeatable: userChallenge.repeatable
                 }
             } catch (error) {
                 if (error instanceof GraphQLError) throw error;
@@ -287,12 +288,21 @@ const resolvers: Resolvers = {
 
             const challenges = await UserChallenge.find({ 
                 user: user._id, 
-                currentChallenge: false, 
-                done: false,
-                $or: [
-                    { assignedAt: { $lt: user.challengeResetDate } },
-                    { assignedAt: null }
-                ]
+                currentChallenge: false,
+                $and: [
+                    {
+                        $or: [
+                            { done: false },
+                            { repeatable: true }
+                        ],
+                    },
+                    {
+                        $or: [
+                            { assignedAt: { $lt: user.challengeResetDate } },
+                            { assignedAt: null }
+                        ],
+                    },
+                ],
             }).populate("challenge");
             
             if (challenges.length === 0) throw gqlError("No challenges available", "NOT_FOUND", 404);
@@ -309,7 +319,8 @@ const resolvers: Resolvers = {
                     isPredefined: challenge.isPredefined
                 },
                 currentChallenge: randomChallenge.currentChallenge,
-                done: randomChallenge.done
+                done: randomChallenge.done,
+                repeatable: randomChallenge.repeatable
             }
         },
         acceptChallenge: async (_, { id }, context) => {
@@ -362,7 +373,8 @@ const resolvers: Resolvers = {
                 },
                 currentChallenge: assignedChallenge.currentChallenge,
                 done: assignedChallenge.done,
-                assignedAt: assignedChallenge.assignedAt
+                assignedAt: assignedChallenge.assignedAt,
+                repeatable: assignedChallenge.repeatable
             }
         },
         markChallengeAsDone: async (_, { id, input }, context) => {
@@ -373,9 +385,10 @@ const resolvers: Resolvers = {
                 const doneChallenge = await UserChallenge.findByIdAndUpdate(
                     id,
                     { notes: input.notes,
-                      done: input.done,
+                      repeatable: input.repeatable,
+                      done: true,
                       completedAt: new Date(),
-                      currentChallenge: input.currentChallenge,
+                      currentChallenge: false,
                       assignedAt: null
                     },
                     { new: true, runValidators: true }
@@ -405,7 +418,8 @@ const resolvers: Resolvers = {
                     assignedAt: doneChallenge.assignedAt,
                     createdAt: doneChallenge.createdAt,
                     updatedAt: doneChallenge.updatedAt,
-                    completedAt: doneChallenge.completedAt
+                    completedAt: doneChallenge.completedAt,
+                    repeatable: doneChallenge.repeatable
                 }
             } catch (error) {
                 if (error instanceof GraphQLError) throw error;
@@ -447,7 +461,8 @@ const resolvers: Resolvers = {
                     currentChallenge: updatedChallenge.currentChallenge,
                     done: updatedChallenge.done,
                     createdAt: updatedChallenge.createdAt,
-                    updatedAt: updatedChallenge.updatedAt
+                    updatedAt: updatedChallenge.updatedAt,
+                    repeatable: updatedChallenge.repeatable
                 }
             } catch (error) {
                 if (error instanceof GraphQLError) throw error;
@@ -508,7 +523,8 @@ const resolvers: Resolvers = {
                         createdAt: ch.createdAt,
                         assignedAt: ch.assignedAt,
                         updatedAt: ch.updatedAt,
-                        completedAt: ch.completedAt
+                        completedAt: ch.completedAt,
+                        repeatable: ch.repeatable
                     }
             });
         },
