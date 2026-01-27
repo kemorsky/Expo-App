@@ -1,7 +1,9 @@
-import { Text, View, SectionList, Pressable } from "react-native";
-import { useGlobalStyles } from "@/styles/globalStyles";
-import { router } from "expo-router";
 import { useContext, useState } from "react";
+import { StyleSheet, Text, View, SectionList, Pressable } from "react-native";
+import { useGlobalStyles } from "@/styles/globalStyles";
+import { formatDate } from "@/utils/formatDate";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
+import { router } from "expo-router";
 import { useMe } from "@/api/user/userQueries";
 import { useTranslation } from "react-i18next";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -13,8 +15,6 @@ import { ThemedText } from "@/components/shared/ThemedText";
 import ChallengesPageSkeleton from "@/components/skeleton/pages/ChallengesPageSkeleton";
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import type { UserChallenge } from "@/__generated__/graphql";
-import { formatDate } from "@/utils/formatDate";
-import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { ChallengeIcon } from "@/components/shared/ChallengeIcon";
 
 export default function Challenges() {
@@ -44,26 +44,26 @@ export default function Challenges() {
 
   const openChallenge = (activeChallenge: UserChallenge) => { // Selected challenge opened in a bottom sheet
       setContent(
-        <View style={{width: "100%", flexDirection: "column", gap: 28}}>
-          <View style={{flexDirection: "column", alignItems: "flex-start", gap: 8}}>
-            <View style={{width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+        <View style={styles.bottomSheetWrapper}>
+          <View style={styles.bottomSheetContainer}>
+            <View style={styles.bottomSheetContent}>
               <ThemedText type="date">
                 {t("tabs.challenges.completedOn")}: {formatDate(activeChallenge.completedAt ?? "")}
               </ThemedText>
               <ChallengeIcon type={activeChallenge.done ? "complete" : "incomplete"} />
             </View>
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+            <View style={styles.bottomSheetContent}>
               <ThemedText style={{ fontSize: 18 }} type="subtitle">
                 {activeChallenge.challenge.title}
               </ThemedText>
             </View>
           </View>
-          <View style={{width: "100%", flexDirection: "column", alignItems: "flex-start", gap: 8}}>
+          <View style={styles.bottomSheetContentText}>
               <ThemedText type="subtitle">
                 {t("tabs.challenges.bottomSheet.notes")}
               </ThemedText>
               {activeChallenge.notes && activeChallenge.notes.length > 0 ? 
-                  <ThemedText style={{ maxWidth: 300}}>
+                  <ThemedText style={{ maxWidth: 300 }}>
                     {activeChallenge.notes}
                   </ThemedText> : 
                   <ThemedText>
@@ -84,7 +84,7 @@ export default function Challenges() {
           <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
             <ThemedText type="subtitle">{t("tabs.challenges.title")}</ThemedText>
             <Pressable aria-label="Create new challenge button" 
-                        style={({pressed}) => [{ opacity: pressed ? 0.7 : 1}, globalStyles.createChallengeButton]}
+                        style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.createChallengeButton]}
                         onPress={() => {router.push("/challenges/create-challenge")}}>
               <MaterialIcons name="add" size={24} color="white" />
               <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
@@ -135,3 +135,28 @@ export default function Challenges() {
     </Wrapper>
   );
 };
+
+const styles = StyleSheet.create({
+    bottomSheetWrapper: {
+        width: "100%", 
+        flexDirection: "column", 
+        gap: 28
+    },
+    bottomSheetContainer: {
+        flexDirection: "column", 
+        alignItems: "flex-start", 
+        gap: 8
+    },
+    bottomSheetContent: {
+        width: "100%", 
+        flexDirection: "row", 
+        alignItems: "center", 
+        justifyContent: "space-between"
+    },
+    bottomSheetContentText: {
+      width: "100%", 
+      flexDirection: "column", 
+      alignItems: "flex-start", 
+      gap: 8
+    }
+})
