@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMe } from "@/hooks/useMe";
 import { formatDate } from "@/utils/formatDate";
-import { View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
+import { StyleSheet, View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useMarkChallengeAsDone } from "@/api/challenges/challengesMutations";
 import { ThemedText } from "../shared/ThemedText";
@@ -75,15 +75,16 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     value={notes.notes ?? ""}
                     placeholder={t("home.completeChallenge.inputPlaceholder")}
                     placeholderTextColor={"#8b8b8bff"}/>
-                <View>
+                <View style={styles.repeatable}>
                     <Checkbox
+                        style={styles.checkbox}
                         value={notes.repeatable ?? false}
                         onValueChange={(value) =>
                             setNotes(prev => ({ ...prev, repeatable: value }))
                         }
                         color={notes.repeatable ? '#4630EB' : undefined}
                     />
-                    <ThemedText>Repeatable?</ThemedText>
+                    <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText>
                 </View>
                 <Pressable aria-label="Mark challenge as done button" style={globalStyles.buttonAction} onPress={() => handleMarkChallengeAsDone(currentChallenge?.id ?? "")}>
                     <ThemedText>{t("home.completeChallenge.button")}</ThemedText>
@@ -92,3 +93,15 @@ export default function ChallengeDoneModal(props: ModalProps) {
         </Modal>
     )
 };
+
+const styles = StyleSheet.create({
+    repeatable: {
+        flexDirection: "row",
+        gap: 8,
+        alignItems: "center"
+    },
+    checkbox: {
+        width: 30,
+        height: 30
+    }
+})

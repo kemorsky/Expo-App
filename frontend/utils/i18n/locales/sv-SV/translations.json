@@ -57,6 +57,7 @@
     "completeChallenge": {
       "title": "Klara Utmaningen",
       "inputPlaceholder": "Lägg till noteringar till utmaningen (ej krav)",
+      "checkboxText": "Gör denna utmaning upprepbar",
       "button": "Markera som klart"
     }
   },

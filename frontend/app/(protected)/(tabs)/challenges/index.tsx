@@ -15,6 +15,7 @@ import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import type { UserChallenge } from "@/__generated__/graphql";
 import { formatDate } from "@/utils/formatDate";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
+import { ChallengeIcon } from "@/components/shared/ChallengeIcon";
 
 export default function Challenges() {
   const { user, loading, error } = useMe();
@@ -49,7 +50,7 @@ export default function Challenges() {
               <ThemedText type="date">
                 {t("tabs.challenges.completedOn")}: {formatDate(activeChallenge.completedAt ?? "")}
               </ThemedText>
-              <MaterialIcons name={activeChallenge.done ? "check-circle-outline" : "remove-circle-outline"} size={24} color="green" />
+              <ChallengeIcon type={activeChallenge.done ? "complete" : "incomplete"} />
             </View>
             <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
               <ThemedText style={{ fontSize: 18 }} type="subtitle">
@@ -90,12 +91,12 @@ export default function Challenges() {
             </Pressable>
           </View>
           <View style={{flexDirection: "column", alignItems: "flex-start", alignSelf: "flex-end", gap: 4}}>
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 2}}>
-              <MaterialIcons name="check-circle-outline" size={22} color="green" />
+            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4}}>
+              <ChallengeIcon type="complete" />
               <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.completed")}</ThemedText>
             </View>
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 2}}>
-              <MaterialIcons name="remove-circle-outline" size={22} color="red" />
+            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4}}>
+              <ChallengeIcon type="incomplete" />
               <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.notCompleted")}</ThemedText>
             </View>
           </View>
@@ -115,7 +116,7 @@ export default function Challenges() {
                         } 
                       }}>
                         <View style={globalStyles.challengeItem}>
-                          <MaterialIcons name={item.done ? "check-circle-outline" : "remove-circle-outline"} size={24} color={item.done ? "green" : "red"} />
+                          <ChallengeIcon type={item.done ? "complete" : "incomplete"} />
                           <ThemedText type="challengeTitle" style={{color: item?.done === false ? "#5a5a5aff" : theme.colors.text }}>
                             {item?.challenge.title}
                           </ThemedText>
