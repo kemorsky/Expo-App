@@ -105,6 +105,7 @@ const typeDefs = `#graphql
         markChallengeAsDone(id: ID!, input: ChallengeDoneInput!): UserChallenge!
         updateChallenge(id: ID!, input: ChallengeInput!): UserChallenge!
         deleteChallenge(id: ID!): Boolean!
+        deleteChallenges(ids: [ID]!): Boolean!
         updateUserSettings(input: SettingsInput!): Settings!
         saveOnboarding(input: OnboardingInput!): User!
         requestPasswordReset(email: String!): Boolean!

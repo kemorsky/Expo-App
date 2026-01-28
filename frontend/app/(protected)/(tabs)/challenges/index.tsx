@@ -16,16 +16,20 @@ import ChallengesPageSkeleton from "@/components/skeleton/pages/ChallengesPageSk
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import type { UserChallenge } from "@/__generated__/graphql";
 import { ChallengeIcon } from "@/components/shared/ChallengeIcon";
+import { useDeleteChallenges } from "@/api/challenges/challengesMutations";
 
 export default function Challenges() {
   const { user, loading, error } = useMe();
+  const { deleteChallenges, error: deleteChallengesError } = useDeleteChallenges();
   const { theme } = useThemeConfig();
   const { t } = useTranslation();
   const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
+  const [ selectedChallenges, setSelectedChallenges ] = useState<UserChallenge[]>([]);
+  const [ deleteMode, setDeleteMode ] = useState(false);
   const { setContent, controller } = useContext(BottomSheetContext);
   const globalStyles = useGlobalStyles();
 
-  if (!user ||loading) return <ChallengesPageSkeleton />;
+  if (!user || loading) return <ChallengesPageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
   
   const defaultChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === true);
@@ -41,6 +45,27 @@ export default function Challenges() {
       data: defaultChallenges ?? []
     }
   ];
+
+  const ids = selectedChallenges.map((challenge) => challenge.id)
+  console.log(ids);
+
+  const handleSelectChallenge = (newSelect: UserChallenge) => {
+    if (!selectedChallenges.some(challenge => challenge.id === newSelect.id)) {
+      setSelectedChallenges([...selectedChallenges, newSelect])
+    }// TODO: Remove the ability to add the same challenge to the array multiple times
+  }
+
+  const handleDeleteChallenges = async (ids: string[]) => {
+    console.log("test")
+    const data = await deleteChallenges(ids);
+    if (!data) {
+      throw deleteChallengesError;
+    }
+    setSelectedChallenges([]);
+    setDeleteMode(false);
+    console.log("successfully deleted challenges")
+    
+  }
 
   const openChallenge = (activeChallenge: UserChallenge) => { // Selected challenge opened in a bottom sheet
       setContent(
@@ -100,6 +125,13 @@ export default function Challenges() {
               <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.notCompleted")}</ThemedText>
             </View>
           </View>
+          {deleteChallengesError && <ThemedText>{deleteChallengesError.message}</ThemedText>}
+          <Pressable onPress={() => setDeleteMode(deleteMode === true ? false : true)}>
+            <ThemedText>Delete Mode</ThemedText>
+          </Pressable>
+          <Pressable onPress={() => handleDeleteChallenges(ids)}>
+            <ThemedText>Delete Test</ThemedText>
+          </Pressable>
           <SectionList 
             sections={DATA}
             keyExtractor={item => item?.id ?? ""}
@@ -113,10 +145,15 @@ export default function Challenges() {
               return <View>
                       <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); if (item.done  === true) {
                           openChallenge(item);
-                        } 
+                        }; handleSelectChallenge(item); console.log(item)
                       }}>
                         <View style={globalStyles.challengeItem}>
                           <ChallengeIcon type={item.done ? "complete" : "incomplete"} />
+                          {deleteMode && 
+                            <Pressable onPress={() => handleSelectChallenge(item)}>
+                              <ChallengeIcon type="remove" />
+                            </Pressable>
+                          }
                           <ThemedText type="challengeTitle" style={{color: item?.done === false ? "#5a5a5aff" : theme.colors.text }}>
                             {item?.challenge.title}
                           </ThemedText>

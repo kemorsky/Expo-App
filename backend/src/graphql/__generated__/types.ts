@@ -56,6 +56,7 @@ export type Mutation = {
   createChallenge: UserChallenge;
   createUser: User;
   deleteChallenge: Scalars['Boolean']['output'];
+  deleteChallenges: Scalars['Boolean']['output'];
   login: AuthPayload;
   markChallengeAsDone: UserChallenge;
   previewChallenge?: Maybe<UserChallenge>;
@@ -85,6 +86,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteChallengeArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteChallengesArgs = {
+  ids: Array<InputMaybe<Scalars['ID']['input']>>;
 };
 
 
@@ -364,6 +370,7 @@ export type MutationResolvers<ContextType = any, ParentType = ResolversParentTyp
   createChallenge?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationCreateChallengeArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteChallenge?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChallengeArgs, 'id'>>;
+  deleteChallenges?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChallengesArgs, 'ids'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   markChallengeAsDone?: Resolver<ResolversTypes['UserChallenge'], ParentType, ContextType, RequireFields<MutationMarkChallengeAsDoneArgs, 'id' | 'input'>>;
   previewChallenge?: Resolver<Maybe<ResolversTypes['UserChallenge']>, ParentType, ContextType>;

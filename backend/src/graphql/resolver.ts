@@ -470,6 +470,25 @@ const resolvers: Resolvers = {
             }
         },
         deleteChallenge: async (_, { id }) => { await UserChallenge.findByIdAndDelete(id); return true },
+        deleteChallenges: async (_, { ids }, context) => { 
+            const user = await User.findById(context.user.id)
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
+
+            if (!ids.length) {
+                throw gqlError("No challenges selected", "BAD_REQUEST", 400);
+            }
+
+            const result = await UserChallenge.deleteMany({
+                _id: { $in: ids },
+                user: user._id
+            }); 
+
+            if (result.deletedCount === 0) {
+                throw gqlError("No challenges were deleted", "NOT_FOUND", 404);
+            }
+            
+            return true 
+        },
         updateUserSettings: async (_, { input }, context) => {
             const user = await User.findById(context.user.id);
             if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);

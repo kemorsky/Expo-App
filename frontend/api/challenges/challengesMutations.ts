@@ -4,7 +4,9 @@ import { MarkChallengeAsDoneMutationVariables, MarkChallengeAsDoneMutation,
         CreateChallengeMutation, CreateChallengeMutationVariables, 
         UserChallenge, 
         PreviewChallengeMutation, PreviewChallengeMutationVariables,
-        AcceptChallengeMutation, AcceptChallengeMutationVariables} from '@/__generated__/graphql'
+        AcceptChallengeMutation, AcceptChallengeMutationVariables,
+        DeleteChallengesMutation,
+        DeleteChallengesMutationVariables} from '@/__generated__/graphql'
 import { GET_USER } from '../user/userQueries'
 
 const PREVIEW_CHALLENGE = gql`
@@ -82,6 +84,12 @@ const CREATE_CHALLENGE = gql`
     }
 `
 
+const DELETE_CHALLENGES = gql`
+    mutation DeleteChallenges($ids: [ID]!) {
+        deleteChallenges(ids: $ids)
+    }
+`
+
 export function usePreviewChallenge() {
     const [previewChallengeMutation, { data, loading, error }] = useMutation<PreviewChallengeMutation, PreviewChallengeMutationVariables>(PREVIEW_CHALLENGE, {
         errorPolicy: "all"
@@ -124,8 +132,7 @@ export function useAcceptChallenge() {
 }
 
 export function useMarkChallengeAsDone() {
-    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE
-        , {
+    const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE, {
         update(cache, { data }) {
             const updated = data?.markChallengeAsDone;
             if (!updated) return;
@@ -200,4 +207,23 @@ export function useCreateChallenge() {
     }
 
     return { createChallenge, data, loading, error }
+}
+
+export function useDeleteChallenges() {
+    const [deleteChallengesMutation, { data, loading, error }] = useMutation<DeleteChallengesMutation, DeleteChallengesMutationVariables>(DELETE_CHALLENGES, {
+        errorPolicy: "all",
+        refetchQueries: ["Me"]
+    });
+
+    const deleteChallenges = async (ids: string[]) => {
+        const response = await deleteChallengesMutation({
+            variables: {
+                ids
+            }
+        })
+
+        return response.data?.deleteChallenges
+    }
+
+    return { deleteChallenges, data, loading, error }
 }
