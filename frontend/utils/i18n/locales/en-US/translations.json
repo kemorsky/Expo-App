@@ -70,6 +70,9 @@
       "createButton": "Create Challenge",
       "completed": "Completed",
       "notCompleted": "Not Completed",
+      "editButton": "Edit",
+      "cancel": "Cancel",
+      "deleteButton": "Delete",
       "headers": {
         "created": "Created Challenges",
         "default": "Default Challenges"

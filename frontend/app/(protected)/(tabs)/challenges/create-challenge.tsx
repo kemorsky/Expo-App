@@ -22,9 +22,10 @@ export default function CreateChallenge() {
     const handleCreateChallenge = async () => {
         const { title } = titleRef.current;
         const data = await createChallenge(title);
-        if (data) {
-            router.push("/challenges");
+        if (!data) {
+            throw error;
         }
+        router.dismissTo("/challenges");
     }
     
     return (

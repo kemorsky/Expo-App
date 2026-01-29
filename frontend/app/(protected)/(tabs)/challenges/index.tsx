@@ -1,5 +1,7 @@
-import { useContext, useState } from "react";
+import * as React from 'react';
+import { useContext, useState, memo } from "react";
 import { StyleSheet, Text, View, SectionList, Pressable } from "react-native";
+import Animated, { Easing, FadeInLeft, FadeOutLeft } from "react-native-reanimated";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { formatDate } from "@/utils/formatDate";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
@@ -46,25 +48,31 @@ export default function Challenges() {
     }
   ];
 
-  const ids = selectedChallenges.map((challenge) => challenge.id)
+  const ids = selectedChallenges.map((challenge) => challenge.id);
   console.log(ids);
 
+  const handleToggleDeleteMode = () => { // toggles mode for mass deletion of challenges
+    setSelectedChallenges([]);
+    setDeleteMode(!deleteMode ? true : false);
+  }
+
   const handleSelectChallenge = (newSelect: UserChallenge) => {
-    if (!selectedChallenges.some(challenge => challenge.id === newSelect.id)) {
-      setSelectedChallenges([...selectedChallenges, newSelect])
-    }// TODO: Remove the ability to add the same challenge to the array multiple times
+    setSelectedChallenges(prevSelectedChallenges => {
+      if (prevSelectedChallenges.some(challenge => challenge.id === newSelect.id)) { // if challenge is clicked on again when array, remove
+        return prevSelectedChallenges.filter(challenge => challenge.id !== newSelect.id)
+      } else {
+        return [...prevSelectedChallenges, newSelect]; // otherwise add
+      }
+    })
   }
 
   const handleDeleteChallenges = async (ids: string[]) => {
-    console.log("test")
     const data = await deleteChallenges(ids);
     if (!data) {
       throw deleteChallengesError;
     }
     setSelectedChallenges([]);
     setDeleteMode(false);
-    console.log("successfully deleted challenges")
-    
   }
 
   const openChallenge = (activeChallenge: UserChallenge) => { // Selected challenge opened in a bottom sheet
@@ -115,6 +123,7 @@ export default function Challenges() {
               <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
             </Pressable>
           </View>
+          
           <View style={{flexDirection: "column", alignItems: "flex-start", alignSelf: "flex-end", gap: 4}}>
             <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4}}>
               <ChallengeIcon type="complete" />
@@ -126,12 +135,26 @@ export default function Challenges() {
             </View>
           </View>
           {deleteChallengesError && <ThemedText>{deleteChallengesError.message}</ThemedText>}
-          <Pressable onPress={() => setDeleteMode(deleteMode === true ? false : true)}>
-            <ThemedText>Delete Mode</ThemedText>
-          </Pressable>
-          <Pressable onPress={() => handleDeleteChallenges(ids)}>
-            <ThemedText>Delete Test</ThemedText>
-          </Pressable>
+
+          <View style={styles.deleteButtonsContainer}>
+            <Pressable aria-label="Delete challenges button" 
+              style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.createChallengeButton, { paddingHorizontal: 12, height: 44, minWidth: 80 }]}
+              onPress={() => handleToggleDeleteMode()}>
+              <ThemedText type="buttonText">{deleteMode ? t("tabs.challenges.cancel") : t("tabs.challenges.editButton")}</ThemedText>
+            </Pressable>
+            {deleteMode && 
+              <Animated.View 
+                entering={ FadeInLeft.duration(100).delay(200).easing(Easing.inOut(Easing.linear))}
+                exiting={FadeOutLeft.duration(100).easing(Easing.inOut(Easing.linear))}>
+                  <Pressable aria-label="Delete challenges button" 
+                    style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.createChallengeButton, { paddingHorizontal: 12, height: 44, width: 80, backgroundColor: theme.colors.card }]}
+                    onPress={() => handleDeleteChallenges(ids)}>
+                    <ThemedText type="buttonText" style={{color: "#ff2c2c", fontFamily: "PoppinsSemiBold"}}>{t("tabs.challenges.deleteButton")}</ThemedText>
+                  </Pressable>
+              </Animated.View>
+            }
+          </View>
+
           <SectionList 
             sections={DATA}
             keyExtractor={item => item?.id ?? ""}
@@ -143,28 +166,28 @@ export default function Challenges() {
                 return null; // fallback check in case item is null or something unintended
               }
               return <View>
-                      <Pressable style={globalStyles.challenge} onPress={() => { setActiveChallenge(item); if (item.done  === true) {
-                          openChallenge(item);
-                        }; handleSelectChallenge(item); console.log(item)
-                      }}>
+                      <Pressable style={[{ backgroundColor: ids.includes(item.id) ? theme.colors.background : "" }, globalStyles.challenge]} 
+                                onPress={() => { 
+                                  setActiveChallenge(item); if (item.done === true && !deleteMode) {
+                                    openChallenge(item)
+                                  }; 
+                                  {deleteMode && handleSelectChallenge(item)}
+                                }}
+                      >
                         <View style={globalStyles.challengeItem}>
                           <ChallengeIcon type={item.done ? "complete" : "incomplete"} />
-                          {deleteMode && 
-                            <Pressable onPress={() => handleSelectChallenge(item)}>
-                              <ChallengeIcon type="remove" />
-                            </Pressable>
-                          }
                           <ThemedText type="challengeTitle" style={{color: item?.done === false ? "#5a5a5aff" : theme.colors.text }}>
                             {item?.challenge.title}
                           </ThemedText>
-                        </View>  
-                        {item?.done === true ?       
-                          <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null }
+                        </View>
+                        {deleteMode && <ChallengeIcon type="remove" />}
+                        {/* {item?.done === true ?       
+                          <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null } */}
                       </Pressable>
                     </View>
             }}
-            renderSectionHeader={({section: {title}}) => (
-              <ThemedText style={{paddingVertical: 14, fontFamily: "PoppinsMedium"}}>{title}</ThemedText>
+            renderSectionHeader={({ section: {title} }) => (
+              <ThemedText style={{paddingVertical: 14, paddingHorizontal: 8, fontFamily: "PoppinsMedium"}}>{title}</ThemedText>
             )}
           />
         </View>
@@ -195,5 +218,10 @@ const styles = StyleSheet.create({
       flexDirection: "column", 
       alignItems: "flex-start", 
       gap: 8
+    },
+    deleteButtonsContainer: {
+      flexDirection: "row",
+      gap: 8,
+      marginBottom: 8
     }
 })

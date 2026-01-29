@@ -233,7 +233,7 @@ export const useGlobalStyles = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingVertical: 8,
+            padding: 8,
         },
         challengeItem: {
             flexDirection: "row",
@@ -243,7 +243,6 @@ export const useGlobalStyles = () => {
         },
         challengesSectionList: {
             backgroundColor: theme.colors.card,
-            paddingHorizontal: 8,
             flexDirection: "column",
             borderRadius: 8,
         },
