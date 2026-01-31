@@ -78,6 +78,7 @@
         "default": "Standard Utmaningar"
       },
       "completedOn": "Klart den",
+      "notYetCompleted": "Ej klar än",
       "bottomSheet": {
         "notes": "Noteringar",
         "noNotes": "Du har inte sätt till noteringar till denna utmaning."

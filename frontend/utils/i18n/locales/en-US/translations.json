@@ -78,6 +78,7 @@
         "default": "Default Challenges"
       },
       "completedOn": "Completed On",
+      "notYetCompleted": "Not yet completed",
       "bottomSheet": {
         "notes": "Notes",
         "noNotes": "You haven't added notes to this challenge."

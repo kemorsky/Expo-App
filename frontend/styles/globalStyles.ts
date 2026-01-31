@@ -68,6 +68,15 @@ export const useGlobalStyles = () => {
             backgroundColor: theme.colors.primary,
             pointerEvents: "auto"
         },
+        repeatable: {
+            flexDirection: "row",
+            gap: 8,
+            alignItems: "center"
+        },
+        checkbox: {
+            width: 30,
+            height: 30
+        },
 
         // onboarding
 
@@ -205,7 +214,6 @@ export const useGlobalStyles = () => {
         modalTitle: {
             gap: 6
         },
-
 
         // challenges
 

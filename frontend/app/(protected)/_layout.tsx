@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { ThemeProvider } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Redirect, Stack } from "expo-router";
@@ -7,19 +7,15 @@ import "react-native-reanimated";
 import { useAuth } from "@/utils/AuthContext";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { BottomSheet, BottomSheetController } from "@/components/shared/BottomSheet";
-
-export const BottomSheetContext = createContext({ // determines the content of the bottom sheet
-    setContent: (_: React.ReactNode) => {},
-    controller: null as BottomSheetController | null,
-});
+import { BottomSheetContent } from "../../components/shared/BottomSheetContent";
+import { BottomSheetContext, BottomSheetState } from "@/utils/BottomSheetContext";
 
 export default function ProtectedLayout() {
   const { theme } = useThemeConfig();
   const { user } = useAuth();
 
   const [ sheetController, setSheetController ] = useState<BottomSheetController | null>(null); // gesture and behavior controller
-
-  const [ sheetContent, setSheetContent ] = useState<React.ReactNode>(null); // determines the content of the bottom sheet
+  const [sheetState, setSheetState] = useState<BottomSheetState>({ challenge: null });
   
   if (!user?.token && !user?.refreshToken) {
     return <Redirect href="/SignIn" />;
@@ -27,16 +23,18 @@ export default function ProtectedLayout() {
 
   return (
     <ThemeProvider value={theme}>
-      <BottomSheetContext.Provider  value={{
-                                        setContent: setSheetContent,
-                                        controller: sheetController}}
-      >
+      <BottomSheetContext.Provider  
+        value={{
+        state: sheetState,
+        setState: setSheetState,
+        controller: sheetController
+      }}>
         <SafeAreaProvider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
           <BottomSheet controller={setSheetController}>
-            {sheetContent}
+            <BottomSheetContent/>
           </BottomSheet>
           <StatusBar style="auto" />
         </SafeAreaProvider>

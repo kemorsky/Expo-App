@@ -6,7 +6,9 @@ import { MarkChallengeAsDoneMutationVariables, MarkChallengeAsDoneMutation,
         PreviewChallengeMutation, PreviewChallengeMutationVariables,
         AcceptChallengeMutation, AcceptChallengeMutationVariables,
         DeleteChallengesMutation,
-        DeleteChallengesMutationVariables} from '@/__generated__/graphql'
+        DeleteChallengesMutationVariables,
+        DeleteChallengeMutation,
+        DeleteChallengeMutationVariables} from '@/__generated__/graphql'
 import { GET_USER } from '../user/userQueries'
 
 const PREVIEW_CHALLENGE = gql`
@@ -81,6 +83,12 @@ const CREATE_CHALLENGE = gql`
             updatedAt
             repeatable
         }
+    }
+`
+
+const DELETE_CHALLENGE = gql`
+    mutation DeleteChallenge($deleteChallengeId: ID!) {
+        deleteChallenge(id: $deleteChallengeId)
     }
 `
 
@@ -207,6 +215,25 @@ export function useCreateChallenge() {
     }
 
     return { createChallenge, data, loading, error }
+}
+
+export function useDeleteChallenge() {
+    const [deleteChallengeMutation, { data, loading, error }] = useMutation<DeleteChallengeMutation, DeleteChallengeMutationVariables>(DELETE_CHALLENGE, {
+        errorPolicy: "all",
+        refetchQueries: ["Me"]
+    });
+
+    const deleteChallenge = async (id: string) => {
+        const response = await deleteChallengeMutation({
+            variables: {
+                deleteChallengeId: id
+            }
+        })
+
+        return response.data?.deleteChallenge
+    }
+
+    return { deleteChallenge, data, loading, error }
 }
 
 export function useDeleteChallenges() {

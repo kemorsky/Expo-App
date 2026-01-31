@@ -1,16 +1,14 @@
 import * as React from 'react';
-import { useContext, useState, memo } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, View, SectionList, Pressable } from "react-native";
 import Animated, { Easing, FadeInLeft, FadeOutLeft } from "react-native-reanimated";
 import { useGlobalStyles } from "@/styles/globalStyles";
-import { formatDate } from "@/utils/formatDate";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { router } from "expo-router";
 import { useMe } from "@/api/user/userQueries";
 import { useTranslation } from "react-i18next";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Feather from "@expo/vector-icons/Feather";
-import { BottomSheetContext } from "../../_layout";
+import { BottomSheetContext } from '@/utils/BottomSheetContext';
 import { Wrapper } from "@/components/shared/Wrapper";
 import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/shared/ThemedText";
@@ -18,22 +16,23 @@ import ChallengesPageSkeleton from "@/components/skeleton/pages/ChallengesPageSk
 import { HorizontalRule } from "@/components/shared/HorizontalRule";
 import type { UserChallenge } from "@/__generated__/graphql";
 import { ChallengeIcon } from "@/components/shared/ChallengeIcon";
-import { useDeleteChallenges } from "@/api/challenges/challengesMutations";
+import { useDeleteChallenges, useDeleteChallenge } from "@/api/challenges/challengesMutations";
 
 export default function Challenges() {
   const { user, loading, error } = useMe();
   const { deleteChallenges, error: deleteChallengesError } = useDeleteChallenges();
+  const { deleteChallenge, error: deleteChallengeError } = useDeleteChallenge();
   const { theme } = useThemeConfig();
   const { t } = useTranslation();
-  const [ activeChallenge, setActiveChallenge ] = useState<UserChallenge | null>(null);
   const [ selectedChallenges, setSelectedChallenges ] = useState<UserChallenge[]>([]);
+
   const [ deleteMode, setDeleteMode ] = useState(false);
-  const { setContent, controller } = useContext(BottomSheetContext);
+  const { setState, controller } = useContext(BottomSheetContext);
   const globalStyles = useGlobalStyles();
 
   if (!user || loading) return <ChallengesPageSkeleton />;
   if (error) return <Text>Error: {error.message}</Text>;
-  
+
   const defaultChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === true);
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false);
 
@@ -49,7 +48,6 @@ export default function Challenges() {
   ];
 
   const ids = selectedChallenges.map((challenge) => challenge.id);
-  console.log(ids);
 
   const handleToggleDeleteMode = () => { // toggles mode for mass deletion of challenges
     setSelectedChallenges([]);
@@ -66,6 +64,13 @@ export default function Challenges() {
     })
   }
 
+  const handleDeleteChallenge = async (id: string) => {
+    const data = await deleteChallenge(id);
+    if (!data) {
+      throw deleteChallengeError;
+    }
+  }
+
   const handleDeleteChallenges = async (ids: string[]) => {
     const data = await deleteChallenges(ids);
     if (!data) {
@@ -75,44 +80,14 @@ export default function Challenges() {
     setDeleteMode(false);
   }
 
-  const openChallenge = (activeChallenge: UserChallenge) => { // Selected challenge opened in a bottom sheet
-      setContent(
-        <View style={styles.bottomSheetWrapper}>
-          <View style={styles.bottomSheetContainer}>
-            <View style={styles.bottomSheetContent}>
-              <ThemedText type="date">
-                {t("tabs.challenges.completedOn")}: {formatDate(activeChallenge.completedAt ?? "")}
-              </ThemedText>
-              <ChallengeIcon type={activeChallenge.done ? "complete" : "incomplete"} />
-            </View>
-            <View style={styles.bottomSheetContent}>
-              <ThemedText style={{ fontSize: 18 }} type="subtitle">
-                {activeChallenge.challenge.title}
-              </ThemedText>
-            </View>
-          </View>
-          <View style={styles.bottomSheetContentText}>
-              <ThemedText type="subtitle">
-                {t("tabs.challenges.bottomSheet.notes")}
-              </ThemedText>
-              {activeChallenge.notes && activeChallenge.notes.length > 0 ? 
-                  <ThemedText style={{ maxWidth: 300 }}>
-                    {activeChallenge.notes}
-                  </ThemedText> : 
-                  <ThemedText>
-                    {t("tabs.challenges.bottomSheet.noNotes")}
-                  </ThemedText>
-              }
-            </View>
-        </View>
-      );
-
+  const openChallenge = (challenge: UserChallenge) => {
+    setState({ challenge });
     controller?.open();
   };
 
   return (
     <Wrapper>
-      <Container>  
+      <Container>
         <View style={globalStyles.challengesContainer}>
           <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
             <ThemedText type="subtitle">{t("tabs.challenges.title")}</ThemedText>
@@ -166,24 +141,23 @@ export default function Challenges() {
                 return null; // fallback check in case item is null or something unintended
               }
               return <View>
-                      <Pressable style={[{ backgroundColor: ids.includes(item.id) ? theme.colors.background : "" }, globalStyles.challenge]} 
-                                onPress={() => { 
-                                  setActiveChallenge(item); if (item.done === true && !deleteMode) {
-                                    openChallenge(item)
-                                  }; 
-                                  {deleteMode && handleSelectChallenge(item)}
-                                }}
-                      >
-                        <View style={globalStyles.challengeItem}>
-                          <ChallengeIcon type={item.done ? "complete" : "incomplete"} />
-                          <ThemedText type="challengeTitle" style={{color: item?.done === false ? "#5a5a5aff" : theme.colors.text }}>
-                            {item?.challenge.title}
-                          </ThemedText>
-                        </View>
-                        {deleteMode && <ChallengeIcon type="remove" />}
-                        {/* {item?.done === true ?       
-                          <Feather name="arrow-right" size={16} color={theme.colors.text} /> : null } */}
-                      </Pressable>
+                        <Pressable style={[{ backgroundColor: ids.includes(item.id) ? theme.colors.background : "" }, globalStyles.challenge]} 
+                                  onPress={() => { 
+                                    if (!deleteMode) {
+                                      openChallenge(item)
+                                    }; 
+                                    {deleteMode && handleSelectChallenge(item)}
+                                  }}>
+                          <View style={globalStyles.challengeItem}>
+                            <ChallengeIcon type={item.done ? "complete" : "incomplete"} />
+                            <ThemedText type="challengeTitle" style={{color: item?.done === false ? "#5a5a5aff" : theme.colors.text }}>
+                              {item?.challenge.title}
+                            </ThemedText>
+                          </View>
+                          {deleteMode && <Pressable onPress={() => handleDeleteChallenge(item.id)} >
+                                            <ChallengeIcon type="remove" />
+                                          </Pressable>}
+                        </Pressable>
                     </View>
             }}
             renderSectionHeader={({ section: {title} }) => (
@@ -197,28 +171,6 @@ export default function Challenges() {
 };
 
 const styles = StyleSheet.create({
-    bottomSheetWrapper: {
-        width: "100%", 
-        flexDirection: "column", 
-        gap: 28
-    },
-    bottomSheetContainer: {
-        flexDirection: "column", 
-        alignItems: "flex-start", 
-        gap: 8
-    },
-    bottomSheetContent: {
-        width: "100%", 
-        flexDirection: "row", 
-        alignItems: "center", 
-        justifyContent: "space-between"
-    },
-    bottomSheetContentText: {
-      width: "100%", 
-      flexDirection: "column", 
-      alignItems: "flex-start", 
-      gap: 8
-    },
     deleteButtonsContainer: {
       flexDirection: "row",
       gap: 8,

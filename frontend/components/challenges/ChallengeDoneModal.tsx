@@ -75,9 +75,9 @@ export default function ChallengeDoneModal(props: ModalProps) {
                     value={notes.notes ?? ""}
                     placeholder={t("home.completeChallenge.inputPlaceholder")}
                     placeholderTextColor={"#8b8b8bff"}/>
-                <View style={styles.repeatable}>
+                <View style={globalStyles.repeatable}>
                     <Checkbox
-                        style={styles.checkbox}
+                        style={globalStyles.checkbox}
                         value={notes.repeatable ?? false}
                         onValueChange={(value) =>
                             setNotes(prev => ({ ...prev, repeatable: value }))
@@ -93,15 +93,3 @@ export default function ChallengeDoneModal(props: ModalProps) {
         </Modal>
     )
 };
-
-const styles = StyleSheet.create({
-    repeatable: {
-        flexDirection: "row",
-        gap: 8,
-        alignItems: "center"
-    },
-    checkbox: {
-        width: 30,
-        height: 30
-    }
-})

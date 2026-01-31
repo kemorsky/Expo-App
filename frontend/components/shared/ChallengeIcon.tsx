@@ -1,4 +1,4 @@
-import { StyleSheet, type ViewProps } from "react-native";
+import { StyleSheet, type ViewProps} from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { Easing, SlideInRight, SlideOutRight } from "react-native-reanimated";
 
@@ -9,7 +9,6 @@ export type ChallengeIconType = ViewProps & {
 export function ChallengeIcon({
     style,
     type="incomplete",
-    ...rest
 }: ChallengeIconType) {
 
     return (
@@ -24,8 +23,7 @@ export function ChallengeIcon({
             : undefined}
         exiting={ type === "remove" ?
             SlideOutRight.duration(300).easing(Easing.inOut(Easing.linear))
-            : undefined}
-        {...rest}>
+            : undefined}>
             {type === "incomplete" && null}
             {type === "complete" ? <Ionicons name="checkmark" size={22} color="green" /> : null}
             {type === "remove" ? <Ionicons name="remove" size={16} color="white" />

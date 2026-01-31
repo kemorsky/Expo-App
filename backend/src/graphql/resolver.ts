@@ -469,7 +469,21 @@ const resolvers: Resolvers = {
                 throw gqlError("Error updating challenge", "BAD_REQUEST", 400);
             }
         },
-        deleteChallenge: async (_, { id }) => { await UserChallenge.findByIdAndDelete(id); return true },
+        deleteChallenge: async (_, { id }, context) => { 
+            const user = await User.findById(context.user.id)
+            if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
+
+            const result = await UserChallenge.findOneAndDelete({
+                _id: id,
+                user: user._id
+            }); 
+
+            if (!result) {
+                throw gqlError("Not authorized or challenge not found", "NOT_FOUND", 404);
+            };
+            
+            return true;
+        },
         deleteChallenges: async (_, { ids }, context) => { 
             const user = await User.findById(context.user.id)
             if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
