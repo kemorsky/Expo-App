@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, SectionList, Pressable } from "react-native";
 import Animated, { Easing, FadeInLeft, FadeOutLeft } from "react-native-reanimated";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
-import { router } from "expo-router";
 import { useMe } from "@/api/user/userQueries";
 import { useTranslation } from "react-i18next";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -81,7 +80,12 @@ export default function Challenges() {
   }
 
   const openChallenge = (challenge: UserChallenge) => {
-    setState({ challenge });
+    setState({ mode: "viewChallenge", challenge });
+    controller?.open();
+  };
+
+  const createChallenge = () => {
+    setState({ mode: "createChallenge", challenge: null });
     controller?.open();
   };
 
@@ -93,7 +97,7 @@ export default function Challenges() {
             <ThemedText type="subtitle">{t("tabs.challenges.title")}</ThemedText>
             <Pressable aria-label="Create new challenge button" 
                         style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.createChallengeButton]}
-                        onPress={() => {router.push("/challenges/create-challenge")}}>
+                        onPress={() => {createChallenge()}}>
               <MaterialIcons name="add" size={24} color="white" />
               <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
             </Pressable>

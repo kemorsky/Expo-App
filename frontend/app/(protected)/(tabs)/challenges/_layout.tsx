@@ -17,7 +17,6 @@ export default function ChallengesLayout() {
     <SafeAreaProvider>
       <Stack screenOptions={{ headerBackButtonDisplayMode: "minimal" }}>
         <Stack.Screen name="index" options={{ title: t("tabs.tabChallenges") }} />
-        <Stack.Screen name="create-challenge" options={{ title: t("tabs.challenges.createButton") }} />
       </Stack>
       <StatusBar style="auto" />
     </SafeAreaProvider>

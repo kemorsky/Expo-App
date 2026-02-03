@@ -22,12 +22,12 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
 
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const context = useSharedValue({ y: 0 });
+    
     const isSheetActive = useSharedValue(false);
     const headerHeight = useHeaderHeight();
-    const bgColor = useSharedValue(theme.colors.card);
-
-    const openTo = useSharedValue(headerHeight + 180);
-    const closed = useSharedValue(SCREEN_HEIGHT);
+    const TOP_OFFSET = headerHeight + 180;
+    const openTo = TOP_OFFSET;
+    const closed = SCREEN_HEIGHT; 
 
     useEffect(() => {
         if (!controller) return;
@@ -35,11 +35,11 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
         const api: BottomSheetController = {
             open: () => {
                 isSheetActive.value = true; 
-                translateY.value = withTiming(openTo.value, { duration: 300 });
+                translateY.value = withTiming(openTo, { duration: 300 });
             },
             close: () => {
                 isSheetActive.value = false;
-                translateY.value = withTiming(closed.value, { duration: 300 });
+                translateY.value = withTiming(closed, { duration: 300 });
             }
         };
 
@@ -54,39 +54,38 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
             const next = context.value.y + evt.translationY;
 
             translateY.value = Math.min(
-                closed.value,
-                Math.max(next, openTo.value)
+                closed,
+                Math.max(next, openTo)
             );
         })
         .onEnd(() => {
             const current = translateY.value;
 
             // if too low, close instead of snapping
-            const closeThreshold = (closed.value + openTo.value) / 2;
+            const closeThreshold = (closed + openTo) / 2;
             if (current > closeThreshold) {
                 isSheetActive.value = false;
-                translateY.value = withTiming(closed.value, { duration: 300 });
+                translateY.value = withTiming(closed, { duration: 300 });
             } else {
                 isSheetActive.value = true;
-                translateY.value = withTiming(openTo.value, { duration: 300 });
+                translateY.value = withTiming(openTo, { duration: 300 });
             }
         });
 
     const animatedStyle = useAnimatedStyle(() => {
         const borderRadius = interpolate(
             translateY.value,
-            [openTo.value, closed.value],
+            [openTo, closed],
             [25, 5],
             Extrapolation.CLAMP
         );
 
         return {
-            backgroundColor: bgColor.value,
             transform: [{ translateY: translateY.value }],
             borderRadius,
-            opacity: translateY.value === closed.value ? 0 : 1, // <-- hides it completely, display: none caused issue with touch registration
+            opacity: translateY.value === closed ? 0 : 1, // <-- hides it completely, display: none caused issue with touch registration
         };
-    }, [openTo.value, closed.value]);
+    }, [openTo, closed]);
 
     const animatedBackdropStyle = useAnimatedStyle(() => ({
         opacity: withTiming(isSheetActive?.value ? 1 : 0, { duration: 300 }),
@@ -100,7 +99,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
             </GestureDetector>
             {/* BottomSheet */}
             <GestureDetector gesture={gesture}>
-                <Animated.View style={[ styles.bottomSheet, animatedStyle ]}>
+                <Animated.View style={[ styles.bottomSheet, { backgroundColor: theme.colors.card }, animatedStyle ]}>
                     <View style={styles.handle} />
                     <View style={styles.content}>
                         {children}
@@ -126,6 +125,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         right: 0,
+        paddingTop: 12,
         zIndex: 1000
     },
     content: {

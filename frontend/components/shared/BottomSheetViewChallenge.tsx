@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { useDeleteChallenge } from "@/api/challenges/challengesMutations";
 
-export const BottomSheetContent = () => {
+export const BottomSheetViewChallenge = () => {
   const { controller, state } = useContext(BottomSheetContext);
   const { deleteChallenge, error: deleteChallengeError } = useDeleteChallenge();
   const { theme } = useThemeConfig();
