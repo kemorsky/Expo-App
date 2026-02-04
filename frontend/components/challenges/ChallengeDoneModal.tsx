@@ -21,29 +21,20 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const { markChallengeAsDone, error } = useMarkChallengeAsDone();
-
-    const [notes, setNotes] = useState<ChallengeDoneInput>({notes: "", repeatable: false});
+    const [notes, setNotes] = useState<ChallengeDoneInput>({ notes: "", repeatable: false });
 
     if (!user || loading) return <ActivityIndicator />;
 
     const date = new Date();
-
     const currentChallenge = user.challenges?.find((challenge) => challenge?.currentChallenge === true);
 
     const handleMarkChallengeAsDone = async (id: string) => {
-        try {
-            const data = await markChallengeAsDone(id, notes.notes ?? '', notes.repeatable);
-            if (!data) {
-                throw error;
-            }
-
-            console.log(data)
-            setNotes({notes: "", repeatable: false});
-            setOpenModal(!openModal)
-
-            } catch (error) {
-                throw new Error (`Error marking challenge as done: ${error}`)
-            };
+        const data = await markChallengeAsDone(id, notes.notes ?? '', notes.repeatable);
+        if (!data) {
+            throw error;
+        }
+        setNotes({ notes: "", repeatable: false });
+        setOpenModal(!openModal)
     };
 
     return (

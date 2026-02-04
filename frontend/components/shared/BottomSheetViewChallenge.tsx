@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable, TextInput } from "react-native";
+import { StyleSheet, View, Pressable, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { ThemedText } from "@/components/shared/ThemedText";
 import { useContext, useState, useRef } from "react";
 import { formatDate } from "@/utils/formatDate";
@@ -59,110 +59,112 @@ export const BottomSheetViewChallenge = () => {
   }
 
   return (
-    <View style={styles.bottomSheetWrapper}>
-      <View style={styles.bottomSheetContainer}>
-        <Pressable style={styles.buttonClose} onPress={() => closeSheet()}>
-          <AntDesign name="close" size={24} color={theme.colors.text} />
-        </Pressable>
-        <View style={styles.bottomSheetContent}>
-          {state.challenge.done ? 
-            <ThemedText type="date">
-              {t("tabs.challenges.completedOn")}: {formatDate(state.challenge.completedAt ?? "")}
-            </ThemedText> : 
-            <ThemedText type="date">
-              {t("tabs.challenges.notYetCompleted")}
-            </ThemedText>
-          }
-          <View style={{ flexDirection: "row", gap: 8, }}>
-            <ChallengeIcon type={state.challenge.done ? "complete" : "incomplete"}/>
-            {state.challenge.repeatable && <ChallengeIcon type="repeatable" />}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.bottomSheetWrapper}>
+        <View style={styles.bottomSheetContainer}>
+          <Pressable style={styles.buttonClose} onPress={() => closeSheet()}>
+            <AntDesign name="close" size={24} color={theme.colors.text} />
+          </Pressable>
+          <View style={styles.bottomSheetContent}>
+            {state.challenge.done ? 
+              <ThemedText type="date">
+                {t("tabs.challenges.completedOn")}: {formatDate(state.challenge.completedAt ?? "")}
+              </ThemedText> : 
+              <ThemedText type="date">
+                {t("tabs.challenges.notYetCompleted")}
+              </ThemedText>
+            }
+            <View style={{ flexDirection: "row", gap: 8, }}>
+              <ChallengeIcon type={state.challenge.done ? "complete" : "incomplete"}/>
+              {state.challenge.repeatable && <ChallengeIcon type="repeatable" />}
+            </View>
+            
           </View>
-          
+          <View style={styles.bottomSheetContent}>
+            {!edit ?   
+              <ThemedText style={{ fontSize: 18 }} type="subtitle">
+                {state.challenge.challenge.title}
+              </ThemedText>
+              : 
+              <TextInput
+                aria-label="Edit challenge title input field"
+                placeholder={t("tabs.challenges.createChallenge.title")}
+                placeholderTextColor={"#8b8b8bff"}
+                defaultValue={state.challenge.challenge.title}
+                style={globalStyles.input}
+                onChangeText={(title) => {
+                    updateRef.current.title = title;
+                }}
+                autoCapitalize="none"
+              />
+            }
+          </View>
         </View>
-        <View style={styles.bottomSheetContent}>
-          {!edit ?   
-            <ThemedText style={{ fontSize: 18 }} type="subtitle">
-              {state.challenge.challenge.title}
-            </ThemedText>
-            : 
+        <View style={styles.bottomSheetContentText}>
+          <ThemedText type="subtitle">
+            {t("tabs.challenges.bottomSheet.notes")}
+          </ThemedText>
+          {!edit ? 
+              <ThemedText style={{ maxWidth: 300 }}>
+              {state.challenge.notes && state.challenge.notes.length > 0 ?
+                state.challenge.notes : t("tabs.challenges.bottomSheet.noNotes")
+              }
+              </ThemedText> 
+          :
             <TextInput
-              aria-label="Edit challenge title input field"
-              placeholder={t("tabs.challenges.createChallenge.title")}
+              aria-label="Edit challenge notes input field"
+              placeholder={t("tabs.challenges.bottomSheet.notes")}
               placeholderTextColor={"#8b8b8bff"}
-              defaultValue={state.challenge.challenge.title}
-              style={globalStyles.input}
-              onChangeText={(title) => {
-                  updateRef.current.title = title;
+              defaultValue={state.challenge.notes ?? ""}
+              style={[globalStyles.input, {height: 150, }]}
+              onChangeText={(notes) => {
+                  updateRef.current.notes = notes;
               }}
+              multiline
+              editable
               autoCapitalize="none"
             />
           }
+          <View style={[globalStyles.repeatable, { marginTop: 8 }]}>
+            {edit && <>
+              <Checkbox
+                style={globalStyles.checkbox}
+                value={checkbox}
+                onValueChange={setCheckbox}
+                color={checkbox ? '#4630EB' : undefined}
+            />
+            <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText> 
+            </>}
+          </View>
+        </View>
+        <View style={styles.bottomSheetButtonsContainer}>
+          {!edit ? 
+            <>
+              <Pressable style={styles.bottomSheetEditButton} onPress={() => {setEdit(true); initUpdateRef();}}>
+                <ThemedText>Edit</ThemedText>
+              </Pressable>
+            </> :
+            <View style={styles.editButtons}>
+              <Pressable onPress={() => setEdit(!edit)}>
+                <ThemedText>Cancel</ThemedText>
+              </Pressable>
+              <Pressable onPress={() => handleEditChallenge(state.challenge?.id ?? "")}>
+                <ThemedText>Save</ThemedText>
+              </Pressable>
+            </View> 
+          }
+        
+          {!edit && 
+            <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, styles.bottomSheetDeleteButton, { backgroundColor: theme.colors.background }]} 
+                        onPress={() => handleDeleteChallenge(state.challenge?.id ?? "")}>
+              <ThemedText type="buttonText" style={{color: "#ff2c2c", fontFamily: "PoppinsSemiBold"}}>
+                {t("tabs.challenges.deleteButton")}
+              </ThemedText>
+            </Pressable>
+          }
         </View>
       </View>
-      <View style={styles.bottomSheetContentText}>
-        <ThemedText type="subtitle">
-          {t("tabs.challenges.bottomSheet.notes")}
-        </ThemedText>
-        {!edit ? 
-            <ThemedText style={{ maxWidth: 300 }}>
-            {state.challenge.notes && state.challenge.notes.length > 0 ?
-              state.challenge.notes : t("tabs.challenges.bottomSheet.noNotes")
-            }
-            </ThemedText> 
-        :
-          <TextInput
-            aria-label="Edit challenge notes input field"
-            placeholder={t("tabs.challenges.bottomSheet.notes")}
-            placeholderTextColor={"#8b8b8bff"}
-            defaultValue={state.challenge.notes ?? ""}
-            style={[globalStyles.input, {height: 150, }]}
-            onChangeText={(notes) => {
-                updateRef.current.notes = notes;
-            }}
-            multiline
-            editable
-            autoCapitalize="none"
-          />
-        }
-        <View style={[globalStyles.repeatable, { marginTop: 8 }]}>
-          {edit && <>
-            <Checkbox
-              style={globalStyles.checkbox}
-              value={checkbox}
-              onValueChange={setCheckbox}
-              color={checkbox ? '#4630EB' : undefined}
-          />
-          <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText> 
-          </>}
-        </View>
-      </View>
-      <View style={styles.bottomSheetButtonsContainer}>
-        {!edit ? 
-          <>
-            <Pressable style={styles.bottomSheetEditButton} onPress={() => {setEdit(true); initUpdateRef();}}>
-              <ThemedText>Edit</ThemedText>
-            </Pressable>
-          </> :
-          <View style={styles.editButtons}>
-            <Pressable onPress={() => setEdit(!edit)}>
-              <ThemedText>Cancel</ThemedText>
-            </Pressable>
-            <Pressable onPress={() => handleEditChallenge(state.challenge?.id ?? "")}>
-              <ThemedText>Save</ThemedText>
-            </Pressable>
-          </View> 
-        }
-      
-        {!edit && 
-          <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, styles.bottomSheetDeleteButton, { backgroundColor: theme.colors.background }]} 
-                      onPress={() => handleDeleteChallenge(state.challenge?.id ?? "")}>
-            <ThemedText type="buttonText" style={{color: "#ff2c2c", fontFamily: "PoppinsSemiBold"}}>
-              {t("tabs.challenges.deleteButton")}
-            </ThemedText>
-          </Pressable>
-        }
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
