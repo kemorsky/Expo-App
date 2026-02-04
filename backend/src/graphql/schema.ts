@@ -60,7 +60,9 @@ const typeDefs = `#graphql
     }
 
     input ChallengeInput {
-        title: String!
+        title: String
+        notes: String
+        repeatable: Boolean
     }
 
     input ChallengeDoneInput {

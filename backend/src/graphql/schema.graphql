@@ -59,7 +59,9 @@ type UserChallenge {
 }
 
 input ChallengeInput {
-  title: String!
+  title: String
+  notes: String
+  repeatable: Boolean
 }
 
 input ChallengeDoneInput {

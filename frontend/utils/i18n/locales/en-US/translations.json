@@ -70,6 +70,7 @@
       "createButton": "Create Challenge",
       "completed": "Completed",
       "notCompleted": "Not Completed",
+      "repeatable": "Repeatable",
       "editButton": "Edit",
       "cancel": "Cancel",
       "deleteButton": "Delete",

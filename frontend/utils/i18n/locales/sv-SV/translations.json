@@ -70,6 +70,7 @@
       "createButton": "Skapa Utmaning",
       "completed": "Klarade",
       "notCompleted": "Ej klarade",
+      "repeatable": "Upprepbar",
       "editButton": "Redigera",
       "cancel": "Avbryt",
       "deleteButton": "Ta bort",

@@ -8,7 +8,9 @@ import { MarkChallengeAsDoneMutationVariables, MarkChallengeAsDoneMutation,
         DeleteChallengesMutation,
         DeleteChallengesMutationVariables,
         DeleteChallengeMutation,
-        DeleteChallengeMutationVariables} from '@/__generated__/graphql'
+        DeleteChallengeMutationVariables,
+        UpdateChallengeMutationVariables,
+        UpdateChallengeMutation} from '@/__generated__/graphql'
 import { GET_USER } from '../user/userQueries'
 
 const PREVIEW_CHALLENGE = gql`
@@ -82,6 +84,21 @@ const CREATE_CHALLENGE = gql`
             createdAt
             updatedAt
             repeatable
+        }
+    }
+`
+
+const UPDATE_CHALLENGE = gql`
+    mutation UpdateChallenge($updateChallengeId: ID!, $input: ChallengeInput!) {
+        updateChallenge(id: $updateChallengeId, input: $input) {
+            id
+            challenge {
+                id
+                title
+            }
+            notes
+            repeatable
+            updatedAt
         }
     }
 `
@@ -204,10 +221,10 @@ export function useCreateChallenge() {
         errorPolicy: "all"
     });
 
-    const createChallenge = async (title: string) => {
+    const createChallenge = async (title: string, repeatable: boolean) => {
         const response = await createChallengeMutation({
             variables: {
-                input: { title }
+                input: { title, repeatable }
             }
         })
 
@@ -215,6 +232,26 @@ export function useCreateChallenge() {
     }
 
     return { createChallenge, data, loading, error }
+}
+
+export function useUpdateChallenge() {
+    const [updateChallengeMutation, { data, error, loading }] = useMutation<UpdateChallengeMutation, UpdateChallengeMutationVariables>(UPDATE_CHALLENGE, {
+        errorPolicy: "all",
+        refetchQueries: ["Me"]
+    });
+
+    const updateChallenge = async (id: string, title: string, notes: string, repeatable: boolean) => {
+        const response = await updateChallengeMutation({
+            variables: {
+                updateChallengeId: id,
+                input: { title, notes, repeatable }
+            }
+        })
+
+        return response.data?.updateChallenge
+    }
+
+    return { updateChallenge, data, error, loading }
 }
 
 export function useDeleteChallenge() {

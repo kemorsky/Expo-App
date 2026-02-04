@@ -71,7 +71,8 @@ export const useGlobalStyles = () => {
         repeatable: {
             flexDirection: "row",
             gap: 8,
-            alignItems: "center"
+            alignItems: "center",
+            alignSelf: "flex-start"
         },
         checkbox: {
             width: 30,

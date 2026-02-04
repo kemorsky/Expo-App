@@ -42,7 +42,9 @@ export type ChallengeDoneInput = {
 };
 
 export type ChallengeInput = {
-  title: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  repeatable?: InputMaybe<Scalars['Boolean']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Me = {

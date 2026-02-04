@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMe } from "@/hooks/useMe";
 import { formatDate } from "@/utils/formatDate";
-import { StyleSheet, View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
+import { View, Modal, Pressable, ActivityIndicator, TextInput } from "react-native"
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useMarkChallengeAsDone } from "@/api/challenges/challengesMutations";
 import { ThemedText } from "../shared/ThemedText";
@@ -20,7 +20,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const { user, loading } = useMe();
     const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
-    const { markChallengeAsDone } = useMarkChallengeAsDone();
+    const { markChallengeAsDone, error } = useMarkChallengeAsDone();
 
     const [notes, setNotes] = useState<ChallengeDoneInput>({notes: "", repeatable: false});
 
@@ -34,7 +34,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
         try {
             const data = await markChallengeAsDone(id, notes.notes ?? '', notes.repeatable);
             if (!data) {
-                return;
+                throw error;
             }
 
             console.log(data)

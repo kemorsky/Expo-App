@@ -4,7 +4,7 @@ import { useContext, useRef, useState } from "react";
 import { Checkbox } from 'expo-checkbox';
 import { BottomSheetContext } from "@/utils/BottomSheetContext";
 import { useGlobalStyles } from "@/styles/globalStyles";
-import { ChallengeDoneInput } from "@/__generated__/graphql";
+import { ChallengeInput } from "@/__generated__/graphql";
 import { useTranslation } from "react-i18next";
 import { useCreateChallenge } from "@/api/challenges/challengesMutations";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
@@ -18,26 +18,32 @@ export const BottomSheetCreateChallenge = () => {
   const { t } = useTranslation();
   const { theme } = useThemeConfig();
   const globalStyles = useGlobalStyles();
-  const [ checkbox, setCheckbox ] = useState<ChallengeDoneInput>({ repeatable: false });
-  const titleRef = useRef({title: ""});
+  const [ checkbox, setCheckbox ] = useState<ChallengeInput>({ repeatable: false });
+  const titleRef = useRef<ChallengeInput>({ title: "" });
 
   if (!user || loading) return <ActivityIndicator />;
 
+  const closeSheet = () => {
+    controller?.close();
+    setCheckbox({ repeatable: false });
+    setState({ mode: null, challenge: null })
+  };
+
   const handleCreateChallenge = async () => {
       const { title } = titleRef.current;
-      const data = await createChallenge(title);
+      const data = await createChallenge(title ?? "", checkbox.repeatable ?? false);
       if (!data) {
           throw error;
       }
-      controller?.close();
-      setState({ mode: null, challenge: null });
+      console.log(data)
+      closeSheet();
   }
 
   return (
     <View style={styles.bottomSheetWrapper}>
       <View style={styles.container}>
         <ThemedText style={{ maxWidth: 250 }} type="subtitle">{t("tabs.challenges.createChallenge.header")}</ThemedText>
-        <Pressable style={{ position: "absolute", top: -49, right: 0, padding: 8, }} onPress={() => controller?.close()}>
+        <Pressable style={styles.buttonClose} onPress={() => closeSheet()}>
           <AntDesign name="close" size={24} color={theme.colors.text} />
         </Pressable>
         <View style={styles.content}>
@@ -61,7 +67,7 @@ export const BottomSheetCreateChallenge = () => {
                 }
                 color={checkbox.repeatable ? '#4630EB' : undefined}
             />
-            <ThemedText>{t("home.completeChallenge.checkboxText")} - currently doesn&apos;t work because I need to add another function (editing)</ThemedText>
+            <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText>
           </View>
           <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.buttonAction]} onPress={() => handleCreateChallenge()}>
               <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
@@ -96,5 +102,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignSelf: "flex-end",
         
+    },
+    buttonClose: {
+        position: "absolute", 
+        top: -49, 
+        right: -7, 
+        padding: 8, 
     }
 })

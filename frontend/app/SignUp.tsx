@@ -28,15 +28,12 @@ export default function SignIn() {
 
     const handleSignIn = async () => {
         const { email, name, password } = formRef.current;
-
         const data = await createUser(email, name, password);
-
         if (!data) {
             return;
         }
 
         router.navigate("/SignIn");
-        
     }
 
     return (

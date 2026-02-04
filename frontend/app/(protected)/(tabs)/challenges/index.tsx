@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useContext, useState } from "react";
 import { StyleSheet, Text, View, SectionList, Pressable } from "react-native";
 import Animated, { Easing, FadeInLeft, FadeOutLeft } from "react-native-reanimated";
@@ -24,7 +23,6 @@ export default function Challenges() {
   const { theme } = useThemeConfig();
   const { t } = useTranslation();
   const [ selectedChallenges, setSelectedChallenges ] = useState<UserChallenge[]>([]);
-
   const [ deleteMode, setDeleteMode ] = useState(false);
   const { setState, controller } = useContext(BottomSheetContext);
   const globalStyles = useGlobalStyles();
@@ -34,6 +32,8 @@ export default function Challenges() {
 
   const defaultChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === true);
   const createdChallenges = user.challenges?.filter((challenge) => challenge?.challenge.isPredefined === false);
+
+  const ids = selectedChallenges.map((challenge) => challenge.id);
 
   const DATA = [
     {
@@ -45,8 +45,6 @@ export default function Challenges() {
       data: defaultChallenges ?? []
     }
   ];
-
-  const ids = selectedChallenges.map((challenge) => challenge.id);
 
   const handleToggleDeleteMode = () => { // toggles mode for mass deletion of challenges
     setSelectedChallenges([]);
@@ -93,25 +91,30 @@ export default function Challenges() {
     <Wrapper>
       <Container>
         <View style={globalStyles.challengesContainer}>
-          <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20}}>
+          <View style={styles.header}>
             <ThemedText type="subtitle">{t("tabs.challenges.title")}</ThemedText>
             <Pressable aria-label="Create new challenge button" 
                         style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.createChallengeButton]}
-                        onPress={() => {createChallenge()}}>
+                        onPress={() => createChallenge()}>
               <MaterialIcons name="add" size={24} color="white" />
               <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
             </Pressable>
           </View>
           
-          <View style={{flexDirection: "column", alignItems: "flex-start", alignSelf: "flex-end", gap: 4}}>
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4}}>
+          <View style={styles.challengeIconsContainer}>
+            <View style={styles.challengeIcon}>
               <ChallengeIcon type="complete" />
               <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.completed")}</ThemedText>
             </View>
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4}}>
+            <View style={styles.challengeIcon}>
               <ChallengeIcon type="incomplete" />
               <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.notCompleted")}</ThemedText>
             </View>
+            <View style={styles.challengeIcon}>
+              <ChallengeIcon type="repeatable" />
+              <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.repeatable")}</ThemedText>
+            </View>
+            
           </View>
           {deleteChallengesError && <ThemedText>{deleteChallengesError.message}</ThemedText>}
 
@@ -164,7 +167,7 @@ export default function Challenges() {
                         </Pressable>
                     </View>
             }}
-            renderSectionHeader={({ section: {title} }) => (
+            renderSectionHeader={({ section: { title } }) => (
               <ThemedText style={{paddingVertical: 14, paddingHorizontal: 8, fontFamily: "PoppinsMedium"}}>{title}</ThemedText>
             )}
           />
@@ -175,9 +178,29 @@ export default function Challenges() {
 };
 
 const styles = StyleSheet.create({
-    deleteButtonsContainer: {
-      flexDirection: "row",
-      gap: 8,
-      marginBottom: 8
-    }
+  header: {
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    marginBottom: 20
+  },
+  challengeIconsContainer: {
+    flexDirection: "row", 
+    alignItems: "flex-start", 
+    alignSelf: "flex-start", 
+    justifyContent: "center", 
+    gap: 6, 
+    marginBottom: 20
+  },
+  challengeIcon: {
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center", 
+    gap: 4
+  },
+  deleteButtonsContainer: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 8
+  }
 })

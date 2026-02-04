@@ -252,7 +252,8 @@ const resolvers: Resolvers = {
                 const userChallenge = new UserChallenge({
                     user: user._id.toString(),
                     challenge: challenge._id,
-                    done: false
+                    done: false,
+                    repeatable: input.repeatable
                 });
 
                 await userChallenge.save();
@@ -430,44 +431,54 @@ const resolvers: Resolvers = {
             const user = await User.findById(context.user.id);
             if (!user) throw gqlError("Not authenticated", "UNAUTHENTICATED", 401);
 
-            try {
-                const updatedChallenge = await UserChallenge.findByIdAndUpdate(
-                    id,
-                    { title: input.title },
-                    { new: true, runValidators: true }
-                ).populate("challenge");
-                
-                const challenge = updatedChallenge?.challenge as ChallengeDocument;
-
-                if (!updatedChallenge) {
-                    throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
-                }
-
-                return {
-                    id: updatedChallenge._id.toString(),
-                    user: {
-                            id: user._id.toString(),
-                            name: user.name,
-                            email: user.email,
-                            assignmentsToday: user.assignmentsToday,
-                            challengeResetDate: user.challengeResetDate
-                        },
-                    title: challenge.title,
-                    challenge: {
-                        id: challenge._id.toString(),
-                        title: challenge.title,
-                        isPredefined: challenge.isPredefined
-                    },
-                    currentChallenge: updatedChallenge.currentChallenge,
-                    done: updatedChallenge.done,
-                    createdAt: updatedChallenge.createdAt,
-                    updatedAt: updatedChallenge.updatedAt,
-                    repeatable: updatedChallenge.repeatable
-                }
-            } catch (error) {
-                if (error instanceof GraphQLError) throw error;
-                throw gqlError("Error updating challenge", "BAD_REQUEST", 400);
+            const userChallenge = await UserChallenge.findById(id);
+            if (!userChallenge) {
+                throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
             }
+
+            await Challenge.findByIdAndUpdate(
+                userChallenge.challenge,
+                { title: input.title },
+                { new: true }
+            );
+ 
+            const updatedChallenge = await UserChallenge.findByIdAndUpdate(
+                id,
+                { notes: input.notes,
+                  repeatable: input.repeatable
+                },
+                { new: true, runValidators: true }
+            ).populate("challenge");
+            
+            const challenge = updatedChallenge?.challenge as ChallengeDocument;
+            console.log(challenge);
+
+            if (!updatedChallenge) {
+                throw gqlError(`Challenge with id ${id} not found`, "NOT_FOUND", 404);
+            }
+
+            return {
+                id: updatedChallenge._id.toString(),
+                user: {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    assignmentsToday: user.assignmentsToday,
+                    challengeResetDate: user.challengeResetDate
+                    },
+                challenge: {
+                    id: challenge._id.toString(),
+                    title: challenge.title,
+                    isPredefined: challenge.isPredefined
+                },
+                currentChallenge: updatedChallenge.currentChallenge,
+                notes: updatedChallenge.notes,
+                done: updatedChallenge.done,
+                createdAt: updatedChallenge.createdAt,
+                updatedAt: updatedChallenge.updatedAt,
+                repeatable: updatedChallenge.repeatable
+            }
+            
         },
         deleteChallenge: async (_, { id }, context) => { 
             const user = await User.findById(context.user.id)
