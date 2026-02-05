@@ -73,6 +73,7 @@
       "repeatable": "Repeatable",
       "editButton": "Edit",
       "cancel": "Cancel",
+      "save": "Save",
       "deleteButton": "Delete",
       "headers": {
         "created": "Created Challenges",

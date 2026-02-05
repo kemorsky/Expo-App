@@ -24,7 +24,7 @@ export default function OnboardingPage({ item }: OnboardingPageProps) {
     return (
         <View style={[{ width }, globalStyles.onboardingWrapper]}>
             <Animated.Image style={[ animatedStyle, { width: 341, height: 341 }, { resizeMode: "contain" } ]} source={item.image} />
-            <ThemedText type="title" style={{ maxWidth: 351, textAlign: "center" }}>{item.title}</ThemedText>
+            <ThemedText type="title" style={{ fontSize: 24, width: 351, textAlign: "left" }}>{item.title}</ThemedText>
             <ThemedText style={{ maxWidth: 351, textAlign: "left" }}>{item.description}</ThemedText>
         </View>
     )

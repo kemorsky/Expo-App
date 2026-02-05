@@ -81,8 +81,8 @@ export default function Onboarding() {
         <SafeAreaView style={globalStyles.onboardingPage}>
             <Animated.View style={[animatedStyle, { flex: 1, gap: 24 }]}>
                 <Animated.FlatList 
-                        style={{ height: 600, flexGrow: 0, flexShrink: 0 }}
-                        contentContainerStyle={{alignItems: "center" }}
+                        style={{ height: 570, flexGrow: 0, flexShrink: 0 }}
+                        contentContainerStyle={{ alignItems: "center" }}
                         data={slides}
                         renderItem={({ item }) => { return <OnboardingPage item={ item }/> }}
                         horizontal
@@ -97,13 +97,11 @@ export default function Onboarding() {
                 <View>
                     <Paginator data={slides} scrollX={scrollX} scrollToNext={scrollToNext} scrollToPrevious={scrollToPrevious} />
                     <Pressable style={({pressed}) => [
-                                    {
-                                    backgroundColor: pressed ? "#6d8ffd" : "#4a74ff",
-                                    },
+                                    { backgroundColor: pressed ? "#6d8ffd" : "#4a74ff" },
                                     globalStyles.skipButton,
                                 ]} 
                                 onPress={skipOnboarding}>
-                        <ThemedText style={{fontFamily: "PoppinsSemiBold"}}>Skip</ThemedText>
+                        <ThemedText type="buttonText" style={{fontFamily: "PoppinsSemiBold"}}>Skip</ThemedText>
                     </Pressable>
                 </View>
             </Animated.View>

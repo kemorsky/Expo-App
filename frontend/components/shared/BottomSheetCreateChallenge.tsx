@@ -40,41 +40,46 @@ export const BottomSheetCreateChallenge = () => {
   }
 
   return (
+    // TouchableWithoutFeedback added to allow for keyboard dismissal via tapping anywhere outside of the keyboard
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.bottomSheetWrapper}>
             <View style={styles.container}>
                 <ThemedText style={{ maxWidth: 250 }} type="subtitle">{t("tabs.challenges.createChallenge.header")}</ThemedText>
                 <Pressable style={styles.buttonClose} onPress={() => closeSheet()}>
-                <AntDesign name="close" size={24} color={theme.colors.text} />
+                    <AntDesign name="close" size={24} color={theme.colors.text} />
                 </Pressable>
-                <View style={styles.content}>
-                <TextInput 
-                    aria-label="Create Challenge Input Field"
-                    placeholder={t("tabs.challenges.createChallenge.title")}
-                    placeholderTextColor={"#8b8b8bff"}
-                    style={globalStyles.input}
-                    onChangeText={(title) => {
-                        titleRef.current.title = title;
-                    }}
-                    autoCapitalize="sentences"
-                    selectTextOnFocus={false}
-                />
-                <View style={globalStyles.repeatable}>
-                    <Checkbox
-                        style={globalStyles.checkbox}
-                        value={checkbox.repeatable ?? false}
-                        onValueChange={(value) =>
-                            setCheckbox(prev => ({ ...prev, repeatable: value }))
-                        }
-                        color={checkbox.repeatable ? '#4630EB' : undefined}
+                <View style={styles.content} accessibilityRole="header">
+                    <TextInput 
+                        accessibilityLabel="Create Challenge Input Field"
+                        accessibilityHint="Enter your challenge title here"
+                        placeholder={t("tabs.challenges.createChallenge.title")}
+                        placeholderTextColor={"#8b8b8bff"}
+                        style={globalStyles.input}
+                        onChangeText={(title) => {
+                            titleRef.current.title = title;
+                        }}
+                        autoCapitalize="sentences"
+                        selectTextOnFocus={false}
                     />
-                    <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText>
-                </View>
-                <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.buttonAction]} onPress={() => handleCreateChallenge()}>
-                    <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
-                </Pressable>
-                {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
-                {error && <ThemedText type="error">{error.message}</ThemedText>}
+                    <View style={globalStyles.repeatable}>
+                        <Checkbox
+                            accessibilityRole="checkbox"
+                            accessibilityState={{ checked: checkbox.repeatable ?? false }}
+                            accessibilityLabel="Make challenge repeatable checkbox"
+                            style={globalStyles.checkbox}
+                            value={checkbox.repeatable ?? false}
+                            onValueChange={(value) =>
+                                setCheckbox(prev => ({ ...prev, repeatable: value }))
+                            }
+                            color={checkbox.repeatable ? '#4630EB' : undefined}
+                        />
+                        <ThemedText>{t("home.completeChallenge.checkboxText")}</ThemedText>
+                    </View>
+                    <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.buttonAction]} onPress={() => handleCreateChallenge()}>
+                        <ThemedText type="buttonText">{t("tabs.challenges.createButton")}</ThemedText>
+                    </Pressable>
+                    {createChallengeError && <ThemedText type="error">{createChallengeError.message}</ThemedText>}
+                    {error && <ThemedText type="error">{error.message}</ThemedText>}
                 </View>
             </View>
         </View>

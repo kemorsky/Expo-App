@@ -183,14 +183,6 @@ export function useMarkChallengeAsDone() {
             cache.modify({
                 id: cache.identify({ __typename: "User", id: existing?.me.id }),
                 fields: {
-                    // me(existingMe = {}) {
-                    //     if (updated.user?.assignmentsToday === null) { return existingMe };
-
-                    //     return {
-                    //     ...existingMe,
-                    //     assignmentsToday: updated.user?.assignmentsToday,
-                    //     };
-                    // },
                     challenges: (existingChallenges = []) => {
                         return existingChallenges.map((ch: UserChallenge) =>
                             ch.currentChallenge && ch.done ? normalizedChallenge : ch

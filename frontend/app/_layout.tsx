@@ -7,7 +7,6 @@ import { AuthProvider } from "@/utils/AuthProvider";
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 import "../utils/i18n"
-// import SplashController from "./splash";
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "@/utils/client";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -21,7 +20,6 @@ export default function Root() {
       <AuthProvider>
         <ThemeConfigProvider>
           <RootLayout />
-          {/* <SplashController /> */}
         </ThemeConfigProvider>
       </AuthProvider>
     </ApolloProvider>

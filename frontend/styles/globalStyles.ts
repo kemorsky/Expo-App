@@ -217,7 +217,15 @@ export const useGlobalStyles = () => {
         },
 
         // challenges
-
+        bottomSheetEditButton: {
+            width: 240,
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 12,
+            padding: 12,
+            backgroundColor: theme.colors.primary,
+        },
         createChallengeButton: {
             backgroundColor: theme.colors.primary,
             flexDirection: "row",

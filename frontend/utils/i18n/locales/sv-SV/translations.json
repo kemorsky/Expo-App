@@ -73,6 +73,7 @@
       "repeatable": "Upprepbar",
       "editButton": "Redigera",
       "cancel": "Avbryt",
+      "save": "Spara",
       "deleteButton": "Ta bort",
       "headers": {
         "created": "Skapade Utmaningar",

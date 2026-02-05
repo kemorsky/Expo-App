@@ -33,7 +33,7 @@ export const BottomSheetViewChallenge = () => {
     setCheckbox(state.challenge.repeatable ?? false);
   };
 
-  const closeSheet = () => {
+  const closeSheet = () => { // closes the bottom sheet and clears out values imbedded alongside the controller command
     setEdit(false);
     controller?.close();
     setState({ mode: null, challenge: null })
@@ -59,13 +59,14 @@ export const BottomSheetViewChallenge = () => {
   }
 
   return (
+    // TouchableWithoutFeedback added to allow for keyboard dismissal via tapping anywhere outside of the keyboard
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.bottomSheetWrapper}>
         <View style={styles.bottomSheetContainer}>
           <Pressable style={styles.buttonClose} onPress={() => closeSheet()}>
             <AntDesign name="close" size={24} color={theme.colors.text} />
           </Pressable>
-          <View style={styles.bottomSheetContent}>
+          <View style={styles.bottomSheetContent} accessibilityRole="header">
             {state.challenge.done ? 
               <ThemedText type="date">
                 {t("tabs.challenges.completedOn")}: {formatDate(state.challenge.completedAt ?? "")}
@@ -74,7 +75,7 @@ export const BottomSheetViewChallenge = () => {
                 {t("tabs.challenges.notYetCompleted")}
               </ThemedText>
             }
-            <View style={{ flexDirection: "row", gap: 8, }}>
+            <View style={styles.bottomSheetIconsContainer}>
               <ChallengeIcon type={state.challenge.done ? "complete" : "incomplete"}/>
               {state.challenge.repeatable && <ChallengeIcon type="repeatable" />}
             </View>
@@ -87,7 +88,8 @@ export const BottomSheetViewChallenge = () => {
               </ThemedText>
               : 
               <TextInput
-                aria-label="Edit challenge title input field"
+                accessibilityLabel="Edit challenge title input field"
+                accessibilityHint="Enter updates to your challenge title here"
                 placeholder={t("tabs.challenges.createChallenge.title")}
                 placeholderTextColor={"#8b8b8bff"}
                 defaultValue={state.challenge.challenge.title}
@@ -112,11 +114,12 @@ export const BottomSheetViewChallenge = () => {
               </ThemedText> 
           :
             <TextInput
-              aria-label="Edit challenge notes input field"
+              accessibilityLabel="Edit challenge notes input field"
+              accessibilityHint="Enter updates to your challenge notes here"
               placeholder={t("tabs.challenges.bottomSheet.notes")}
               placeholderTextColor={"#8b8b8bff"}
               defaultValue={state.challenge.notes ?? ""}
-              style={[globalStyles.input, {height: 150, }]}
+              style={[globalStyles.input, { height: 150 }]}
               onChangeText={(notes) => {
                   updateRef.current.notes = notes;
               }}
@@ -128,6 +131,9 @@ export const BottomSheetViewChallenge = () => {
           <View style={[globalStyles.repeatable, { marginTop: 8 }]}>
             {edit && <>
               <Checkbox
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: checkbox }}
+                accessibilityLabel="Make challenge repeatable checkbox"
                 style={globalStyles.checkbox}
                 value={checkbox}
                 onValueChange={setCheckbox}
@@ -140,16 +146,22 @@ export const BottomSheetViewChallenge = () => {
         <View style={styles.bottomSheetButtonsContainer}>
           {!edit ? 
             <>
-              <Pressable style={styles.bottomSheetEditButton} onPress={() => {setEdit(true); initUpdateRef();}}>
-                <ThemedText>Edit</ThemedText>
+              <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.bottomSheetEditButton]} onPress={() => {setEdit(true); initUpdateRef();}}>
+                <ThemedText type="buttonText" style={{ fontSize: 14 }}>
+                  {t("tabs.challenges.editButton")}
+                </ThemedText>
               </Pressable>
             </> :
-            <View style={styles.editButtons}>
-              <Pressable onPress={() => setEdit(!edit)}>
-                <ThemedText>Cancel</ThemedText>
+            <View style={styles.editButtonsContainer}>
+              <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, styles.editButtons, { backgroundColor: theme.colors.background}]} onPress={() => setEdit(!edit)}>
+                <ThemedText type="buttonText" style={{ color: "#ff2c2c" }}>
+                  {t("tabs.challenges.cancel")}
+                </ThemedText>
               </Pressable>
-              <Pressable onPress={() => handleEditChallenge(state.challenge?.id ?? "")}>
-                <ThemedText>Save</ThemedText>
+              <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, styles.editButtons, { backgroundColor: theme.colors.primary }]} onPress={() => handleEditChallenge(state.challenge?.id ?? "")}>
+                <ThemedText type="buttonText">
+                  {t("tabs.challenges.save")}
+                </ThemedText>
               </Pressable>
             </View> 
           }
@@ -170,13 +182,13 @@ export const BottomSheetViewChallenge = () => {
 
 const styles = StyleSheet.create({
     bottomSheetWrapper: {
-        width: "100%",
-        flexDirection: "column", 
-        gap: 28
+      width: "100%",
+      flexDirection: "column", 
+      gap: 28
     },
     bottomSheetContainer: {
-        flexDirection: "column", 
-        gap: 8
+      flexDirection: "column", 
+      gap: 8
     },
     bottomSheetContent: {
       width: "100%", 
@@ -199,17 +211,12 @@ const styles = StyleSheet.create({
       borderRadius: 12,
       padding: 12,
     },
-    bottomSheetEditButton: {
-      width: 240,
-      alignSelf: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 12,
-      padding: 12,
-      backgroundColor: "#4e4e4e"
-    },
     bottomSheetButtonsContainer: {
       gap: 12
+    },
+    bottomSheetIconsContainer: {
+      flexDirection: "row", 
+      gap: 8,
     },
     buttonClose: {
       position: "absolute", 
@@ -217,10 +224,18 @@ const styles = StyleSheet.create({
       right: -7, 
       padding: 8, 
     },
-    editButtons: {
+    editButtonsContainer: {
       flexDirection: "row",
-      gap: 6,
-      alignSelf: "flex-end",
+      gap: 12,
+      alignSelf: "center",
       marginTop: 16
+    },
+    editButtons: {
+      minWidth: 100,
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 12,
+      borderRadius: 4,
+      backgroundColor: "#dbdbdbff",
     }
 })
