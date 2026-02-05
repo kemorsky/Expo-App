@@ -142,6 +142,7 @@ export default function Challenges() {
             keyExtractor={item => item?.id ?? ""}
             contentContainerStyle={globalStyles.challengesSectionList}
             ItemSeparatorComponent={HorizontalRule}
+            initialNumToRender={10}
             scrollEnabled={false}
             renderItem={({ item }) => {
               if (item === null) {
@@ -203,4 +204,4 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8
   }
-})
+});

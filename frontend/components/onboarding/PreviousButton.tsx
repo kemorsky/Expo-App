@@ -12,7 +12,7 @@ export default function PreviousButton({ scrollToPrevious }: PreviousButtonProps
     const { theme } = useThemeConfig();
     
     return (
-        <Pressable accessibilityLabel="Previous Onboarding Slide Button" style={globalStyles.cycleThroughButton} onPress={scrollToPrevious}>
+        <Pressable accessibilityLabel="Previous Onboarding Slide Button" style={ globalStyles.cycleThroughButton } onPress={scrollToPrevious}>
             <AntDesign name="left" size={20} color={theme.colors.text} />
         </Pressable>
     );

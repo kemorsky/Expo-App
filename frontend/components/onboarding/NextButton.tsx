@@ -12,7 +12,7 @@ export default function NextButton({ scrollToNext }: NextButtonProps) {
     const { theme } = useThemeConfig();
     
     return (
-        <Pressable accessibilityLabel="Next Onboarding Slide Button" style={[ globalStyles.cycleThroughButton, {justifyContent: "flex-end"} ]} onPress={scrollToNext}>
+        <Pressable accessibilityLabel="Next Onboarding Slide Button" style={[ globalStyles.cycleThroughButton, { justifyContent: "flex-end" }]} onPress={scrollToNext}>
             <AntDesign name="right" size={20} color={theme.colors.text} />
         </Pressable>
     );

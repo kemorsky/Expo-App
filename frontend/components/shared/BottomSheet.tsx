@@ -112,7 +112,7 @@ export const BottomSheet = ({ controller, children }: BottomSheetProps) => {
 
 const styles = StyleSheet.create({
     backdrop: {
-        // position: "absolute",
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,

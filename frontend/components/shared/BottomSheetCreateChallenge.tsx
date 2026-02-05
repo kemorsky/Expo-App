@@ -23,7 +23,7 @@ export const BottomSheetCreateChallenge = () => {
 
   if (!user || loading) return <ActivityIndicator />;
 
-  const closeSheet = () => {
+  const closeSheet = () => { // closes the bottom sheet and clears out values imbedded alongside the controller command
     controller?.close();
     setCheckbox({ repeatable: false });
     setState({ mode: null, challenge: null })
