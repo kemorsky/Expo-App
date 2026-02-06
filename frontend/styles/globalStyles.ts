@@ -240,19 +240,18 @@ export const useGlobalStyles = () => {
             width: "100%",
             flexDirection: "column",
             gap: 8,
-            borderRadius: 8
+            borderRadius: 8,
         },
         challengeList: {
             backgroundColor: theme.colors.card,
-            paddingHorizontal: 8,
-            flexDirection: "column",
             borderRadius: 8,
         },
         challenge: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: 8
+            padding: 8,
+            borderRadius: 8,
         },
         challengeItem: {
             flexDirection: "row",

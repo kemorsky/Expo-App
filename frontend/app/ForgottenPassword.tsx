@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { useRequestPasswordReset } from "@/api/user/userMutations";
 import { Wrapper } from "@/components/shared/Wrapper";
-import { Container } from "@/components/shared/Container";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalStyles } from "@/styles/globalStyles";
 import { ThemedText } from "@/components/shared/ThemedText";

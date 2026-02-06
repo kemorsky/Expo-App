@@ -139,8 +139,11 @@ export default function Challenges() {
             sections={DATA}
             keyExtractor={item => item?.id ?? ""}
             contentContainerStyle={globalStyles.challengesSectionList}
+            style={globalStyles.challengeList}
             ItemSeparatorComponent={HorizontalRule}
-            initialNumToRender={7}
+            initialNumToRender={8}
+            stickyHeaderHiddenOnScroll={false}
+            scrollEnabled
             renderItem={({ item }) => {
               if (item === null) {
                 return null; // fallback check in case item is null or something unintended
@@ -166,7 +169,9 @@ export default function Challenges() {
                     </View>
             }}
             renderSectionHeader={({ section: { title } }) => (
-              <ThemedText style={{paddingVertical: 14, paddingHorizontal: 8, fontFamily: "PoppinsMedium"}}>{title}</ThemedText>
+              <View style={{ paddingVertical: 14, paddingHorizontal: 8, backgroundColor: theme.colors.card, borderRadius: 8, overflow: "hidden" }}>
+                <ThemedText style={{fontFamily: "PoppinsMedium"}}>{title}</ThemedText>
+              </View>
             )}
           />
         </View>
