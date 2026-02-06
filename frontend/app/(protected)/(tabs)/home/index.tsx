@@ -47,7 +47,7 @@ export default function HomeScreen() {
           <View style={[globalStyles.card, {gap: 32, backgroundColor: "transparent", flexDirection: "column", justifyContent: "flex-start", padding: 0, paddingBottom: 8}]}>
             {currentChallenge ? (
               <>
-                <ThemedText style={{maxWidth: 300}} type="challenge">{currentChallenge.challenge.title}</ThemedText>
+                <ThemedText style={{ maxWidth: 300 }} type="challenge">{currentChallenge.challenge.title}</ThemedText>
                 <Pressable style={globalStyles.buttonAction} onPress={() => setOpenModal(true)}>
                   <ThemedText>{t("home.challengeCard.markAsDoneButton")}</ThemedText>
                 </Pressable>
@@ -98,7 +98,7 @@ export default function HomeScreen() {
       </Container>
       <Container>
         <ThemedText type="subtitle">{t("home.subtitles.previousChallenges")}</ThemedText>
-        <View style={[globalStyles.card, {minHeight: 128, paddingVertical: 0}]}>
+        <View style={[globalStyles.card, { minHeight: 128, paddingVertical: 0 }]}>
           {completedChallenges > 0 ? (
             <FlatList
               data={recentChallenges}

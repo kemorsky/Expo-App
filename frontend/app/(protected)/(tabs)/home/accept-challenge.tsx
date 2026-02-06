@@ -22,7 +22,7 @@ export default function AcceptChallenge() {
     const translateY = useSharedValue(-20);
     const opacity = useSharedValue(0);
 
-    useEffect(() => {
+    useEffect(() => { // rolls a challenge on mount
         handlePreviewChallenge()
     }, [])
 

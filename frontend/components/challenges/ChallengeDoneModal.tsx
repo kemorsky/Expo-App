@@ -21,7 +21,7 @@ export default function ChallengeDoneModal(props: ModalProps) {
     const { t } = useTranslation();
     const globalStyles = useGlobalStyles();
     const { markChallengeAsDone, error } = useMarkChallengeAsDone();
-    const [notes, setNotes] = useState<ChallengeDoneInput>({ notes: "", repeatable: false });
+    const [ notes, setNotes ] = useState<ChallengeDoneInput>({ notes: "", repeatable: false });
 
     if (!user || loading) return <ActivityIndicator />;
 

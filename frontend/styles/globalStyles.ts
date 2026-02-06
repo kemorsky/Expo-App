@@ -56,7 +56,8 @@ export const useGlobalStyles = () => {
         },
         horizontalRule: {
             borderBottomWidth: 1,
-            borderColor: theme.colors.border
+            borderColor: theme.colors.border,
+            borderRadius: 8,
         },
         buttonAction: {
             height: 40,
@@ -141,8 +142,8 @@ export const useGlobalStyles = () => {
             flexDirection: "column", 
             gap: 28, 
             backgroundColor: theme.colors.card, 
-            borderBottomRightRadius: 16, 
-            borderBottomLeftRadius: 16, 
+            borderBottomRightRadius: 8, 
+            borderBottomLeftRadius: 8, 
             borderBottomWidth: 1, 
             borderBottomColor: theme.colors.border,
         },
@@ -222,7 +223,7 @@ export const useGlobalStyles = () => {
             alignSelf: "center",
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: 12,
+            borderRadius: 8,
             padding: 12,
             backgroundColor: theme.colors.primary,
         },
@@ -238,7 +239,8 @@ export const useGlobalStyles = () => {
         challengesContainer: {
             width: "100%",
             flexDirection: "column",
-            gap: 8
+            gap: 8,
+            borderRadius: 8
         },
         challengeList: {
             backgroundColor: theme.colors.card,
@@ -250,7 +252,7 @@ export const useGlobalStyles = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: 8,
+            padding: 8
         },
         challengeItem: {
             flexDirection: "row",

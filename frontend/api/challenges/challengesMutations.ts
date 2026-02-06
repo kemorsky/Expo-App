@@ -158,6 +158,7 @@ export function useAcceptChallenge() {
 
 export function useMarkChallengeAsDone() {
     const [markChallengeAsDoneMutation, { data, loading, error }] = useMutation<MarkChallengeAsDoneMutation, MarkChallengeAsDoneMutationVariables>(MARK_CHALLENGE_AS_DONE, {
+        errorPolicy: "all",
         update(cache, { data }) {
             const updated = data?.markChallengeAsDone;
             if (!updated) return;

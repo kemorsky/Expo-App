@@ -41,12 +41,12 @@ export default function Theme() {
                 <View style={globalStyles.settingsList}>
                     <SettingsOption onPress={() => {setLightTheme(); handleUpdateSetting("Light")}}>
                         <ThemedText type="option">{t("tabs.settings.light")}</ThemedText>
-                        {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.theme === "Light" && (<Entypo name="check" size={18} color="#198450" />)}
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => {setDarkTheme(); handleUpdateSetting("Dark")}}>
                         <ThemedText type="option">{t("tabs.settings.dark")}</ThemedText>
-                        {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.theme === "Dark" && (<Entypo name="check" size={18} color="#198450" />)}
                     </SettingsOption>
                 </View>
             </Container>

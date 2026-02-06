@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
       alignSelf: "center",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 12,
+      borderRadius: 8,
       padding: 12,
     },
     bottomSheetButtonsContainer: {
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       padding: 12,
-      borderRadius: 4,
+      borderRadius: 8,
       backgroundColor: "#dbdbdbff",
     }
 })

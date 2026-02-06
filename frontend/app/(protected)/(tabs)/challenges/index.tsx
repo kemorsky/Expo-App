@@ -7,7 +7,6 @@ import { useMe } from "@/api/user/userQueries";
 import { useTranslation } from "react-i18next";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { BottomSheetContext } from '@/utils/BottomSheetContext';
-import { Wrapper } from "@/components/shared/Wrapper";
 import { Container } from "@/components/shared/Container";
 import { ThemedText } from "@/components/shared/ThemedText";
 import ChallengesPageSkeleton from "@/components/skeleton/pages/ChallengesPageSkeleton";
@@ -53,7 +52,7 @@ export default function Challenges() {
 
   const handleSelectChallenge = (newSelect: UserChallenge) => {
     setSelectedChallenges(prevSelectedChallenges => {
-      if (prevSelectedChallenges.some(challenge => challenge.id === newSelect.id)) { // if challenge is clicked on again when array, remove
+      if (prevSelectedChallenges.some(challenge => challenge.id === newSelect.id)) { // if challenge is clicked on again when in the array, remove
         return prevSelectedChallenges.filter(challenge => challenge.id !== newSelect.id)
       } else {
         return [...prevSelectedChallenges, newSelect]; // otherwise add
@@ -88,9 +87,8 @@ export default function Challenges() {
   };
 
   return (
-    <Wrapper>
-      <Container>
-        <View style={globalStyles.challengesContainer}>
+      <Container style={{ flex: 1 }}>
+        <View style={[globalStyles.challengesContainer, { flex: 1 }]}>
           <View style={styles.header}>
             <ThemedText type="subtitle">{t("tabs.challenges.title")}</ThemedText>
             <Pressable aria-label="Create new challenge button" 
@@ -104,15 +102,15 @@ export default function Challenges() {
           <View style={styles.challengeIconsContainer}>
             <View style={styles.challengeIcon}>
               <ChallengeIcon type="complete" />
-              <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.completed")}</ThemedText>
+              <ThemedText style={{ fontSize: 12 }}>{t("tabs.challenges.completed")}</ThemedText>
             </View>
             <View style={styles.challengeIcon}>
               <ChallengeIcon type="incomplete" />
-              <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.notCompleted")}</ThemedText>
+              <ThemedText style={{ fontSize: 12 }}>{t("tabs.challenges.notCompleted")}</ThemedText>
             </View>
             <View style={styles.challengeIcon}>
               <ChallengeIcon type="repeatable" />
-              <ThemedText style={{fontSize: 12}}>{t("tabs.challenges.repeatable")}</ThemedText>
+              <ThemedText style={{ fontSize: 12 }}>{t("tabs.challenges.repeatable")}</ThemedText>
             </View>
             
           </View>
@@ -142,8 +140,7 @@ export default function Challenges() {
             keyExtractor={item => item?.id ?? ""}
             contentContainerStyle={globalStyles.challengesSectionList}
             ItemSeparatorComponent={HorizontalRule}
-            initialNumToRender={10}
-            scrollEnabled={false}
+            initialNumToRender={7}
             renderItem={({ item }) => {
               if (item === null) {
                 return null; // fallback check in case item is null or something unintended
@@ -174,7 +171,6 @@ export default function Challenges() {
           />
         </View>
       </Container>
-    </Wrapper>
   );
 };
 

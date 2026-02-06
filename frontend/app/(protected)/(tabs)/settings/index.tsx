@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import { useMe } from "@/api/user/userQueries";
 import { useAuth } from "@/utils/AuthContext";
 import { useGlobalStyles } from "@/styles/globalStyles";
@@ -27,10 +27,10 @@ export default function Settings() {
         <Wrapper>
             <Container>
                 <View style={globalStyles.userRundown}>
-                    <View style={{ width: 80, height: 80, borderRadius: 999, borderWidth: 1, borderColor: "#2b00ec", alignSelf: "center", overflow: "hidden" }}>
-                        <Image style={[{ width: 80, height: 80 }, { resizeMode: "cover" } ]} source={require("../../../../assets/images/profile-picture.png")}/>
+                    <View style={styles.profilePicture}>
+                        <Image style={[styles.profilePictureImage, { resizeMode: "cover" } ]} source={require("../../../../assets/images/profile-picture.png")}/>
                     </View>
-                    <View style={{flexDirection: "column", gap: 8}}>
+                    <View style={styles.userRundown}>
                         <ThemedText type="option">{t("tabs.settings.username")}: 
                             <ThemedText> {user?.name}</ThemedText>
                         </ThemedText>
@@ -38,7 +38,7 @@ export default function Settings() {
                             <ThemedText> {user?.email}</ThemedText>
                         </ThemedText>
                     </View>
-                    <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1}, globalStyles.buttonSignOut ]} onPress={logOut}>
+                    <Pressable style={({pressed}) => [{ opacity: pressed ? 0.7 : 1 }, globalStyles.buttonSignOut ]} onPress={logOut}>
                         <ThemedText type="buttonText">{t("tabs.settings.button")}</ThemedText>
                     </Pressable>
                 </View>
@@ -48,21 +48,21 @@ export default function Settings() {
                 <View style={globalStyles.settingsList}>
                     <SettingsOption onPress={() => {router.push("/settings/language")}}>                            
                         <ThemedText type="option">{t("tabs.settings.language")}</ThemedText>
-                            <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
+                            <View style={styles.navigateArrow}>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => {router.push("/settings/theme")}}>                            
                         <ThemedText type="option">{t("tabs.settings.theme")}</ThemedText>
-                            <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
+                            <View style={styles.navigateArrow}>
                                 <Feather name="arrow-right" size={16} color={theme.colors.text} />
                             </View>
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => {router.push("/settings/max-challenges")}}>
                         <ThemedText type="option">{t("tabs.settings.maxChallenges")}</ThemedText>
-                        <View style={{ flexDirection: "row", gap: 16, alignItems: "center"}}>
+                        <View style={styles.navigateArrow}>
                             <Feather name="arrow-right" size={16} color={theme.colors.text} />
                         </View>
                     </SettingsOption>
@@ -71,3 +71,28 @@ export default function Settings() {
         </Wrapper>
     )
 };
+
+const styles = StyleSheet.create({
+    profilePicture: { 
+        width: 80, 
+        height: 80, 
+        borderRadius: 999, 
+        borderWidth: 1, 
+        borderColor: "#2b00ec", 
+        alignSelf: "center", 
+        overflow: "hidden" 
+    },
+    profilePictureImage: { 
+        width: 80, 
+        height: 80 
+    },
+    userRundown: {
+        flexDirection: "column",
+        gap: 8
+    },
+    navigateArrow: { 
+        flexDirection: "row", 
+        gap: 16, 
+        alignItems: "center"
+    }
+});

@@ -28,7 +28,7 @@ export function ChallengeIcon({
             SlideOutRight.duration(300).easing(Easing.inOut(Easing.linear))
             : undefined}>
             {type === "incomplete" && null}
-            {type === "complete" ? <Ionicons name="checkmark" size={22} color="green" /> : null}
+            {type === "complete" ? <Ionicons name="checkmark" size={22} color="#198450" /> : null}
             {type === "repeatable" ? <Ionicons name="repeat" size={24} color={theme.colors.text} /> : null}
             {type === "remove" ? <Ionicons name="remove" size={16} color="white" />
             : null}
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         width: 26, 
         height: 26, 
         borderWidth: 2, 
-        borderColor: "green", 
-        borderRadius: 999, 
+        borderColor: "#198450", 
+        borderRadius: 4, 
         justifyContent: "center", 
         alignItems: "center"
     },
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         height: 26, 
         borderWidth: 2, 
         borderColor: "#5a5a5aff", 
-        borderRadius: 999, 
+        borderRadius: 4, 
         justifyContent: "center", 
         alignItems: "center"
     },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         width: 22, 
         height: 22, 
         backgroundColor: "#ff2c2c",
-        borderRadius: 999, 
+        borderRadius: 4, 
         justifyContent: "center", 
         alignItems: "center"
     }

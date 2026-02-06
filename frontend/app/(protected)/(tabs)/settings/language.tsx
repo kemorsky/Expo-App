@@ -37,14 +37,14 @@ export default function Language() {
                     <SettingsOption onPress={() => handleUpdateSetting("en-US")}>
                         <ThemedText type="option">{t("tabs.settings.english")}</ThemedText>
                         {user.settings?.language === "en-US" && (
-                            <Entypo name="check" size={18} color="green" />
+                            <Entypo name="check" size={18} color="#198450" />
                         )}
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => handleUpdateSetting("sv-SV")}>
                         <ThemedText type="option">{t("tabs.settings.swedish")}</ThemedText>
                         {user.settings?.language === "sv-SV" && (
-                            <Entypo name="check" size={18} color="green" />
+                            <Entypo name="check" size={18} color="#198450" />
                         )}
                     </SettingsOption>
                 </View>

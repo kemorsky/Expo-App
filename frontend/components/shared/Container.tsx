@@ -1,15 +1,15 @@
 import { useGlobalStyles } from "@/styles/globalStyles";
-import { View } from "react-native"
+import { View, ViewProps } from "react-native"
 
-type ContainerProps = {
+type ContainerProps = ViewProps & {
     children: React.ReactNode
 }
 
-export const Container = ({ children }: ContainerProps) => {
+export const Container = ({ children, style }: ContainerProps) => {
     const globalStyles = useGlobalStyles();
     
     return (
-        <View style={globalStyles.container}>
+        <View style={[globalStyles.container, style]}>
             {children}
         </View>
     )

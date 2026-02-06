@@ -31,17 +31,17 @@ export default function MaxChallengesPerDay() {
                 <View style={globalStyles.settingsList}>
                     <SettingsOption onPress={() => handleUpdateSetting(1)}>
                         <ThemedText type="option">1</ThemedText>
-                        {user.settings?.numberOfChallengesPerDay === 1 && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.numberOfChallengesPerDay === 1 && (<Entypo name="check" size={18} color="#198450" />)}
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => handleUpdateSetting(2)}>
                         <ThemedText type="option">2</ThemedText>
-                        {user.settings?.numberOfChallengesPerDay === 2 && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.numberOfChallengesPerDay === 2 && (<Entypo name="check" size={18} color="#198450" />)}
                     </SettingsOption>
                     <HorizontalRule />
                     <SettingsOption onPress={() => handleUpdateSetting(3)}>
                         <ThemedText type="option">3</ThemedText>
-                        {user.settings?.numberOfChallengesPerDay === 3 && (<Entypo name="check" size={18} color="green" />)}
+                        {user.settings?.numberOfChallengesPerDay === 3 && (<Entypo name="check" size={18} color="#198450" />)}
                     </SettingsOption>
                 </View>
             </Container>
